@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Lengkap Mandarin - 100+ Karakter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 20px 0;
+            z-index: 100;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .tab-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .category-header {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .category-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .character-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        
+        .character-display {
+            font-size: 4em;
+            color: #333;
+            margin: 15px 0;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            font-weight: bold;
+        }
+        
+        .character-pinyin {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .character-meaning {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .mnemonic-box {
+            background: #fff9e6;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: left;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .mnemonic-label {
+            font-weight: bold;
+            color: #ff6b6b;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .mnemonic-text {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .stroke-order-box {
+            background: #e8f4fd;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: left;
+            border-left: 3px solid #4a90e2;
+        }
+        
+        .stroke-label {
+            font-weight: bold;
+            color: #4a90e2;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .stroke-desc {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        
+        .stroke-principles {
+            background: #fff9e6;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffd700;
+        }
+        
+        .stroke-principles h4 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .stroke-principles ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+        
+        .feedback-detail-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .feedback-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feedback-section-title {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .feedback-score {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .feedback-explanation {
+            color: #666;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+        
+        .improvement-tip {
+            background: #fff9e6;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .improvement-tip::before {
+            content: "💡 ";
+        }
+        
+        .stroke-count {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .pronunciation-btn {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 12px;
+            font-weight: bold;
+            width: 100%;
+        }
+        
+        .pronunciation-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(250, 112, 154, 0.4);
+        }
+        
+        .search-box {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .practice-section {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px solid #667eea;
+        }
+        
+        .selected-char-display {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .selected-char {
+            font-size: 6em;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .big-audio-btn {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            display: inline-block;
+            background: repeating-linear-gradient(
+                0deg,
+                #f5f5f5 0px,
+                #f5f5f5 1px,
+                transparent 1px,
+                transparent 60px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                #f5f5f5 0px,
+                #f5f5f5 1px,
+                transparent 1px,
+                transparent 60px
+            );
+        }
+        
+        #practiceCanvas {
+            border: 2px solid #ddd;
+            cursor: crosshair;
+            display: block;
+            border-radius: 10px;
+        }
+        
+        .reference-character {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 280px;
+            color: rgba(102, 126, 234, 0.12);
+            pointer-events: none;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            font-weight: bold;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .evaluate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 35px;
+            font-size: 1.2em;
+        }
+        
+        .evaluation-panel {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .evaluation-panel.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+        
+        .score-display {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .score-number {
+            font-size: 5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .character-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Modul Lengkap Mandarin</h1>
+            <p>100+ Karakter + 60+ Kata dengan Mnemonic & Audio</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Karakter</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">60+</div>
+                    <div class="stat-label">Kata-Kata</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">🔊</div>
+                    <div class="stat-label">Audio</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">💡</div>
+                    <div class="stat-label">Mnemonic</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Cari karakter...">
+            </div>
+            
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="showTab('numbers', this)">🔢 Angka</button>
+                <button class="tab-btn" onclick="showTab('people', this)">👥 Orang</button>
+                <button class="tab-btn" onclick="showTab('family', this)">👨‍👩‍👧 Keluarga</button>
+                <button class="tab-btn" onclick="showTab('body', this)">👁️ Tubuh</button>
+                <button class="tab-btn" onclick="showTab('nature', this)">🌳 Alam</button>
+                <button class="tab-btn" onclick="showTab('animals', this)">🐾 Hewan</button>
+                <button class="tab-btn" onclick="showTab('food', this)">🍜 Makanan</button>
+                <button class="tab-btn" onclick="showTab('directions', this)">🧭 Arah</button>
+                <button class="tab-btn" onclick="showTab('time', this)">⏰ Waktu</button>
+                <button class="tab-btn" onclick="showTab('colors', this)">🎨 Warna</button>
+                <button class="tab-btn" onclick="showTab('adjectives', this)">📏 Sifat</button>
+                <button class="tab-btn" onclick="showTab('verbs', this)">⚡ Kata Kerja</button>
+                <button class="tab-btn" onclick="showTab('places', this)">🏛️ Tempat</button>
+                <button class="tab-btn" onclick="showTab('words', this)">📝 Kata-Kata</button>
+                <button class="tab-btn" onclick="showTab('practice', this)">✍️ Latihan</button>
+            </div>
+            
+            <div id="numbers" class="tab-content active"></div>
+            <div id="people" class="tab-content"></div>
+            <div id="family" class="tab-content"></div>
+            <div id="body" class="tab-content"></div>
+            <div id="nature" class="tab-content"></div>
+            <div id="animals" class="tab-content"></div>
+            <div id="food" class="tab-content"></div>
+            <div id="directions" class="tab-content"></div>
+            <div id="time" class="tab-content"></div>
+            <div id="colors" class="tab-content"></div>
+            <div id="adjectives" class="tab-content"></div>
+            <div id="verbs" class="tab-content"></div>
+            <div id="places" class="tab-content"></div>
+            <div id="words" class="tab-content"></div>
+            
+            <div id="practice" class="tab-content">
+                <div class="practice-section">
+                    <div class="selected-char-display">
+                        <div class="selected-char" id="bigCharDisplay">一</div>
+                        <div style="font-size: 1.8em; color: #666;" id="charInfo">yī - satu</div>
+                        <div id="practiceMnemonic" style="background: white; padding: 15px; border-radius: 10px; margin: 15px auto; max-width: 500px; text-align: left;"></div>
+                        <div id="practiceStrokeOrder" style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin: 15px auto; max-width: 500px; text-align: left; border-left: 4px solid #4a90e2;"></div>
+                        <button class="big-audio-btn" onclick="speakCurrentChar()">🔊 Dengar</button>
+                    </div>
+                    
+                    <div class="stroke-principles">
+                        <h4>📚 Prinsip Dasar Urutan Guratan:</h4>
+                        <ol>
+                            <li><strong>Atas ke Bawah</strong> - Tulis dari atas dulu baru ke bawah</li>
+                            <li><strong>Kiri ke Kanan</strong> - Mulai dari kiri ke kanan</li>
+                            <li><strong>Horizontal sebelum Vertikal</strong> - Garis - dulu, lalu |</li>
+                            <li><strong>Tengah sebelum Sisi</strong> - Bagian tengah dulu, pinggir belakangan</li>
+                            <li><strong>Luar sebelum Dalam</strong> - Kotak luar dulu, baru isi dalam</li>
+                            <li><strong>Tutup Terakhir</strong> - Penutup kotak di akhir</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 15px; padding: 20px;">
+                        <div class="canvas-wrapper">
+                            <canvas id="practiceCanvas" width="600" height="600"></canvas>
+                            <div class="reference-character" id="referenceChar">一</div>
+                        </div>
+                        
+                        <div class="controls">
+                            <button onclick="clearCanvas()">🗑️ Hapus</button>
+                            <button onclick="toggleReference()">👁️ Panduan</button>
+                            <button id="thinBtn" onclick="changeBrushSize(2)" style="border: 2px solid transparent;">✏️ Tipis (2px)</button>
+                            <button id="mediumBtn" onclick="changeBrushSize(5)" style="border: 2px solid #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">✏️ Sedang (5px)</button>
+                            <button id="thickBtn" onclick="changeBrushSize(10)" style="border: 2px solid transparent;">✏️ Tebal (10px)</button>
+                            <button class="evaluate-btn" onclick="evaluateWriting()">⭐ Nilai</button>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 15px; padding: 10px; background: #f8f9ff; border-radius: 10px;">
+                            <div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Preview Ketebalan:</div>
+                            <canvas id="brushPreview" width="300" height="60" style="border: 1px solid #ddd; border-radius: 5px;"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="evaluation-panel" id="evaluationPanel">
+                        <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 20px;">📊 Hasil Penilaian</h3>
+                        <div class="score-display">
+                            <div class="score-number" id="totalScore">0</div>
+                            <div style="font-size: 1.5em; color: #666;">dari 100</div>
+                            <div style="font-size: 2.5em; margin: 15px 0;" id="scoreStars">⭐⭐⭐⭐⭐</div>
+                            <div style="font-size: 1.3em; color: #667eea; font-weight: bold;" id="scoreVerdict">Sempurna!</div>
+                        </div>
+                        
+                        <div class="feedback-detail-box">
+                            <h4 style="color: #667eea; margin-bottom: 15px; font-size: 1.3em;">📝 Analisis Detail:</h4>
+                            
+                            <div class="feedback-section">
+                                <div class="feedback-section-title">📏 1. Proporsi & Ukuran</div>
+                                <div class="feedback-score" id="proportionScoreDetail">0/30 poin</div>
+                                <div class="feedback-explanation" id="proportionExplanation"></div>
+                                <div class="improvement-tip" id="proportionTip"></div>
+                            </div>
+                            
+                            <div class="feedback-section">
+                                <div class="feedback-section-title">📍 2. Posisi & Penempatan</div>
+                                <div class="feedback-score" id="positionScoreDetail">0/25 poin</div>
+                                <div class="feedback-explanation" id="positionExplanation"></div>
+                                <div class="improvement-tip" id="positionTip"></div>
+                            </div>
+                            
+                            <div class="feedback-section">
+                                <div class="feedback-section-title">✏️ 3. Konsistensi Ketebalan</div>
+                                <div class="feedback-score" id="consistencyScoreDetail">0/25 poin</div>
+                                <div class="feedback-explanation" id="consistencyExplanation"></div>
+                                <div class="improvement-tip" id="consistencyTip"></div>
+                            </div>
+                            
+                            <div class="feedback-section">
+                                <div class="feedback-section-title">✅ 4. Keseimbangan & Simetri</div>
+                                <div class="feedback-score" id="balanceScoreDetail">0/20 poin</div>
+                                <div class="feedback-explanation" id="balanceExplanation"></div>
+                                <div class="improvement-tip" id="balanceTip"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button class="evaluate-btn" onclick="closeEvaluation()">Tutup & Coba Lagi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const charactersData = {
+            numbers: [
+                {char: '零', pinyin: 'líng', meaning: 'Nol', strokes: 13, mnemonic: '雨 (hujan) + 令 = tetesan hujan yang jatuh sedikit-sedikit hingga nol'},
+                {char: '一', pinyin: 'yī', meaning: 'Satu', strokes: 1, mnemonic: 'Satu garis horizontal = angka 1, paling sederhana!'},
+                {char: '二', pinyin: 'èr', meaning: 'Dua', strokes: 2, mnemonic: 'Dua garis horizontal = angka 2'},
+                {char: '三', pinyin: 'sān', meaning: 'Tiga', strokes: 3, mnemonic: 'Tiga garis horizontal = angka 3, mudah!'},
+                {char: '四', pinyin: 'sì', meaning: 'Empat', strokes: 5, mnemonic: 'Seperti kotak dengan kaki (口 + 儿)'},
+                {char: '五', pinyin: 'wǔ', meaning: 'Lima', strokes: 4, mnemonic: 'Seperti angka 5 romawi (V) dengan garis atas'},
+                {char: '六', pinyin: 'liù', meaning: 'Enam', strokes: 4, mnemonic: 'Atap (⼌) + orang (八) = 6 orang di bawah atap'},
+                {char: '七', pinyin: 'qī', meaning: 'Tujuh', strokes: 2, mnemonic: 'Seperti angka 7 yang dipotong'},
+                {char: '八', pinyin: 'bā', meaning: 'Delapan', strokes: 2, mnemonic: 'Dua garis menyebar = membagi jadi 8'},
+                {char: '九', pinyin: 'jiǔ', meaning: 'Sembilan', strokes: 2, mnemonic: 'Siku bengkok = hampir 10 (完整)'},
+                {char: '十', pinyin: 'shí', meaning: 'Sepuluh', strokes: 2, mnemonic: 'Plus (+) = sempurna, lengkap 10'},
+                {char: '百', pinyin: 'bǎi', meaning: 'Seratus', strokes: 6, mnemonic: 'Satu (一) + putih (白) = 100, angka putih/bersih'},
+                {char: '千', pinyin: 'qiān', meaning: 'Seribu', strokes: 3, mnemonic: 'Orang (人) + sepuluh (十) = 1000, banyak!'},
+                {char: '万', pinyin: 'wàn', meaning: 'Sepuluh Ribu', strokes: 3, mnemonic: 'Seperti sayap terbang tinggi = angka besar'}
+            ],
+            
+            people: [
+                {char: '人', pinyin: 'rén', meaning: 'Orang', strokes: 2, mnemonic: 'Orang berdiri dengan dua kaki'},
+                {char: '我', pinyin: 'wǒ', meaning: 'Saya', strokes: 7, mnemonic: 'Tangan (手) + tombak (戈) = Saya yang bersenjata'},
+                {char: '你', pinyin: 'nǐ', meaning: 'Kamu', strokes: 7, mnemonic: 'Orang (亻) + pergi (尔) = Kamu yang pergi'},
+                {char: '他', pinyin: 'tā', meaning: 'Dia (L)', strokes: 5, mnemonic: 'Orang (亻) + juga (也) = Dia juga'},
+                {char: '她', pinyin: 'tā', meaning: 'Dia (P)', strokes: 6, mnemonic: 'Perempuan (女) + juga (也) = Dia perempuan'},
+                {char: '们', pinyin: 'men', meaning: 'Jamak', strokes: 5, mnemonic: 'Orang (亻) + pintu (门) = Banyak orang di pintu'},
+                {char: '谁', pinyin: 'shéi/shuí', meaning: 'Siapa', strokes: 10, mnemonic: 'Kata (讠) + burung hantu (隹) = Siapa yang bicara?'},
+                {char: '名', pinyin: 'míng', meaning: 'Nama', strokes: 6, mnemonic: 'Malam (夕) + mulut (口) = Nama dipanggil malam'},
+                {char: '男', pinyin: 'nán', meaning: 'Laki-laki', strokes: 7, mnemonic: 'Sawah (田) + kekuatan (力) = Laki kerja di sawah'},
+                {char: '女', pinyin: 'nǚ', meaning: 'Perempuan', strokes: 3, mnemonic: 'Orang duduk sopan dengan tangan di pangkuan'}
+            ],
+            
+            family: [
+                {char: '父', pinyin: 'fù', meaning: 'Ayah', strokes: 4, mnemonic: 'Tangan (手) + tongkat = Ayah bawa tongkat'},
+                {char: '母', pinyin: 'mǔ', meaning: 'Ibu', strokes: 5, mnemonic: 'Perempuan (女) dengan dua titik = Ibu menyusui'},
+                {char: '子', pinyin: 'zǐ', meaning: 'Anak', strokes: 3, mnemonic: 'Bayi dengan tangan terangkat'},
+                {char: '女', pinyin: 'nǚ', meaning: 'Putri', strokes: 3, mnemonic: 'Anak perempuan duduk manis'},
+                {char: '家', pinyin: 'jiā', meaning: 'Keluarga/Rumah', strokes: 10, mnemonic: 'Atap (宀) + babi (豕) = Rumah ada babi = kaya'},
+                {char: '爱', pinyin: 'ài', meaning: 'Cinta', strokes: 10, mnemonic: 'Cakar (爫) + teman (友) + hati (心) = Cinta'},
+                {char: '妻', pinyin: 'qī', meaning: 'Istri', strokes: 8, mnemonic: 'Perempuan (女) + sapu (⺕) = Istri menyapu'},
+                {char: '夫', pinyin: 'fū', meaning: 'Suami', strokes: 4, mnemonic: 'Orang besar (大) + jepit = Suami yang besar'}
+            ],
+            
+            body: [
+                {char: '身', pinyin: 'shēn', meaning: 'Tubuh', strokes: 7, mnemonic: 'Ibu hamil = tubuh membesar'},
+                {char: '头', pinyin: 'tóu', meaning: 'Kepala', strokes: 5, mnemonic: 'Titik (、) + kacang (豆) = Kepala seperti kacang'},
+                {char: '目', pinyin: 'mù', meaning: 'Mata', strokes: 5, mnemonic: 'Mata vertikal dengan pupil'},
+                {char: '眼', pinyin: 'yǎn', meaning: 'Mata', strokes: 11, mnemonic: 'Mata (目) + mengikuti (艮) = Mata mengikuti'},
+                {char: '耳', pinyin: 'ěr', meaning: 'Telinga', strokes: 6, mnemonic: 'Bentuk telinga dari samping'},
+                {char: '口', pinyin: 'kǒu', meaning: 'Mulut', strokes: 3, mnemonic: 'Mulut terbuka kotak'},
+                {char: '鼻', pinyin: 'bí', meaning: 'Hidung', strokes: 14, mnemonic: 'Sendiri (自) + muka (田) = Hidung menonjol'},
+                {char: '手', pinyin: 'shǒu', meaning: 'Tangan', strokes: 4, mnemonic: 'Tangan dengan jari-jari'},
+                {char: '足', pinyin: 'zú', meaning: 'Kaki', strokes: 7, mnemonic: 'Mulut (口) + berhenti (止) = Kaki berhenti'},
+                {char: '心', pinyin: 'xīn', meaning: 'Hati', strokes: 4, mnemonic: 'Bentuk jantung dengan pembuluh'},
+                {char: '脸', pinyin: 'liǎn', meaning: 'Wajah', strokes: 11, mnemonic: 'Daging (月) + tiga kali = Wajah tiga dimensi'}
+            ],
+            
+            nature: [
+                {char: '日', pinyin: 'rì', meaning: 'Matahari/Hari', strokes: 4, mnemonic: 'Kotak dengan garis tengah = Matahari'},
+                {char: '月', pinyin: 'yuè', meaning: 'Bulan', strokes: 4, mnemonic: 'Bulan sabit'},
+                {char: '星', pinyin: 'xīng', meaning: 'Bintang', strokes: 9, mnemonic: 'Matahari (日) + lahir (生) = Bintang lahir'},
+                {char: '天', pinyin: 'tiān', meaning: 'Langit/Hari', strokes: 4, mnemonic: 'Besar (大) + garis = Langit luas'},
+                {char: '山', pinyin: 'shān', meaning: 'Gunung', strokes: 3, mnemonic: 'Tiga puncak gunung'},
+                {char: '水', pinyin: 'shuǐ', meaning: 'Air', strokes: 4, mnemonic: 'Aliran air dengan percikan'},
+                {char: '火', pinyin: 'huǒ', meaning: 'Api', strokes: 4, mnemonic: 'Nyala api berkobar'},
+                {char: '木', pinyin: 'mù', meaning: 'Kayu/Pohon', strokes: 4, mnemonic: 'Pohon dengan cabang'},
+                {char: '金', pinyin: 'jīn', meaning: 'Logam/Emas', strokes: 8, mnemonic: 'Atap (人) + emas (王) + titik = Logam mulia'},
+                {char: '土', pinyin: 'tǔ', meaning: 'Tanah', strokes: 3, mnemonic: 'Seperti tanah berlapis'},
+                {char: '雨', pinyin: 'yǔ', meaning: 'Hujan', strokes: 8, mnemonic: 'Awan dengan tetesan hujan'},
+                {char: '风', pinyin: 'fēng', meaning: 'Angin', strokes: 4, mnemonic: 'Angin bertiup dari pinggir'},
+                {char: '云', pinyin: 'yún', meaning: 'Awan', strokes: 4, mnemonic: 'Awan bergelombang'},
+                {char: '雪', pinyin: 'xuě', meaning: 'Salju', strokes: 11, mnemonic: 'Hujan (雨) + sapu (⺕) = Salju perlu disapu'}
+            ],
+            
+            animals: [
+                {char: '犬', pinyin: 'quǎn', meaning: 'Anjing', strokes: 4, mnemonic: 'Anjing dengan ekor besar (大 + titik)'},
+                {char: '狗', pinyin: 'gǒu', meaning: 'Anjing', strokes: 8, mnemonic: 'Anjing (犭) + mulut (口) = Anjing menggonggong'},
+                {char: '猫', pinyin: 'māo', meaning: 'Kucing', strokes: 11, mnemonic: 'Anjing (犭) + rumput (苗) = Kucing di rumput'},
+                {char: '马', pinyin: 'mǎ', meaning: 'Kuda', strokes: 3, mnemonic: 'Kuda dengan empat kaki (disederhanakan)'},
+                {char: '牛', pinyin: 'niú', meaning: 'Sapi', strokes: 4, mnemonic: 'Kepala sapi dengan tanduk'},
+                {char: '羊', pinyin: 'yáng', meaning: 'Kambing', strokes: 6, mnemonic: 'Tanduk kambing melengkung'},
+                {char: '鸟', pinyin: 'niǎo', meaning: 'Burung', strokes: 5, mnemonic: 'Burung bertengger'},
+                {char: '鱼', pinyin: 'yú', meaning: 'Ikan', strokes: 8, mnemonic: 'Ikan dengan sirip dan ekor'},
+                {char: '虫', pinyin: 'chóng', meaning: 'Serangga', strokes: 6, mnemonic: 'Ulat merayap'},
+                {char: '龙', pinyin: 'lóng', meaning: 'Naga', strokes: 5, mnemonic: 'Naga yang disederhanakan'}
+            ],
+            
+            food: [
+                {char: '米', pinyin: 'mǐ', meaning: 'Beras', strokes: 6, mnemonic: 'Butiran beras berserakan (+ tengah)'},
+                {char: '饭', pinyin: 'fàn', meaning: 'Nasi/Makan', strokes: 7, mnemonic: 'Makanan (饣) + bertemu (反) = Makan bersama'},
+                {char: '面', pinyin: 'miàn', meaning: 'Mie/Wajah', strokes: 9, mnemonic: 'Gandum (麦) disederhanakan = Mie'},
+                {char: '茶', pinyin: 'chá', meaning: 'Teh', strokes: 9, mnemonic: 'Rumput (艹) + orang (人) + kayu (木) = Teh dari daun'},
+                {char: '水', pinyin: 'shuǐ', meaning: 'Air', strokes: 4, mnemonic: 'Air mengalir'},
+                {char: '肉', pinyin: 'ròu', meaning: 'Daging', strokes: 6, mnemonic: 'Dua orang (人) dalam mulut (口) = Daging'},
+                {char: '菜', pinyin: 'cài', meaning: 'Sayur', strokes: 11, mnemonic: 'Rumput (艹) + cakar (爫) + kayu (木) = Sayuran'},
+                {char: '糖', pinyin: 'táng', meaning: 'Gula', strokes: 16, mnemonic: 'Beras (米) + manis (唐) = Gula manis'},
+                {char: '盐', pinyin: 'yán', meaning: 'Garam', strokes: 10, mnemonic: 'Piring (皿) + tangan (⺕) = Garam di piring'},
+                {char: '果', pinyin: 'guǒ', meaning: 'Buah', strokes: 8, mnemonic: 'Pohon (田) + kayu (木) = Buah di pohon'}
+            ],
+            
+            directions: [
+                {char: '上', pinyin: 'shàng', meaning: 'Atas/Naik', strokes: 3, mnemonic: 'Panah menunjuk ke atas'},
+                {char: '下', pinyin: 'xià', meaning: 'Bawah/Turun', strokes: 3, mnemonic: 'Panah menunjuk ke bawah'},
+                {char: '左', pinyin: 'zuǒ', meaning: 'Kiri', strokes: 5, mnemonic: 'Tangan (⺘) + kerja (工) = Tangan kiri bekerja'},
+                {char: '右', pinyin: 'yòu', meaning: 'Kanan', strokes: 5, mnemonic: 'Mulut (口) + tangan (⺘) = Tangan kanan makan'},
+                {char: '东', pinyin: 'dōng', meaning: 'Timur', strokes: 5, mnemonic: 'Matahari (日) terbit dari timur'},
+                {char: '西', pinyin: 'xī', meaning: 'Barat', strokes: 6, mnemonic: 'Burung bersarang (matahari terbenam di barat)'},
+                {char: '南', pinyin: 'nán', meaning: 'Selatan', strokes: 9, mnemonic: 'Panas di selatan (tanaman + garis)'},
+                {char: '北', pinyin: 'běi', meaning: 'Utara', strokes: 5, mnemonic: 'Dua orang membelakangi (utara dingin)'},
+                {char: '中', pinyin: 'zhōng', meaning: 'Tengah/China', strokes: 4, mnemonic: 'Garis tepat di tengah kotak'},
+                {char: '外', pinyin: 'wài', meaning: 'Luar', strokes: 5, mnemonic: 'Malam (夕) + ramalan (卜) = Di luar'},
+                {char: '内', pinyin: 'nèi', meaning: 'Dalam', strokes: 4, mnemonic: 'Masuk ke dalam ruangan'},
+                {char: '前', pinyin: 'qián', meaning: 'Depan', strokes: 9, mnemonic: 'Berjalan maju ke depan'},
+                {char: '后', pinyin: 'hòu', meaning: 'Belakang', strokes: 6, mnemonic: 'Mengikuti dari belakang'}
+            ],
+            
+            time: [
+                {char: '年', pinyin: 'nián', meaning: 'Tahun', strokes: 6, mnemonic: 'Orang (千) + garis = Satu tahun panen'},
+                {char: '月', pinyin: 'yuè', meaning: 'Bulan', strokes: 4, mnemonic: 'Bulan di langit'},
+                {char: '日', pinyin: 'rì', meaning: 'Hari', strokes: 4, mnemonic: 'Matahari = hari'},
+                {char: '时', pinyin: 'shí', meaning: 'Waktu/Jam', strokes: 7, mnemonic: 'Matahari (日) + kuil (寺) = Waktu ibadah'},
+                {char: '分', pinyin: 'fēn', meaning: 'Menit/Membagi', strokes: 4, mnemonic: 'Pisau (刀) membagi (八) = Menit membagi jam'},
+                {char: '秒', pinyin: 'miǎo', meaning: 'Detik', strokes: 9, mnemonic: 'Beras (禾) + kecil (少) = Detik sangat kecil'},
+                {char: '今', pinyin: 'jīn', meaning: 'Sekarang', strokes: 4, mnemonic: 'Atap (人) + sekarang (一) = Hari ini'},
+                {char: '天', pinyin: 'tiān', meaning: 'Hari', strokes: 4, mnemonic: 'Satu hari = langit berubah'},
+                {char: '早', pinyin: 'zǎo', meaning: 'Pagi', strokes: 6, mnemonic: 'Matahari (日) + sepuluh (十) = Pagi jam 10'},
+                {char: '晚', pinyin: 'wǎn', meaning: 'Malam', strokes: 11, mnemonic: 'Matahari (日) + mahkota (免) = Malam ada bulan'}
+            ],
+            
+            colors: [
+                {char: '红', pinyin: 'hóng', meaning: 'Merah', strokes: 6, mnemonic: 'Benang (纟) + kerja (工) = Benang merah'},
+                {char: '黄', pinyin: 'huáng', meaning: 'Kuning', strokes: 11, mnemonic: 'Rumput (艹) + lapangan (田) + api (灬) = Kuning'},
+                {char: '蓝', pinyin: 'lán', meaning: 'Biru', strokes: 13, mnemonic: 'Rumput (艹) + keranjang (监) = Biru langit'},
+                {char: '绿', pinyin: 'lǜ', meaning: 'Hijau', strokes: 11, mnemonic: 'Benang (纟) + air (氺) = Hijau segar'},
+                {char: '白', pinyin: 'bái', meaning: 'Putih', strokes: 5, mnemonic: 'Matahari (日) + satu (一) = Cahaya putih'},
+                {char: '黑', pinyin: 'hēi', meaning: 'Hitam', strokes: 12, mnemonic: 'Api (灬) + tanah (土) = Hitam gosong'},
+                {char: '灰', pinyin: 'huī', meaning: 'Abu-abu', strokes: 6, mnemonic: 'Api (火) + abu = Abu-abu'}
+            ],
+            
+            adjectives: [
+                {char: '大', pinyin: 'dà', meaning: 'Besar', strokes: 3, mnemonic: 'Orang merentangkan tangan = Besar'},
+                {char: '小', pinyin: 'xiǎo', meaning: 'Kecil', strokes: 3, mnemonic: 'Titik-titik kecil'},
+                {char: '多', pinyin: 'duō', meaning: 'Banyak', strokes: 6, mnemonic: 'Dua bulan (夕夕) = Banyak malam'},
+                {char: '少', pinyin: 'shǎo', meaning: 'Sedikit', strokes: 4, mnemonic: 'Kecil (小) + garis = Sedikit'},
+                {char: '长', pinyin: 'cháng', meaning: 'Panjang', strokes: 4, mnemonic: 'Rambut panjang terurai'},
+                {char: '短', pinyin: 'duǎn', meaning: 'Pendek', strokes: 12, mnemonic: 'Panah (矢) + kacang (豆) = Pendek'},
+                {char: '高', pinyin: 'gāo', meaning: 'Tinggi', strokes: 10, mnemonic: 'Bangunan tinggi dengan atap'},
+                {char: '低', pinyin: 'dī', meaning: 'Rendah', strokes: 7, mnemonic: 'Orang (亻) + tunduk = Rendah'},
+                {char: '新', pinyin: 'xīn', meaning: 'Baru', strokes: 13, mnemonic: 'Kayu (木) + pohon (亲) = Baru ditanam'},
+                {char: '旧', pinyin: 'jiù', meaning: 'Lama', strokes: 5, mnemonic: 'Matahari (日) lama (丨)'},
+                {char: '好', pinyin: 'hǎo', meaning: 'Baik/Bagus', strokes: 6, mnemonic: 'Perempuan (女) + anak (子) = Baik'},
+                {char: '坏', pinyin: 'huài', meaning: 'Buruk/Rusak', strokes: 7, mnemonic: 'Tanah (土) rusak'}
+            ],
+            
+            verbs: [
+                {char: '是', pinyin: 'shì', meaning: 'Adalah', strokes: 9, mnemonic: 'Matahari (日) + benar (正) = Adalah benar'},
+                {char: '有', pinyin: 'yǒu', meaning: 'Ada/Punya', strokes: 6, mnemonic: 'Tangan memegang bulan = Punya'},
+                {char: '在', pinyin: 'zài', meaning: 'Berada/Sedang', strokes: 6, mnemonic: 'Tanah (土) + ada (才) = Berada'},
+                {char: '来', pinyin: 'lái', meaning: 'Datang', strokes: 7, mnemonic: 'Tanaman tumbuh datang = Datang'},
+                {char: '去', pinyin: 'qù', meaning: 'Pergi', strokes: 5, mnemonic: 'Tanah (土) + pribadi (厶) = Pergi'},
+                {char: '吃', pinyin: 'chī', meaning: 'Makan', strokes: 6, mnemonic: 'Mulut (口) + meminta (乞) = Makan'},
+                {char: '喝', pinyin: 'hē', meaning: 'Minum', strokes: 12, mnemonic: 'Mulut (口) + mengapa (曷) = Minum'},
+                {char: '看', pinyin: 'kàn', meaning: 'Melihat/Membaca', strokes: 9, mnemonic: 'Tangan (手) + mata (目) = Melihat'},
+                {char: '听', pinyin: 'tīng', meaning: 'Mendengar', strokes: 7, mnemonic: 'Mulut (口) + raja (斤) = Mendengar'},
+                {char: '说', pinyin: 'shuō', meaning: 'Berkata/Bicara', strokes: 9, mnemonic: 'Kata (讠) + bertemu (兑) = Berkata'},
+                {char: '读', pinyin: 'dú', meaning: 'Membaca', strokes: 10, mnemonic: 'Kata (讠) + penjual (卖) = Membaca'},
+                {char: '写', pinyin: 'xiě', meaning: 'Menulis', strokes: 5, mnemonic: 'Atap (冖) + dan (与) = Menulis'},
+                {char: '做', pinyin: 'zuò', meaning: 'Membuat/Melakukan', strokes: 11, mnemonic: 'Orang (亻) + cerita (故) = Melakukan'},
+                {char: '走', pinyin: 'zǒu', meaning: 'Berjalan', strokes: 7, mnemonic: 'Tanah (土) + berhenti (止) = Berjalan'},
+                {char: '跑', pinyin: 'pǎo', meaning: 'Berlari', strokes: 12, mnemonic: 'Kaki (足) + paket (包) = Berlari bawa paket'},
+                {char: '坐', pinyin: 'zuò', meaning: 'Duduk', strokes: 7, mnemonic: 'Dua orang (人人) di tanah (土) = Duduk'},
+                {char: '站', pinyin: 'zhàn', meaning: 'Berdiri', strokes: 10, mnemonic: 'Berdiri (立) + stasiun (占) = Berdiri'},
+                {char: '睡', pinyin: 'shuì', meaning: 'Tidur', strokes: 13, mnemonic: 'Mata (目) + sayang (垂) = Tidur'},
+                {char: '要', pinyin: 'yào', meaning: 'Ingin/Mau/Perlu', strokes: 9, mnemonic: 'Barat (西) + perempuan (女) = Ingin'}
+            ],
+            
+            places: [
+                {char: '国', pinyin: 'guó', meaning: 'Negara', strokes: 8, mnemonic: 'Kotak (囗) + giok (玉) = Negara berharga'},
+                {char: '家', pinyin: 'jiā', meaning: 'Rumah/Keluarga', strokes: 10, mnemonic: 'Atap (宀) + babi (豕) = Rumah ada babi'},
+                {char: '学校', pinyin: 'xuéxiào', meaning: 'Sekolah', strokes: 18, mnemonic: 'Belajar + gedung = Sekolah'},
+                {char: '医院', pinyin: 'yīyuàn', meaning: 'Rumah Sakit', strokes: 17, mnemonic: 'Dokter + halaman = RS'},
+                {char: '店', pinyin: 'diàn', meaning: 'Toko', strokes: 8, mnemonic: 'Tebing (广) + mengoceh (占) = Toko ramai'},
+                {char: '饭店', pinyin: 'fàndiàn', meaning: 'Restoran', strokes: 15, mnemonic: 'Nasi + toko = Restoran'},
+                {char: '公园', pinyin: 'gōngyuán', meaning: 'Taman', strokes: 10, mnemonic: 'Publik + taman = Taman kota'},
+                {char: '车站', pinyin: 'chēzhàn', meaning: 'Stasiun', strokes: 14, mnemonic: 'Mobil + berdiri = Stasiun'},
+                {char: '机场', pinyin: 'jīchǎng', meaning: 'Bandara', strokes: 16, mnemonic: 'Mesin + lapangan = Bandara'}
+            ],
+            
+            words: {
+                greetings: [
+                    {char: '你好', pinyin: 'nǐ hǎo', meaning: 'Halo', mnemonic: 'Kamu (你) + baik (好) = Halo, apa kabar?', category: 'Salam'},
+                    {char: '再见', pinyin: 'zàijiàn', meaning: 'Sampai jumpa', mnemonic: 'Lagi (再) + bertemu (见) = Jumpa lagi!', category: 'Salam'},
+                    {char: '谢谢', pinyin: 'xièxie', meaning: 'Terima kasih', mnemonic: 'Terima (谢) diulang = Sangat berterima kasih', category: 'Salam'},
+                    {char: '对不起', pinyin: 'duìbuqǐ', meaning: 'Maaf', mnemonic: 'Benar (对) + tidak (不) + bangun (起) = Tidak benar, maaf', category: 'Salam'},
+                    {char: '没关系', pinyin: 'méiguānxi', meaning: 'Tidak apa-apa', mnemonic: 'Tidak (没) + hubungan (关系) = Tidak masalah', category: 'Salam'},
+                    {char: '早上好', pinyin: 'zǎoshang hǎo', meaning: 'Selamat pagi', mnemonic: 'Pagi (早上) + baik (好) = Pagi yang baik', category: 'Salam'}
+                ],
+                
+                common: [
+                    {char: '中国', pinyin: 'Zhōngguó', meaning: 'China', mnemonic: 'Tengah (中) + negara (国) = Negara Tengah', category: 'Umum'},
+                    {char: '汉语', pinyin: 'Hànyǔ', meaning: 'Bahasa Mandarin', mnemonic: 'Han (汉) + bahasa (语) = Bahasa Han', category: 'Umum'},
+                    {char: '学生', pinyin: 'xuésheng', meaning: 'Siswa/Pelajar', mnemonic: 'Belajar (学) + lahir (生) = Yang belajar', category: 'Umum'},
+                    {char: '老师', pinyin: 'lǎoshī', meaning: 'Guru', mnemonic: 'Tua (老) + guru (师) = Guru berpengalaman', category: 'Umum'},
+                    {char: '朋友', pinyin: 'péngyou', meaning: 'Teman', mnemonic: 'Sahabat (朋) + ada (友) = Teman', category: 'Umum'},
+                    {char: '工作', pinyin: 'gōngzuò', meaning: 'Kerja/Pekerjaan', mnemonic: 'Kerja (工) + membuat (作) = Bekerja', category: 'Umum'},
+                    {char: '公司', pinyin: 'gōngsī', meaning: 'Perusahaan', mnemonic: 'Publik (公) + departemen (司) = Perusahaan', category: 'Umum'},
+                    {char: '手机', pinyin: 'shǒujī', meaning: 'HP/Ponsel', mnemonic: 'Tangan (手) + mesin (机) = Mesin genggam', category: 'Umum'},
+                    {char: '电脑', pinyin: 'diànnǎo', meaning: 'Komputer', mnemonic: 'Listrik (电) + otak (脑) = Otak elektronik', category: 'Umum'},
+                    {char: '电视', pinyin: 'diànshì', meaning: 'Televisi', mnemonic: 'Listrik (电) + melihat (视) = Melihat gambar listrik', category: 'Umum'}
+                ],
+                
+                time: [
+                    {char: '今天', pinyin: 'jīntiān', meaning: 'Hari ini', mnemonic: 'Sekarang (今) + hari (天) = Hari ini', category: 'Waktu'},
+                    {char: '明天', pinyin: 'míngtiān', meaning: 'Besok', mnemonic: 'Terang (明) + hari (天) = Hari yang akan datang', category: 'Waktu'},
+                    {char: '昨天', pinyin: 'zuótiān', meaning: 'Kemarin', mnemonic: 'Kemarin (昨) + hari (天) = Hari kemarin', category: 'Waktu'},
+                    {char: '上午', pinyin: 'shàngwǔ', meaning: 'Pagi hari', mnemonic: 'Atas (上) + siang (午) = Sebelum siang', category: 'Waktu'},
+                    {char: '下午', pinyin: 'xiàwǔ', meaning: 'Siang hari', mnemonic: 'Bawah (下) + siang (午) = Setelah siang', category: 'Waktu'},
+                    {char: '晚上', pinyin: 'wǎnshang', meaning: 'Malam hari', mnemonic: 'Malam (晚) + atas (上) = Malam hari', category: 'Waktu'},
+                    {char: '星期', pinyin: 'xīngqī', meaning: 'Minggu (seminggu)', mnemonic: 'Bintang (星) + periode (期) = Periode bintang = minggu', category: 'Waktu'},
+                    {char: '周末', pinyin: 'zhōumò', meaning: 'Akhir pekan', mnemonic: 'Minggu (周) + akhir (末) = Akhir minggu', category: 'Waktu'}
+                ],
+                
+                food: [
+                    {char: '早饭', pinyin: 'zǎofàn', meaning: 'Sarapan', mnemonic: 'Pagi (早) + nasi (饭) = Makan pagi', category: 'Makanan'},
+                    {char: '午饭', pinyin: 'wǔfàn', meaning: 'Makan siang', mnemonic: 'Siang (午) + nasi (饭) = Makan siang', category: 'Makanan'},
+                    {char: '晚饭', pinyin: 'wǎnfàn', meaning: 'Makan malam', mnemonic: 'Malam (晚) + nasi (饭) = Makan malam', category: 'Makanan'},
+                    {char: '咖啡', pinyin: 'kāfēi', meaning: 'Kopi', mnemonic: 'Transliterasi dari "coffee"', category: 'Makanan'},
+                    {char: '牛奶', pinyin: 'niúnǎi', meaning: 'Susu', mnemonic: 'Sapi (牛) + susu (奶) = Susu sapi', category: 'Makanan'},
+                    {char: '面包', pinyin: 'miànbāo', meaning: 'Roti', mnemonic: 'Tepung (面) + bungkus (包) = Roti', category: 'Makanan'},
+                    {char: '鸡蛋', pinyin: 'jīdàn', meaning: 'Telur', mnemonic: 'Ayam (鸡) + telur (蛋) = Telur ayam', category: 'Makanan'},
+                    {char: '苹果', pinyin: 'píngguǒ', meaning: 'Apel', mnemonic: 'Apel (苹) + buah (果) = Buah apel', category: 'Makanan'}
+                ],
+                
+                family: [
+                    {char: '爸爸', pinyin: 'bàba', meaning: 'Ayah', mnemonic: 'Bapak (爸) diulang = Papa', category: 'Keluarga'},
+                    {char: '妈妈', pinyin: 'māma', meaning: 'Ibu', mnemonic: 'Mama (妈) diulang = Mama', category: 'Keluarga'},
+                    {char: '哥哥', pinyin: 'gēge', meaning: 'Kakak laki-laki', mnemonic: 'Kakak (哥) diulang = Abang', category: 'Keluarga'},
+                    {char: '弟弟', pinyin: 'dìdi', meaning: 'Adik laki-laki', mnemonic: 'Adik (弟) diulang = Adik laki', category: 'Keluarga'},
+                    {char: '姐姐', pinyin: 'jiějie', meaning: 'Kakak perempuan', mnemonic: 'Kakak (姐) diulang = Kakak cewek', category: 'Keluarga'},
+                    {char: '妹妹', pinyin: 'mèimei', meaning: 'Adik perempuan', mnemonic: 'Adik (妹) diulang = Adik cewek', category: 'Keluarga'},
+                    {char: '爷爷', pinyin: 'yéye', meaning: 'Kakek (ayah dari ayah)', mnemonic: 'Kakek (爷) diulang = Kakek', category: 'Keluarga'},
+                    {char: '奶奶', pinyin: 'nǎinai', meaning: 'Nenek (ibu dari ayah)', mnemonic: 'Nenek (奶) diulang = Nenek', category: 'Keluarga'}
+                ],
+                
+                numbers: [
+                    {char: '一点', pinyin: 'yīdiǎn', meaning: 'Sedikit', mnemonic: 'Satu (一) + titik (点) = Satu titik = sedikit', category: 'Angka'},
+                    {char: '两个', pinyin: 'liǎnggè', meaning: 'Dua buah', mnemonic: 'Dua (两) + buah (个) = Dua buah', category: 'Angka'},
+                    {char: '多少', pinyin: 'duōshao', meaning: 'Berapa banyak', mnemonic: 'Banyak (多) + sedikit (少) = Berapa?', category: 'Angka'},
+                    {char: '几个', pinyin: 'jǐgè', meaning: 'Beberapa', mnemonic: 'Berapa (几) + buah (个) = Beberapa', category: 'Angka'}
+                ],
+                
+                questions: [
+                    {char: '什么', pinyin: 'shénme', meaning: 'Apa', mnemonic: 'Apa (什) + apa (么) = Apa?', category: 'Pertanyaan'},
+                    {char: '哪里', pinyin: 'nǎlǐ', meaning: 'Di mana', mnemonic: 'Mana (哪) + dalam (里) = Di mana?', category: 'Pertanyaan'},
+                    {char: '怎么', pinyin: 'zěnme', meaning: 'Bagaimana', mnemonic: 'Bagaimana (怎) + apa (么) = Bagaimana?', category: 'Pertanyaan'},
+                    {char: '为什么', pinyin: 'wèishénme', meaning: 'Mengapa', mnemonic: 'Untuk (为) + apa (什么) = Untuk apa? Mengapa?', category: 'Pertanyaan'},
+                    {char: '谁的', pinyin: 'shéide', meaning: 'Punya siapa', mnemonic: 'Siapa (谁) + punya (的) = Punya siapa?', category: 'Pertanyaan'}
+                ],
+                
+                verbs: [
+                    {char: '喜欢', pinyin: 'xǐhuan', meaning: 'Suka', mnemonic: 'Senang (喜) + suka (欢) = Suka', category: 'Kata Kerja'},
+                    {char: '知道', pinyin: 'zhīdào', meaning: 'Tahu', mnemonic: 'Tahu (知) + jalan (道) = Tahu jalannya', category: 'Kata Kerja'},
+                    {char: '认识', pinyin: 'rènshi', meaning: 'Kenal/Mengenal', mnemonic: 'Kenal (认) + tahu (识) = Mengenal', category: 'Kata Kerja'},
+                    {char: '学习', pinyin: 'xuéxí', meaning: 'Belajar', mnemonic: 'Belajar (学) + latihan (习) = Belajar dan berlatih', category: 'Kata Kerja'},
+                    {char: '帮助', pinyin: 'bāngzhù', meaning: 'Membantu', mnemonic: 'Bantu (帮) + tolong (助) = Membantu', category: 'Kata Kerja'},
+                    {char: '开始', pinyin: 'kāishǐ', meaning: 'Mulai', mnemonic: 'Buka (开) + mulai (始) = Mulai', category: 'Kata Kerja'},
+                    {char: '结束', pinyin: 'jiéshù', meaning: 'Selesai', mnemonic: 'Ikat (结) + akhir (束) = Selesai', category: 'Kata Kerja'},
+                    {char: '打开', pinyin: 'dǎkāi', meaning: 'Membuka', mnemonic: 'Pukul (打) + buka (开) = Membuka', category: 'Kata Kerja'}
+                ]
+            }
+        };
+        
+        let currentChar = '一';
+        let currentMnemonic = '';
+        
+        // Database urutan guratan untuk karakter umum
+        function getStrokeOrder(char) {
+            const strokeOrders = {
+                '一': '1. Garis horizontal dari kiri ke kanan →',
+                '二': '1. Garis horizontal atas → <br>2. Garis horizontal bawah (lebih panjang) →',
+                '三': '1. Garis horizontal atas → <br>2. Garis horizontal tengah → <br>3. Garis horizontal bawah (terpanjang) →',
+                '人': '1. Garis miring kiri ↙ <br>2. Garis miring kanan ↘',
+                '大': '1. Garis horizontal → <br>2. Garis miring kiri ↙ <br>3. Garis miring kanan ↘',
+                '小': '1. Garis vertikal tengah ↓ <br>2. Titik kiri <br>3. Titik kanan',
+                '日': '1. Garis vertikal kiri ↓ <br>2. Garis horizontal atas → <br>3. Garis horizontal tengah → <br>4. Tutup kanan bawah',
+                '月': '1. Garis vertikal kiri ↓ <br>2. Garis horizontal atas → <br>3. Garis horizontal tengah → <br>4. Garis horizontal bawah →',
+                '山': '1. Garis vertikal tengah ↓ <br>2. Garis vertikal kiri ↓ <br>3. Garis vertikal kanan (terpanjang) ↓',
+                '水': '1. Garis vertikal ↓ <br>2. Garis miring kiri ↙ <br>3. Garis miring kanan ↘ <br>4. Titik kanan',
+                '火': '1. Titik atas <br>2. Garis miring kiri ↙ <br>3. Garis miring kanan ↘ <br>4. Titik kiri bawah',
+                '木': '1. Garis horizontal → <br>2. Garis vertikal ↓ <br>3. Garis miring kiri ↙ <br>4. Garis miring kanan ↘',
+                '土': '1. Garis horizontal atas → <br>2. Garis vertikal ↓ <br>3. Garis horizontal bawah (lebih panjang) →',
+                '口': '1. Garis vertikal kiri ↓ <br>2. Garis horizontal atas → <br>3. Tutup kanan bawah',
+                '目': '1. Garis vertikal kiri ↓ <br>2. Garis horizontal atas → <br>3. Garis horizontal tengah → <br>4. Garis horizontal tengah → <br>5. Tutup kanan bawah',
+                '手': '1. Garis miring <br>2. Garis horizontal → <br>3. Garis vertikal dengan hook <br>4. Titik',
+                '心': '1. Titik kiri <br>2. Titik tengah <br>3. Garis lengkung <br>4. Titik kanan',
+                '上': '1. Garis vertikal ↓ <br>2. Garis horizontal atas → <br>3. Garis horizontal bawah →',
+                '下': '1. Garis horizontal → <br>2. Garis vertikal ↓ <br>3. Titik',
+                '中': '1. Garis vertikal tengah ↓ <br>2. Kotak luar (口) <br>3. Garis horizontal tengah →',
+                '我': 'Dari kiri ke kanan, atas ke bawah. 7 guratan total.',
+                '你': 'Radikal orang (亻) dulu, lalu bagian kanan (尔)',
+                '好': '1. Radikal perempuan (女) 3 guratan <br>2. Radikal anak (子) 3 guratan'
+            };
+            
+            return strokeOrders[char] || 'Ikuti prinsip: atas→bawah, kiri→kanan, horizontal→vertikal';
+        }
+        
+        function speakChinese(char, pinyin, evt) {
+            if (evt) evt.stopPropagation();
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(char);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.8;
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function speakCurrentChar() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(currentChar);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.7;
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function renderCharacters(category, data) {
+            const container = document.getElementById(category);
+            const categoryNames = {
+                numbers: '🔢 Angka (Shùzì - 数字)',
+                people: '👥 Orang (Rén - 人)',
+                family: '👨‍👩‍👧 Keluarga (Jiātíng - 家庭)',
+                body: '👁️ Tubuh (Shēntǐ - 身体)',
+                nature: '🌳 Alam (Zìrán - 自然)',
+                animals: '🐾 Hewan (Dòngwù - 动物)',
+                food: '🍜 Makanan (Shíwù - 食物)',
+                directions: '🧭 Arah & Posisi (Fāngxiàng - 方向)',
+                time: '⏰ Waktu (Shíjiān - 时间)',
+                colors: '🎨 Warna (Yánsè - 颜色)',
+                adjectives: '📏 Sifat (Xíngróngcí - 形容词)',
+                verbs: '⚡ Kata Kerja (Dòngcí - 动词)',
+                places: '🏛️ Tempat (Dìfāng - 地方)'
+            };
+            
+            let html = `
+                <div class="category-header">
+                    <h2 class="category-title">${categoryNames[category]}</h2>
+                </div>
+                <div class="character-grid">
+            `;
+            
+            data.forEach(item => {
+                html += `
+                    <div class="character-card" data-char="${item.char}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-mnemonic="${item.mnemonic}">
+                        <div class="character-display">${item.char}</div>
+                        <div class="character-pinyin">${item.pinyin}</div>
+                        <div class="character-meaning">${item.meaning}</div>
+                        <div class="mnemonic-box">
+                            <div class="mnemonic-label">💡 Cara Ingat:</div>
+                            <div class="mnemonic-text">${item.mnemonic}</div>
+                        </div>
+                        <div class="stroke-count">${item.strokes} guratan</div>
+                        <button class="pronunciation-btn" onclick="speakChinese('${item.char}', '${item.pinyin}', event)">
+                            🔊 Dengar Pengucapan
+                        </button>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        Object.keys(charactersData).forEach(category => {
+            if (category !== 'words') {
+                renderCharacters(category, charactersData[category]);
+            }
+        });
+        
+        // Render words section
+        function renderWords() {
+            const container = document.getElementById('words');
+            let html = `
+                <div class="category-header">
+                    <h2 class="category-title">📝 Kata-Kata (Cíyǔ - 词语)</h2>
+                    <p style="color: #666; margin-top: 10px;">Latihan menulis kata yang terdiri dari 2+ karakter</p>
+                </div>
+            `;
+            
+            const categories = {
+                greetings: '👋 Salam & Ungkapan Dasar',
+                common: '💬 Kata Umum Sehari-hari',
+                time: '⏰ Waktu & Hari',
+                food: '🍜 Makanan & Minuman',
+                family: '👨‍👩‍👧 Keluarga',
+                numbers: '🔢 Angka & Jumlah',
+                questions: '❓ Kata Tanya',
+                verbs: '⚡ Kata Kerja Gabungan'
+            };
+            
+            Object.keys(categories).forEach(catKey => {
+                html += `
+                    <div style="margin-bottom: 40px;">
+                        <h3 style="font-size: 1.5em; color: #667eea; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #667eea;">
+                            ${categories[catKey]}
+                        </h3>
+                        <div class="character-grid">
+                `;
+                
+                charactersData.words[catKey].forEach(item => {
+                    html += `
+                        <div class="character-card" data-char="${item.char}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-mnemonic="${item.mnemonic}" data-isword="true">
+                            <div class="character-display" style="font-size: ${item.char.length > 2 ? '2.5em' : '3.5em'};">${item.char}</div>
+                            <div class="character-pinyin">${item.pinyin}</div>
+                            <div class="character-meaning">${item.meaning}</div>
+                            <div class="mnemonic-box">
+                                <div class="mnemonic-label">💡 Cara Ingat:</div>
+                                <div class="mnemonic-text">${item.mnemonic}</div>
+                            </div>
+                            <button class="pronunciation-btn" onclick="speakChinese('${item.char}', '${item.pinyin}', event)">
+                                🔊 Dengar Pengucapan
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                html += '</div></div>';
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        renderWords();
+        
+        function showTab(tabName, buttonElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            if (buttonElement) buttonElement.classList.add('active');
+        }
+        
+        function selectCharacter(char, pinyin, meaning, mnemonic) {
+            currentChar = char;
+            currentMnemonic = mnemonic;
+            
+            const isWord = char.length > 1;
+            
+            document.getElementById('bigCharDisplay').textContent = char;
+            document.getElementById('bigCharDisplay').style.fontSize = isWord ? '4em' : '6em';
+            document.getElementById('charInfo').textContent = `${pinyin} - ${meaning}`;
+            document.getElementById('practiceMnemonic').innerHTML = `
+                <div style="font-weight: bold; color: #ff6b6b; margin-bottom: 8px;">💡 Cara Mengingat:</div>
+                <div style="color: #666;">${mnemonic}</div>
+            `;
+            
+            // Tampilkan stroke order jika single character
+            if (!isWord) {
+                document.getElementById('practiceStrokeOrder').innerHTML = `
+                    <div style="font-weight: bold; color: #4a90e2; margin-bottom: 8px;">✍️ Urutan Menulis:</div>
+                    <div style="color: #555;">${getStrokeOrder(char)}</div>
+                `;
+                document.getElementById('practiceStrokeOrder').style.display = 'block';
+            } else {
+                document.getElementById('practiceStrokeOrder').style.display = 'none';
+            }
+            
+            document.getElementById('referenceChar').textContent = char;
+            document.getElementById('referenceChar').style.fontSize = isWord ? '180px' : '280px';
+            
+            clearCanvas();
+        }
+        
+        document.addEventListener('click', function(e) {
+            const card = e.target.closest('.character-card');
+            if (card && !e.target.classList.contains('pronunciation-btn')) {
+                const char = card.dataset.char;
+                const pinyin = card.dataset.pinyin;
+                const meaning = card.dataset.meaning;
+                const mnemonic = card.dataset.mnemonic;
+                
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('practice').classList.add('active');
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    if (btn.textContent.includes('Latihan')) btn.classList.add('active');
+                });
+                
+                selectCharacter(char, pinyin, meaning, mnemonic);
+                setTimeout(() => {
+                    document.querySelector('.selected-char-display').scrollIntoView({ 
+                        behavior: 'smooth', block: 'center'
+                    });
+                }, 300);
+            }
+        });
+        
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.character-card').forEach(card => {
+                const char = card.dataset.char;
+                const pinyin = card.dataset.pinyin.toLowerCase();
+                const meaning = card.dataset.meaning.toLowerCase();
+                const mnemonic = card.dataset.mnemonic.toLowerCase();
+                card.style.display = (char.includes(term) || pinyin.includes(term) || 
+                                     meaning.includes(term) || mnemonic.includes(term)) ? 'block' : 'none';
+            });
+        });
+        
+        // Canvas dengan state management yang lebih baik
+        const canvas = document.getElementById('practiceCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let brushSize = 5;
+        let brushColor = '#000000';
+        
+        // Set initial brush properties
+        ctx.lineWidth = brushSize;
+        ctx.strokeStyle = brushColor;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.strokeStyle = brushColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        });
+        
+        canvas.addEventListener('mouseup', () => { 
+            isDrawing = false; 
+            ctx.beginPath(); // Reset path untuk stroke berikutnya
+        });
+        
+        canvas.addEventListener('mouseout', () => { 
+            isDrawing = false;
+            ctx.beginPath();
+        });
+        
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            ctx.strokeStyle = brushColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        });
+        
+        canvas.addEventListener('touchend', () => { 
+            isDrawing = false;
+            ctx.beginPath();
+        });
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        function toggleReference() {
+            const ref = document.getElementById('referenceChar');
+            ref.style.display = ref.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function changeBrushSize(size) {
+            brushSize = size;
+            ctx.lineWidth = size;
+            
+            // Update visual feedback pada buttons
+            const buttons = document.querySelectorAll('.controls button');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes('Tipis') || 
+                    btn.textContent.includes('Sedang') || 
+                    btn.textContent.includes('Tebal')) {
+                    btn.style.border = '2px solid transparent';
+                }
+            });
+            
+            // Highlight active button
+            event.target.style.border = '2px solid #ffd700';
+            event.target.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+        }
+        
+        function changeBrushSize(size) {
+            brushSize = size;
+            ctx.lineWidth = size;
+            
+            // Update visual feedback pada buttons
+            document.getElementById('thinBtn').style.border = '2px solid transparent';
+            document.getElementById('thinBtn').style.boxShadow = 'none';
+            document.getElementById('mediumBtn').style.border = '2px solid transparent';
+            document.getElementById('mediumBtn').style.boxShadow = 'none';
+            document.getElementById('thickBtn').style.border = '2px solid transparent';
+            document.getElementById('thickBtn').style.boxShadow = 'none';
+            
+            // Highlight active button
+            if (size === 2) {
+                document.getElementById('thinBtn').style.border = '2px solid #ffd700';
+                document.getElementById('thinBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+            } else if (size === 5) {
+                document.getElementById('mediumBtn').style.border = '2px solid #ffd700';
+                document.getElementById('mediumBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+            } else if (size === 10) {
+                document.getElementById('thickBtn').style.border = '2px solid #ffd700';
+                document.getElementById('thickBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+            }
+            
+            // Update preview
+            updateBrushPreview();
+        }
+        
+        function updateBrushPreview() {
+            const previewCanvas = document.getElementById('brushPreview');
+            if (!previewCanvas) return;
+            
+            const previewCtx = previewCanvas.getContext('2d');
+            previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+            
+            // Draw three lines with different sizes
+            const sizes = [2, 5, 10];
+            const labels = ['Tipis (2px)', 'Sedang (5px)', 'Tebal (10px)'];
+            const yPositions = [15, 30, 45];
+            
+            sizes.forEach((size, index) => {
+                // Highlight current brush size
+                if (size === brushSize) {
+                    previewCtx.fillStyle = '#fff9e6';
+                    previewCtx.fillRect(10, yPositions[index] - 8, 280, 16);
+                }
+                
+                // Draw label
+                previewCtx.fillStyle = size === brushSize ? '#667eea' : '#999';
+                previewCtx.font = size === brushSize ? 'bold 11px Arial' : '11px Arial';
+                previewCtx.textAlign = 'left';
+                previewCtx.fillText(labels[index], 15, yPositions[index] + 4);
+                
+                // Draw line
+                previewCtx.beginPath();
+                previewCtx.moveTo(120, yPositions[index]);
+                previewCtx.lineTo(280, yPositions[index]);
+                previewCtx.strokeStyle = size === brushSize ? '#000' : '#666';
+                previewCtx.lineWidth = size;
+                previewCtx.lineCap = 'round';
+                previewCtx.stroke();
+            });
+        }
+        
+        // Initialize preview
+        setTimeout(() => {
+            updateBrushPreview();
+        }, 100);
+        
+        function evaluateWriting() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            let hasDrawing = false;
+            let drawnPixels = 0;
+            let minX = canvas.width, maxX = 0, minY = canvas.height, maxY = 0;
+            let centerX = 0, centerY = 0;
+            
+            for (let y = 0; y < canvas.height; y++) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const index = (y * canvas.width + x) * 4;
+                    if (pixels[index + 3] > 0) {
+                        hasDrawing = true;
+                        drawnPixels++;
+                        minX = Math.min(minX, x);
+                        maxX = Math.max(maxX, x);
+                        minY = Math.min(minY, y);
+                        maxY = Math.max(maxY, y);
+                        centerX += x;
+                        centerY += y;
+                    }
+                }
+            }
+            
+            if (!hasDrawing) {
+                alert('⚠️ Silakan tulis karakter terlebih dahulu!');
+                return;
+            }
+            
+            centerX /= drawnPixels;
+            centerY /= drawnPixels;
+            
+            const drawingWidth = maxX - minX;
+            const drawingHeight = maxY - minY;
+            const sizeRatio = Math.max(drawingWidth, drawingHeight) / canvas.width;
+            const coverage = (drawnPixels / (canvas.width * canvas.height)) * 100;
+            
+            // 1. Proporsi (30 poin)
+            let proportionScore = 0;
+            let proportionExplanation = '';
+            let proportionTip = '';
+            
+            if (sizeRatio >= 0.4 && sizeRatio <= 0.7) {
+                proportionScore = 30;
+                proportionExplanation = `Ukuran karakter Anda sempurna! (${Math.round(sizeRatio * 100)}% dari canvas). Ini adalah ukuran ideal yang mudah dibaca dan proporsional.`;
+                proportionTip = 'Pertahankan ukuran ini untuk karakter lainnya!';
+            } else if (sizeRatio < 0.4) {
+                proportionScore = Math.max(5, Math.round(sizeRatio * 75));
+                proportionExplanation = `Karakter Anda terlalu kecil (${Math.round(sizeRatio * 100)}% dari canvas). Karakter Mandarin sebaiknya mengisi 40-70% area canvas agar terlihat jelas dan proporsional.`;
+                proportionTip = 'Tulis lebih besar! Bayangkan karakter mengisi sekitar setengah area canvas.';
+            } else {
+                proportionScore = Math.max(5, Math.round((1 - (sizeRatio - 0.7)) * 30));
+                proportionExplanation = `Karakter Anda terlalu besar (${Math.round(sizeRatio * 100)}% dari canvas). Karakter terlalu besar akan terlihat sempit dan kehilangan ruang napas.`;
+                proportionTip = 'Tulis lebih kecil! Sisakan ruang kosong di sekitar karakter untuk keseimbangan visual.';
+            }
+            
+            // 2. Posisi (25 poin)
+            const centerCanvas = canvas.width / 2;
+            const distanceFromCenter = Math.abs(centerX - centerCanvas);
+            const positionAccuracy = 1 - (distanceFromCenter / centerCanvas);
+            const positionScore = Math.round(positionAccuracy * 25);
+            
+            let positionExplanation = '';
+            let positionTip = '';
+            
+            if (positionScore >= 20) {
+                positionExplanation = `Posisi karakter Anda sangat baik! Karakter berada di tengah dengan jarak ${Math.round(distanceFromCenter)}px dari center. Ini menunjukkan kontrol yang baik.`;
+                positionTip = 'Posisi sudah sempurna! Terus pertahankan.';
+            } else if (centerX < centerCanvas) {
+                positionExplanation = `Karakter Anda terlalu ke kiri (${Math.round(distanceFromCenter)}px dari center). Karakter Mandarin sebaiknya berada tepat di tengah untuk keseimbangan visual.`;
+                positionTip = 'Mulai menulis sedikit lebih ke kanan. Bayangkan garis tengah vertikal di canvas.';
+            } else {
+                positionExplanation = `Karakter Anda terlalu ke kanan (${Math.round(distanceFromCenter)}px dari center). Usahakan memulai dari tengah canvas.`;
+                positionTip = 'Mulai menulis sedikit lebih ke kiri. Fokus pada titik tengah canvas.';
+            }
+            
+            // 3. Konsistensi Ketebalan (25 poin)
+            // Mengukur seberapa konsisten ketebalan guratan
+            const strokeThickness = [];
+            const samplePoints = 20; // Ambil 20 sample points
+            
+            for (let i = 0; i < samplePoints; i++) {
+                const x = Math.floor(minX + (maxX - minX) * (i / samplePoints));
+                let thicknessAtX = 0;
+                
+                for (let y = minY; y <= maxY; y++) {
+                    const index = (y * canvas.width + x) * 4;
+                    if (pixels[index + 3] > 0) {
+                        thicknessAtX++;
+                    }
+                }
+                
+                if (thicknessAtX > 0) {
+                    strokeThickness.push(thicknessAtX);
+                }
+            }
+            
+            // Hitung standar deviasi ketebalan
+            if (strokeThickness.length > 0) {
+                const avgThickness = strokeThickness.reduce((a, b) => a + b, 0) / strokeThickness.length;
+                const variance = strokeThickness.reduce((sum, val) => sum + Math.pow(val - avgThickness, 2), 0) / strokeThickness.length;
+                const stdDev = Math.sqrt(variance);
+                const consistencyRatio = 1 - Math.min(stdDev / avgThickness, 1);
+                var consistencyScore = Math.round(consistencyRatio * 25);
+                
+                // Pastikan ada guratan yang cukup
+                if (drawnPixels < 100) {
+                    consistencyScore = Math.max(5, consistencyScore);
+                }
+            } else {
+                var consistencyScore = 10;
+            }
+            
+            let consistencyExplanation = '';
+            let consistencyTip = '';
+            
+            if (consistencyScore >= 20) {
+                consistencyExplanation = `Ketebalan guratan Anda sangat konsisten! Semua garis memiliki ketebalan yang seragam, menunjukkan kontrol tangan yang baik. Ini memberikan tampilan profesional pada karakter.`;
+                consistencyTip = 'Konsistensi sempurna! Pertahankan tekanan dan kecepatan yang stabil saat menulis.';
+            } else if (consistencyScore >= 15) {
+                consistencyExplanation = `Ketebalan guratan Anda cukup konsisten dengan sedikit variasi. Ada beberapa bagian yang lebih tebal atau tipis, tapi masih dalam batas wajar.`;
+                consistencyTip = 'Cukup baik! Usahakan tekanan tangan lebih stabil untuk konsistensi yang lebih baik.';
+            } else if (consistencyScore >= 10) {
+                consistencyExplanation = `Ketebalan guratan Anda bervariasi cukup banyak. Ada bagian yang terlalu tebal dan bagian yang terlalu tipis. Ini membuat karakter terlihat kurang rapi.`;
+                consistencyTip = 'Latih kontrol tangan: tulis dengan kecepatan dan tekanan yang sama sepanjang guratan. Gunakan satu ukuran brush saja.';
+            } else {
+                consistencyExplanation = `Ketebalan guratan Anda sangat tidak konsisten. Guratan memiliki variasi ketebalan yang ekstrem, membuat karakter sulit dibaca dan tidak rapi.`;
+                consistencyTip = 'PENTING: Pilih satu ukuran brush (Tipis/Sedang/Tebal) dan pertahankan. Jangan mengganti-ganti ketebalan di tengah menulis. Tulis dengan gerakan yang smooth dan steady.';
+            }
+            
+            // 4. Keseimbangan & Simetri (20 poin)
+            // Mengukur distribusi guratan kiri-kanan dan atas-bawah
+            let leftPixels = 0, rightPixels = 0, topPixels = 0, bottomPixels = 0;
+            
+            for (let y = 0; y < canvas.height; y++) {
+                for (let x = 0; x < canvas.width; x++) {
+                    const index = (y * canvas.width + x) * 4;
+                    if (pixels[index + 3] > 0) {
+                        if (x < centerX) leftPixels++;
+                        else rightPixels++;
+                        
+                        if (y < centerY) topPixels++;
+                        else bottomPixels++;
+                    }
+                }
+            }
+            
+            const horizontalBalance = Math.min(leftPixels, rightPixels) / Math.max(leftPixels, rightPixels);
+            const verticalBalance = Math.min(topPixels, bottomPixels) / Math.max(topPixels, bottomPixels);
+            const overallBalance = (horizontalBalance + verticalBalance) / 2;
+            const balanceScore = Math.round(overallBalance * 20);
+            
+            let balanceExplanation = '';
+            let balanceTip = '';
+            
+            const horizontalRatio = (leftPixels / (leftPixels + rightPixels) * 100).toFixed(1);
+            const verticalRatio = (topPixels / (topPixels + bottomPixels) * 100).toFixed(1);
+            
+            if (balanceScore >= 16) {
+                balanceExplanation = `Keseimbangan karakter Anda sangat baik! Distribusi horizontal: ${horizontalRatio}% kiri vs ${(100-horizontalRatio).toFixed(1)}% kanan. Distribusi vertikal: ${verticalRatio}% atas vs ${(100-verticalRatio).toFixed(1)}% bawah. Karakter terlihat stabil dan proporsional.`;
+                balanceTip = 'Keseimbangan sempurna! Karakter Anda terlihat harmonis.';
+            } else if (horizontalBalance < verticalBalance) {
+                if (leftPixels > rightPixels) {
+                    balanceExplanation = `Karakter Anda cenderung berat ke kiri (${horizontalRatio}% di sisi kiri). Karakter Mandarin yang baik memiliki keseimbangan visual yang merata.`;
+                    balanceTip = 'Tambahkan lebih banyak guratan di sisi kanan atau geser karakter sedikit ke kanan untuk keseimbangan.';
+                } else {
+                    balanceExplanation = `Karakter Anda cenderung berat ke kanan (${(100-horizontalRatio).toFixed(1)}% di sisi kanan). Karakter terlihat tidak seimbang.`;
+                    balanceTip = 'Tambahkan lebih banyak guratan di sisi kiri atau geser karakter sedikit ke kiri untuk keseimbangan.';
+                }
+            } else {
+                if (topPixels > bottomPixels) {
+                    balanceExplanation = `Karakter Anda cenderung berat ke atas (${verticalRatio}% di bagian atas). Karakter terlihat "mengambang".`;
+                    balanceTip = 'Tambahkan lebih banyak guratan di bagian bawah atau turunkan seluruh karakter sedikit.';
+                } else {
+                    balanceExplanation = `Karakter Anda cenderung berat ke bawah (${(100-verticalRatio).toFixed(1)}% di bagian bawah). Karakter terlihat "tenggelam".`;
+                    balanceTip = 'Tambahkan lebih banyak guratan di bagian atas atau naikkan seluruh karakter sedikit.';
+                }
+            }
+            
+            // Total
+            const totalScore = proportionScore + positionScore + consistencyScore + balanceScore;
+            
+            // Update UI
+            document.getElementById('totalScore').textContent = totalScore;
+            
+            document.getElementById('proportionScoreDetail').textContent = `${proportionScore}/30 poin`;
+            document.getElementById('proportionExplanation').textContent = proportionExplanation;
+            document.getElementById('proportionTip').textContent = proportionTip;
+            
+            document.getElementById('positionScoreDetail').textContent = `${positionScore}/25 poin`;
+            document.getElementById('positionExplanation').textContent = positionExplanation;
+            document.getElementById('positionTip').textContent = positionTip;
+            
+            document.getElementById('consistencyScoreDetail').textContent = `${consistencyScore}/25 poin`;
+            document.getElementById('consistencyExplanation').textContent = consistencyExplanation;
+            document.getElementById('consistencyTip').textContent = consistencyTip;
+            
+            document.getElementById('balanceScoreDetail').textContent = `${balanceScore}/20 poin`;
+            document.getElementById('balanceExplanation').textContent = balanceExplanation;
+            document.getElementById('balanceTip').textContent = balanceTip;
+            
+            let stars = totalScore >= 90 ? '⭐⭐⭐⭐⭐' : totalScore >= 75 ? '⭐⭐⭐⭐' : 
+                       totalScore >= 60 ? '⭐⭐⭐' : totalScore >= 40 ? '⭐⭐' : '⭐';
+            document.getElementById('scoreStars').textContent = stars;
+            
+            let verdict = totalScore >= 90 ? '🎉 Luar Biasa! Sempurna!' : 
+                         totalScore >= 75 ? '👍 Bagus Sekali!' : 
+                         totalScore >= 60 ? '😊 Cukup Baik!' :
+                         totalScore >= 40 ? '💪 Perlu Latihan Lagi' : '📚 Terus Berlatih!';
+            document.getElementById('scoreVerdict').textContent = verdict;
+            
+            document.getElementById('evaluationPanel').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('evaluationPanel').scrollIntoView({ 
+                    behavior: 'smooth', block: 'center'
+                });
+            }, 300);
+        }
+        
+        function closeEvaluation() {
+            document.getElementById('evaluationPanel').classList.remove('show');
+            clearCanvas();
+        }
+    </script>
+</body>
+</html>
