@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Lengkap Mandarin - 100+ Karakter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 20px 0;
+            z-index: 100;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .tab-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes highlight {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.05); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
+        }
+        
+        .category-header {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .category-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .character-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        
+        .character-display {
+            font-size: 4em;
+            color: #333;
+            margin: 15px 0;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            font-weight: bold;
+        }
+        
+        .character-pinyin {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .character-meaning {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .mnemonic-box {
+            background: #fff9e6;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: left;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .mnemonic-label {
+            font-weight: bold;
+            color: #ff6b6b;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .mnemonic-text {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .stroke-count {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .component-box {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+            border-left: 4px solid #4a90e2;
+        }
+        
+        .component-label {
+            font-weight: bold;
+            color: #4a90e2;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .component-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .component-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .component-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+            border-color: #4a90e2;
+        }
+        
+        .component-char {
+            font-size: 1.8em;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .component-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .component-pinyin {
+            font-size: 0.85em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .component-meaning {
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .plus-sign {
+            font-size: 1.2em;
+            color: #999;
+            margin: 0 5px;
+        }
+        
+        .component-formula {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .pronunciation-btn {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 12px;
+            font-weight: bold;
+            width: 100%;
+        }
+        
+        .pronunciation-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(250, 112, 154, 0.4);
+        }
+        
+        .practice-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .practice-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .practice-btn:active, .pronunciation-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Hover effects untuk tombol navigasi di practice */
+        button[onclick="goBack()"]:hover,
+        button[onclick="previousCharacter()"]:hover,
+        button[onclick="nextCharacter()"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        button[onclick="goBack()"]:active,
+        button[onclick="previousCharacter()"]:active,
+        button[onclick="nextCharacter()"]:active {
+            transform: translateY(0);
+        }
+        
+        .search-box {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .practice-section {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px solid #667eea;
+        }
+        
+        .selected-char-display {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .selected-char {
+            font-size: 6em;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .big-audio-btn {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            display: inline-block;
+            background: repeating-linear-gradient(
+                0deg,
+                #f5f5f5 0px,
+                #f5f5f5 1px,
+                transparent 1px,
+                transparent 60px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                #f5f5f5 0px,
+                #f5f5f5 1px,
+                transparent 1px,
+                transparent 60px
+            );
+        }
+        
+        #practiceCanvas {
+            border: 2px solid #ddd;
+            cursor: crosshair;
+            display: block;
+            border-radius: 10px;
+        }
+        
+        .reference-character {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 280px;
+            color: rgba(102, 126, 234, 0.12);
+            pointer-events: none;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            font-weight: bold;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .evaluate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 35px;
+            font-size: 1.2em;
+        }
+        
+        .evaluation-panel {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .evaluation-panel.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+        
+        .score-display {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .score-number {
+            font-size: 5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .character-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Modul Lengkap Mandarin</h1>
+            <p>270+ Karakter + 60+ Kata dengan Mnemonic & Audio</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">270+</div>
+                    <div class="stat-label">Karakter</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">60+</div>
+                    <div class="stat-label">Kata-Kata</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">🔊</div>
+                    <div class="stat-label">Audio</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">💡</div>
+                    <div class="stat-label">Mnemonic</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Cari karakter...">
+            </div>
+            
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="showTab('numbers', this)">🔢 Angka</button>
+                <button class="tab-btn" onclick="showTab('people', this)">👥 Orang</button>
+                <button class="tab-btn" onclick="showTab('family', this)">👨‍👩‍👧 Keluarga</button>
+                <button class="tab-btn" onclick="showTab('body', this)">👁️ Tubuh</button>
+                <button class="tab-btn" onclick="showTab('nature', this)">🌳 Alam</button>
+                <button class="tab-btn" onclick="showTab('animals', this)">🐾 Hewan</button>
+                <button class="tab-btn" onclick="showTab('food', this)">🍜 Makanan</button>
+                <button class="tab-btn" onclick="showTab('directions', this)">🧭 Arah</button>
+                <button class="tab-btn" onclick="showTab('time', this)">⏰ Waktu</button>
+                <button class="tab-btn" onclick="showTab('colors', this)">🎨 Warna</button>
+                <button class="tab-btn" onclick="showTab('adjectives', this)">📏 Sifat</button>
+                <button class="tab-btn" onclick="showTab('verbs', this)">⚡ Kata Kerja</button>
+                <button class="tab-btn" onclick="showTab('places', this)">🏛️ Tempat</button>
+                <button class="tab-btn" onclick="showTab('common_chars', this)">📖 Karakter Umum</button>
+                <button class="tab-btn" onclick="showTab('radicals', this)">🔠 Radikal & Dasar</button>
+                <button class="tab-btn" onclick="showTab('words', this)">📝 Kata-Kata</button>
+                <button class="tab-btn" onclick="showTab('practice', this)">✍️ Latihan</button>
+            </div>
+            
+            <div id="numbers" class="tab-content active"></div>
+            <div id="people" class="tab-content"></div>
+            <div id="family" class="tab-content"></div>
+            <div id="body" class="tab-content"></div>
+            <div id="nature" class="tab-content"></div>
+            <div id="animals" class="tab-content"></div>
+            <div id="food" class="tab-content"></div>
+            <div id="directions" class="tab-content"></div>
+            <div id="time" class="tab-content"></div>
+            <div id="colors" class="tab-content"></div>
+            <div id="adjectives" class="tab-content"></div>
+            <div id="verbs" class="tab-content"></div>
+            <div id="places" class="tab-content"></div>
+            <div id="common_chars" class="tab-content"></div>
+            <div id="radicals" class="tab-content"></div>
+            <div id="words" class="tab-content"></div>
+            
+            <div id="practice" class="tab-content">
+                <div class="practice-section">
+                    <!-- Tombol Navigasi -->
+                    <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap;">
+                        <button onclick="goBack()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1em; transition: all 0.3s; box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);">
+                            ← Kembali
+                        </button>
+                        <button onclick="previousCharacter()" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1em; transition: all 0.3s; box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);">
+                            ◄ Previous
+                        </button>
+                        <button onclick="nextCharacter()" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1em; transition: all 0.3s; box-shadow: 0 4px 15px rgba(67, 233, 123, 0.4);">
+                            Next ►
+                        </button>
+                    </div>
+                    
+                    <div class="selected-char-display">
+                        <div class="selected-char" id="bigCharDisplay">一</div>
+                        <div style="font-size: 1.8em; color: #666;" id="charInfo">yī - satu</div>
+                        <div id="practiceMnemonic" style="background: white; padding: 15px; border-radius: 10px; margin: 15px auto; max-width: 500px; text-align: left;"></div>
+                        <button class="big-audio-btn" onclick="speakCurrentChar()">🔊 Dengar</button>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 15px; padding: 20px;">
+                        <div class="canvas-wrapper">
+                            <canvas id="practiceCanvas" width="600" height="600"></canvas>
+                            <div class="reference-character" id="referenceChar">一</div>
+                        </div>
+                        
+                        <div class="controls">
+                            <button onclick="clearCanvas()">🗑️ Hapus</button>
+                            <button onclick="toggleReference()">👁️ Panduan</button>
+                            <button id="thinBtn" onclick="changeBrushSize(2)" style="border: 2px solid transparent;">✏️ Tipis (2px)</button>
+                            <button id="mediumBtn" onclick="changeBrushSize(5)" style="border: 2px solid #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">✏️ Sedang (5px)</button>
+                            <button id="thickBtn" onclick="changeBrushSize(10)" style="border: 2px solid transparent;">✏️ Tebal (10px)</button>
+                            <button class="evaluate-btn" onclick="evaluateWriting()">⭐ Nilai</button>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 15px; padding: 10px; background: #f8f9ff; border-radius: 10px;">
+                            <div style="font-weight: bold; color: #667eea; margin-bottom: 10px;">Preview Ketebalan:</div>
+                            <canvas id="brushPreview" width="300" height="60" style="border: 1px solid #ddd; border-radius: 5px;"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="evaluation-panel" id="evaluationPanel">
+                        <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 20px;">📊 Hasil Penilaian</h3>
+                        <div class="score-display">
+                            <div class="score-number" id="totalScore">0</div>
+                            <div style="font-size: 1.5em; color: #666;">dari 100</div>
+                            <div style="font-size: 2.5em; margin: 15px 0;" id="scoreStars">⭐⭐⭐⭐⭐</div>
+                            <div style="font-size: 1.3em; color: #667eea; font-weight: bold;" id="scoreVerdict">Sempurna!</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <button class="evaluate-btn" onclick="closeEvaluation()">Tutup & Coba Lagi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const charactersData = {
+            numbers: [
+                {char: '零', pinyin: 'líng', meaning: 'Nol', strokes: 13, mnemonic: '雨 (hujan) + 令 = tetesan hujan yang jatuh sedikit-sedikit hingga nol'},
+                {char: '一', pinyin: 'yī', meaning: 'Satu', strokes: 1, mnemonic: 'Satu garis horizontal = angka 1, paling sederhana!'},
+                {char: '二', pinyin: 'èr', meaning: 'Dua', strokes: 2, mnemonic: 'Dua garis horizontal = angka 2'},
+                {char: '三', pinyin: 'sān', meaning: 'Tiga', strokes: 3, mnemonic: 'Tiga garis horizontal = angka 3, mudah!'},
+                {char: '四', pinyin: 'sì', meaning: 'Empat', strokes: 5, mnemonic: 'Seperti kotak dengan kaki (口 + 儿)'},
+                {char: '五', pinyin: 'wǔ', meaning: 'Lima', strokes: 4, mnemonic: 'Seperti angka 5 romawi (V) dengan garis atas'},
+                {char: '六', pinyin: 'liù', meaning: 'Enam', strokes: 4, mnemonic: 'Atap (⼌) + orang (八) = 6 orang di bawah atap'},
+                {char: '七', pinyin: 'qī', meaning: 'Tujuh', strokes: 2, mnemonic: 'Seperti angka 7 yang dipotong'},
+                {char: '八', pinyin: 'bā', meaning: 'Delapan', strokes: 2, mnemonic: 'Dua garis menyebar = membagi jadi 8'},
+                {char: '九', pinyin: 'jiǔ', meaning: 'Sembilan', strokes: 2, mnemonic: 'Siku bengkok = hampir 10 (完整)'},
+                {char: '十', pinyin: 'shí', meaning: 'Sepuluh', strokes: 2, mnemonic: 'Plus (+) = sempurna, lengkap 10'},
+                {char: '百', pinyin: 'bǎi', meaning: 'Seratus', strokes: 6, mnemonic: 'Satu (一) + putih (白) = 100, angka putih/bersih'},
+                {char: '千', pinyin: 'qiān', meaning: 'Seribu', strokes: 3, mnemonic: 'Orang (人) + sepuluh (十) = 1000, banyak!'},
+                {char: '万', pinyin: 'wàn', meaning: 'Sepuluh Ribu', strokes: 3, mnemonic: 'Seperti sayap terbang tinggi = angka besar'}
+            ],
+            
+            people: [
+                {char: '人', pinyin: 'rén', meaning: 'Orang', strokes: 2, mnemonic: 'Orang berdiri dengan dua kaki'},
+                {char: '我', pinyin: 'wǒ', meaning: 'Saya', strokes: 7, mnemonic: 'Tangan (手) + tombak (戈) = Saya yang bersenjata'},
+                {char: '你', pinyin: 'nǐ', meaning: 'Kamu', strokes: 7, mnemonic: 'Orang (亻) + pergi (尔) = Kamu yang pergi'},
+                {char: '他', pinyin: 'tā', meaning: 'Dia (L)', strokes: 5, mnemonic: 'Orang (亻) + juga (也) = Dia juga'},
+                {char: '她', pinyin: 'tā', meaning: 'Dia (P)', strokes: 6, mnemonic: 'Perempuan (女) + juga (也) = Dia perempuan'},
+                {char: '们', pinyin: 'men', meaning: 'Jamak', strokes: 5, mnemonic: 'Orang (亻) + pintu (门) = Banyak orang di pintu'},
+                {char: '谁', pinyin: 'shéi/shuí', meaning: 'Siapa', strokes: 10, mnemonic: 'Kata (讠) + burung hantu (隹) = Siapa yang bicara?'},
+                {char: '名', pinyin: 'míng', meaning: 'Nama', strokes: 6, mnemonic: 'Malam (夕) + mulut (口) = Nama dipanggil malam'},
+                {char: '男', pinyin: 'nán', meaning: 'Laki-laki', strokes: 7, mnemonic: 'Sawah (田) + kekuatan (力) = Laki kerja di sawah'},
+                {char: '女', pinyin: 'nǚ', meaning: 'Perempuan', strokes: 3, mnemonic: 'Orang duduk sopan dengan tangan di pangkuan'}
+            ],
+            
+            family: [
+                {char: '父', pinyin: 'fù', meaning: 'Ayah', strokes: 4, mnemonic: 'Tangan (手) + tongkat = Ayah bawa tongkat'},
+                {char: '母', pinyin: 'mǔ', meaning: 'Ibu', strokes: 5, mnemonic: 'Perempuan (女) dengan dua titik = Ibu menyusui'},
+                {char: '子', pinyin: 'zǐ', meaning: 'Anak', strokes: 3, mnemonic: 'Bayi dengan tangan terangkat'},
+                {char: '女', pinyin: 'nǚ', meaning: 'Putri', strokes: 3, mnemonic: 'Anak perempuan duduk manis'},
+                {char: '家', pinyin: 'jiā', meaning: 'Keluarga/Rumah', strokes: 10, mnemonic: 'Atap (宀) + babi (豕) = Rumah ada babi = kaya'},
+                {char: '爱', pinyin: 'ài', meaning: 'Cinta', strokes: 10, mnemonic: 'Cakar (爫) + teman (友) + hati (心) = Cinta'},
+                {char: '妻', pinyin: 'qī', meaning: 'Istri', strokes: 8, mnemonic: 'Perempuan (女) + sapu (⺕) = Istri menyapu'},
+                {char: '夫', pinyin: 'fū', meaning: 'Suami', strokes: 4, mnemonic: 'Orang besar (大) + jepit = Suami yang besar'}
+            ],
+            
+            body: [
+                {char: '身', pinyin: 'shēn', meaning: 'Tubuh', strokes: 7, mnemonic: 'Ibu hamil = tubuh membesar'},
+                {char: '头', pinyin: 'tóu', meaning: 'Kepala', strokes: 5, mnemonic: 'Titik (、) + kacang (豆) = Kepala seperti kacang'},
+                {char: '目', pinyin: 'mù', meaning: 'Mata', strokes: 5, mnemonic: 'Mata vertikal dengan pupil'},
+                {char: '眼', pinyin: 'yǎn', meaning: 'Mata', strokes: 11, mnemonic: 'Mata (目) + mengikuti (艮) = Mata mengikuti'},
+                {char: '耳', pinyin: 'ěr', meaning: 'Telinga', strokes: 6, mnemonic: 'Bentuk telinga dari samping'},
+                {char: '口', pinyin: 'kǒu', meaning: 'Mulut', strokes: 3, mnemonic: 'Mulut terbuka kotak'},
+                {char: '鼻', pinyin: 'bí', meaning: 'Hidung', strokes: 14, mnemonic: 'Sendiri (自) + muka (田) = Hidung menonjol'},
+                {char: '手', pinyin: 'shǒu', meaning: 'Tangan', strokes: 4, mnemonic: 'Tangan dengan jari-jari'},
+                {char: '足', pinyin: 'zú', meaning: 'Kaki', strokes: 7, mnemonic: 'Mulut (口) + berhenti (止) = Kaki berhenti'},
+                {char: '心', pinyin: 'xīn', meaning: 'Hati', strokes: 4, mnemonic: 'Bentuk jantung dengan pembuluh'},
+                {char: '脸', pinyin: 'liǎn', meaning: 'Wajah', strokes: 11, mnemonic: 'Daging (月) + tiga kali = Wajah tiga dimensi'}
+            ],
+            
+            nature: [
+                {char: '日', pinyin: 'rì', meaning: 'Matahari/Hari', strokes: 4, mnemonic: 'Kotak dengan garis tengah = Matahari'},
+                {char: '月', pinyin: 'yuè', meaning: 'Bulan', strokes: 4, mnemonic: 'Bulan sabit'},
+                {char: '星', pinyin: 'xīng', meaning: 'Bintang', strokes: 9, mnemonic: 'Matahari (日) + lahir (生) = Bintang lahir'},
+                {char: '天', pinyin: 'tiān', meaning: 'Langit/Hari', strokes: 4, mnemonic: 'Besar (大) + garis = Langit luas'},
+                {char: '山', pinyin: 'shān', meaning: 'Gunung', strokes: 3, mnemonic: 'Tiga puncak gunung'},
+                {char: '水', pinyin: 'shuǐ', meaning: 'Air', strokes: 4, mnemonic: 'Aliran air dengan percikan'},
+                {char: '火', pinyin: 'huǒ', meaning: 'Api', strokes: 4, mnemonic: 'Nyala api berkobar'},
+                {char: '木', pinyin: 'mù', meaning: 'Kayu/Pohon', strokes: 4, mnemonic: 'Pohon dengan cabang'},
+                {char: '金', pinyin: 'jīn', meaning: 'Logam/Emas', strokes: 8, mnemonic: 'Atap (人) + emas (王) + titik = Logam mulia'},
+                {char: '土', pinyin: 'tǔ', meaning: 'Tanah', strokes: 3, mnemonic: 'Seperti tanah berlapis'},
+                {char: '雨', pinyin: 'yǔ', meaning: 'Hujan', strokes: 8, mnemonic: 'Awan dengan tetesan hujan'},
+                {char: '风', pinyin: 'fēng', meaning: 'Angin', strokes: 4, mnemonic: 'Angin bertiup dari pinggir'},
+                {char: '云', pinyin: 'yún', meaning: 'Awan', strokes: 4, mnemonic: 'Awan bergelombang'},
+                {char: '雪', pinyin: 'xuě', meaning: 'Salju', strokes: 11, mnemonic: 'Hujan (雨) + sapu (⺕) = Salju perlu disapu'}
+            ],
+            
+            animals: [
+                {char: '犬', pinyin: 'quǎn', meaning: 'Anjing', strokes: 4, mnemonic: 'Anjing dengan ekor besar (大 + titik)'},
+                {char: '狗', pinyin: 'gǒu', meaning: 'Anjing', strokes: 8, mnemonic: 'Anjing (犭) + mulut (口) = Anjing menggonggong'},
+                {char: '猫', pinyin: 'māo', meaning: 'Kucing', strokes: 11, mnemonic: 'Anjing (犭) + rumput (苗) = Kucing di rumput'},
+                {char: '马', pinyin: 'mǎ', meaning: 'Kuda', strokes: 3, mnemonic: 'Kuda dengan empat kaki (disederhanakan)'},
+                {char: '牛', pinyin: 'niú', meaning: 'Sapi', strokes: 4, mnemonic: 'Kepala sapi dengan tanduk'},
+                {char: '羊', pinyin: 'yáng', meaning: 'Kambing', strokes: 6, mnemonic: 'Tanduk kambing melengkung'},
+                {char: '鸟', pinyin: 'niǎo', meaning: 'Burung', strokes: 5, mnemonic: 'Burung bertengger'},
+                {char: '鱼', pinyin: 'yú', meaning: 'Ikan', strokes: 8, mnemonic: 'Ikan dengan sirip dan ekor'},
+                {char: '虫', pinyin: 'chóng', meaning: 'Serangga', strokes: 6, mnemonic: 'Ulat merayap'},
+                {char: '龙', pinyin: 'lóng', meaning: 'Naga', strokes: 5, mnemonic: 'Naga yang disederhanakan'}
+            ],
+            
+            food: [
+                {char: '米', pinyin: 'mǐ', meaning: 'Beras', strokes: 6, mnemonic: 'Butiran beras berserakan (+ tengah)'},
+                {char: '饭', pinyin: 'fàn', meaning: 'Nasi/Makan', strokes: 7, mnemonic: 'Makanan (饣) + bertemu (反) = Makan bersama'},
+                {char: '面', pinyin: 'miàn', meaning: 'Mie/Wajah', strokes: 9, mnemonic: 'Gandum (麦) disederhanakan = Mie'},
+                {char: '茶', pinyin: 'chá', meaning: 'Teh', strokes: 9, mnemonic: 'Rumput (艹) + orang (人) + kayu (木) = Teh dari daun'},
+                {char: '水', pinyin: 'shuǐ', meaning: 'Air', strokes: 4, mnemonic: 'Air mengalir'},
+                {char: '肉', pinyin: 'ròu', meaning: 'Daging', strokes: 6, mnemonic: 'Dua orang (人) dalam mulut (口) = Daging'},
+                {char: '菜', pinyin: 'cài', meaning: 'Sayur', strokes: 11, mnemonic: 'Rumput (艹) + cakar (爫) + kayu (木) = Sayuran'},
+                {char: '糖', pinyin: 'táng', meaning: 'Gula', strokes: 16, mnemonic: 'Beras (米) + manis (唐) = Gula manis'},
+                {char: '盐', pinyin: 'yán', meaning: 'Garam', strokes: 10, mnemonic: 'Piring (皿) + tangan (⺕) = Garam di piring'},
+                {char: '果', pinyin: 'guǒ', meaning: 'Buah', strokes: 8, mnemonic: 'Pohon (田) + kayu (木) = Buah di pohon'}
+            ],
+            
+            directions: [
+                {char: '上', pinyin: 'shàng', meaning: 'Atas/Naik', strokes: 3, mnemonic: 'Panah menunjuk ke atas'},
+                {char: '下', pinyin: 'xià', meaning: 'Bawah/Turun', strokes: 3, mnemonic: 'Panah menunjuk ke bawah'},
+                {char: '左', pinyin: 'zuǒ', meaning: 'Kiri', strokes: 5, mnemonic: 'Tangan (⺘) + kerja (工) = Tangan kiri bekerja'},
+                {char: '右', pinyin: 'yòu', meaning: 'Kanan', strokes: 5, mnemonic: 'Mulut (口) + tangan (⺘) = Tangan kanan makan'},
+                {char: '东', pinyin: 'dōng', meaning: 'Timur', strokes: 5, mnemonic: 'Matahari (日) terbit dari timur'},
+                {char: '西', pinyin: 'xī', meaning: 'Barat', strokes: 6, mnemonic: 'Burung bersarang (matahari terbenam di barat)'},
+                {char: '南', pinyin: 'nán', meaning: 'Selatan', strokes: 9, mnemonic: 'Panas di selatan (tanaman + garis)'},
+                {char: '北', pinyin: 'běi', meaning: 'Utara', strokes: 5, mnemonic: 'Dua orang membelakangi (utara dingin)'},
+                {char: '中', pinyin: 'zhōng', meaning: 'Tengah/China', strokes: 4, mnemonic: 'Garis tepat di tengah kotak'},
+                {char: '外', pinyin: 'wài', meaning: 'Luar', strokes: 5, mnemonic: 'Malam (夕) + ramalan (卜) = Di luar'},
+                {char: '内', pinyin: 'nèi', meaning: 'Dalam', strokes: 4, mnemonic: 'Masuk ke dalam ruangan'},
+                {char: '前', pinyin: 'qián', meaning: 'Depan', strokes: 9, mnemonic: 'Berjalan maju ke depan'},
+                {char: '后', pinyin: 'hòu', meaning: 'Belakang', strokes: 6, mnemonic: 'Mengikuti dari belakang'}
+            ],
+            
+            time: [
+                {char: '年', pinyin: 'nián', meaning: 'Tahun', strokes: 6, mnemonic: 'Orang (千) + garis = Satu tahun panen'},
+                {char: '月', pinyin: 'yuè', meaning: 'Bulan', strokes: 4, mnemonic: 'Bulan di langit'},
+                {char: '日', pinyin: 'rì', meaning: 'Hari', strokes: 4, mnemonic: 'Matahari = hari'},
+                {char: '时', pinyin: 'shí', meaning: 'Waktu/Jam', strokes: 7, mnemonic: 'Matahari (日) + kuil (寺) = Waktu ibadah'},
+                {char: '分', pinyin: 'fēn', meaning: 'Menit/Membagi', strokes: 4, mnemonic: 'Pisau (刀) membagi (八) = Menit membagi jam'},
+                {char: '秒', pinyin: 'miǎo', meaning: 'Detik', strokes: 9, mnemonic: 'Beras (禾) + kecil (少) = Detik sangat kecil'},
+                {char: '今', pinyin: 'jīn', meaning: 'Sekarang', strokes: 4, mnemonic: 'Atap (人) + sekarang (一) = Hari ini'},
+                {char: '天', pinyin: 'tiān', meaning: 'Hari', strokes: 4, mnemonic: 'Satu hari = langit berubah'},
+                {char: '早', pinyin: 'zǎo', meaning: 'Pagi', strokes: 6, mnemonic: 'Matahari (日) + sepuluh (十) = Pagi jam 10'},
+                {char: '晚', pinyin: 'wǎn', meaning: 'Malam', strokes: 11, mnemonic: 'Matahari (日) + mahkota (免) = Malam ada bulan'}
+            ],
+            
+            colors: [
+                {char: '红', pinyin: 'hóng', meaning: 'Merah', strokes: 6, mnemonic: 'Benang (纟) + kerja (工) = Benang merah'},
+                {char: '黄', pinyin: 'huáng', meaning: 'Kuning', strokes: 11, mnemonic: 'Rumput (艹) + lapangan (田) + api (灬) = Kuning'},
+                {char: '蓝', pinyin: 'lán', meaning: 'Biru', strokes: 13, mnemonic: 'Rumput (艹) + keranjang (监) = Biru langit'},
+                {char: '绿', pinyin: 'lǜ', meaning: 'Hijau', strokes: 11, mnemonic: 'Benang (纟) + air (氺) = Hijau segar'},
+                {char: '白', pinyin: 'bái', meaning: 'Putih', strokes: 5, mnemonic: 'Matahari (日) + satu (一) = Cahaya putih'},
+                {char: '黑', pinyin: 'hēi', meaning: 'Hitam', strokes: 12, mnemonic: 'Api (灬) + tanah (土) = Hitam gosong'},
+                {char: '灰', pinyin: 'huī', meaning: 'Abu-abu', strokes: 6, mnemonic: 'Api (火) + abu = Abu-abu'}
+            ],
+            
+            adjectives: [
+                {char: '大', pinyin: 'dà', meaning: 'Besar', strokes: 3, mnemonic: 'Orang merentangkan tangan = Besar'},
+                {char: '小', pinyin: 'xiǎo', meaning: 'Kecil', strokes: 3, mnemonic: 'Titik-titik kecil'},
+                {char: '多', pinyin: 'duō', meaning: 'Banyak', strokes: 6, mnemonic: 'Dua bulan (夕夕) = Banyak malam'},
+                {char: '少', pinyin: 'shǎo', meaning: 'Sedikit', strokes: 4, mnemonic: 'Kecil (小) + garis = Sedikit'},
+                {char: '长', pinyin: 'cháng', meaning: 'Panjang', strokes: 4, mnemonic: 'Rambut panjang terurai'},
+                {char: '短', pinyin: 'duǎn', meaning: 'Pendek', strokes: 12, mnemonic: 'Panah (矢) + kacang (豆) = Pendek'},
+                {char: '高', pinyin: 'gāo', meaning: 'Tinggi', strokes: 10, mnemonic: 'Bangunan tinggi dengan atap'},
+                {char: '低', pinyin: 'dī', meaning: 'Rendah', strokes: 7, mnemonic: 'Orang (亻) + tunduk = Rendah'},
+                {char: '新', pinyin: 'xīn', meaning: 'Baru', strokes: 13, mnemonic: 'Kayu (木) + pohon (亲) = Baru ditanam'},
+                {char: '旧', pinyin: 'jiù', meaning: 'Lama', strokes: 5, mnemonic: 'Matahari (日) lama (丨)'},
+                {char: '好', pinyin: 'hǎo', meaning: 'Baik/Bagus', strokes: 6, mnemonic: 'Perempuan (女) + anak (子) = Baik'},
+                {char: '坏', pinyin: 'huài', meaning: 'Buruk/Rusak', strokes: 7, mnemonic: 'Tanah (土) rusak'}
+            ],
+            
+            verbs: [
+                {char: '是', pinyin: 'shì', meaning: 'Adalah', strokes: 9, mnemonic: 'Matahari (日) + benar (正) = Adalah benar'},
+                {char: '有', pinyin: 'yǒu', meaning: 'Ada/Punya', strokes: 6, mnemonic: 'Tangan memegang bulan = Punya'},
+                {char: '在', pinyin: 'zài', meaning: 'Berada/Sedang', strokes: 6, mnemonic: 'Tanah (土) + ada (才) = Berada'},
+                {char: '来', pinyin: 'lái', meaning: 'Datang', strokes: 7, mnemonic: 'Tanaman tumbuh datang = Datang'},
+                {char: '去', pinyin: 'qù', meaning: 'Pergi', strokes: 5, mnemonic: 'Tanah (土) + pribadi (厶) = Pergi'},
+                {char: '吃', pinyin: 'chī', meaning: 'Makan', strokes: 6, mnemonic: 'Mulut (口) + meminta (乞) = Makan'},
+                {char: '喝', pinyin: 'hē', meaning: 'Minum', strokes: 12, mnemonic: 'Mulut (口) + mengapa (曷) = Minum'},
+                {char: '看', pinyin: 'kàn', meaning: 'Melihat/Membaca', strokes: 9, mnemonic: 'Tangan (手) + mata (目) = Melihat'},
+                {char: '听', pinyin: 'tīng', meaning: 'Mendengar', strokes: 7, mnemonic: 'Mulut (口) + raja (斤) = Mendengar'},
+                {char: '说', pinyin: 'shuō', meaning: 'Berkata/Bicara', strokes: 9, mnemonic: 'Kata (讠) + bertemu (兑) = Berkata'},
+                {char: '读', pinyin: 'dú', meaning: 'Membaca', strokes: 10, mnemonic: 'Kata (讠) + penjual (卖) = Membaca'},
+                {char: '写', pinyin: 'xiě', meaning: 'Menulis', strokes: 5, mnemonic: 'Atap (冖) + dan (与) = Menulis'},
+                {char: '做', pinyin: 'zuò', meaning: 'Membuat/Melakukan', strokes: 11, mnemonic: 'Orang (亻) + cerita (故) = Melakukan'},
+                {char: '走', pinyin: 'zǒu', meaning: 'Berjalan', strokes: 7, mnemonic: 'Tanah (土) + berhenti (止) = Berjalan'},
+                {char: '跑', pinyin: 'pǎo', meaning: 'Berlari', strokes: 12, mnemonic: 'Kaki (足) + paket (包) = Berlari bawa paket'},
+                {char: '坐', pinyin: 'zuò', meaning: 'Duduk', strokes: 7, mnemonic: 'Dua orang (人人) di tanah (土) = Duduk'},
+                {char: '站', pinyin: 'zhàn', meaning: 'Berdiri', strokes: 10, mnemonic: 'Berdiri (立) + stasiun (占) = Berdiri'},
+                {char: '睡', pinyin: 'shuì', meaning: 'Tidur', strokes: 13, mnemonic: 'Mata (目) + sayang (垂) = Tidur'},
+                {char: '要', pinyin: 'yào', meaning: 'Ingin/Mau/Perlu', strokes: 9, mnemonic: 'Barat (西) + perempuan (女) = Ingin'}
+            ],
+            
+            places: [
+                {char: '国', pinyin: 'guó', meaning: 'Negara', strokes: 8, mnemonic: 'Kotak (囗) + giok (玉) = Negara berharga'},
+                {char: '家', pinyin: 'jiā', meaning: 'Rumah/Keluarga', strokes: 10, mnemonic: 'Atap (宀) + babi (豕) = Rumah ada babi'},
+                {char: '校', pinyin: 'xiào', meaning: 'Gedung/Sekolah', strokes: 10, mnemonic: 'Kayu (木) + bertemu (交) = Gedung sekolah tempat orang bertemu belajar'},
+                {char: '医', pinyin: 'yī', meaning: 'Dokter/Medis', strokes: 7, mnemonic: 'Kotak (匚) + panah (矢) = Dokter menembak penyakit'},
+                {char: '院', pinyin: 'yuàn', meaning: 'Halaman/Gedung', strokes: 9, mnemonic: 'Bukit (阝) + selesai (完) = Halaman gedung yang selesai dibangun'},
+                {char: '店', pinyin: 'diàn', meaning: 'Toko', strokes: 8, mnemonic: 'Gedung (广) + duduki (占) = Toko yang diduduki pedagang'},
+                {char: '园', pinyin: 'yuán', meaning: 'Taman', strokes: 7, mnemonic: 'Pagar (囗) + elemen (元) = Taman yang dipagari'},
+                {char: '场', pinyin: 'chǎng', meaning: 'Lapangan/Tempat', strokes: 6, mnemonic: 'Tanah (土) + terang (昜) = Lapangan terbuka terang'},
+                {char: '学校', pinyin: 'xuéxiào', meaning: 'Sekolah', strokes: 18, mnemonic: 'Belajar + gedung = Sekolah'},
+                {char: '医院', pinyin: 'yīyuàn', meaning: 'Rumah Sakit', strokes: 17, mnemonic: 'Dokter + halaman = RS'},
+                {char: '饭店', pinyin: 'fàndiàn', meaning: 'Restoran', strokes: 15, mnemonic: 'Nasi + toko = Restoran'},
+                {char: '公园', pinyin: 'gōngyuán', meaning: 'Taman', strokes: 10, mnemonic: 'Publik + taman = Taman kota'},
+                {char: '车站', pinyin: 'chēzhàn', meaning: 'Stasiun', strokes: 14, mnemonic: 'Mobil + berdiri = Stasiun'},
+                {char: '机场', pinyin: 'jīchǎng', meaning: 'Bandara', strokes: 16, mnemonic: 'Mesin + lapangan = Bandara'}
+            ],
+            
+            common_chars: [
+                {char: '不', pinyin: 'bù', meaning: 'Tidak/Bukan', strokes: 4, mnemonic: 'Burung terbang turun = Tidak'},
+                {char: '的', pinyin: 'de', meaning: 'Partikel kepemilikan', strokes: 8, mnemonic: 'Putih (白) + sendok = Milik'},
+                {char: '了', pinyin: 'le', meaning: 'Partikel sudah', strokes: 2, mnemonic: 'Selesai, sudah'},
+                {char: '个', pinyin: 'gè', meaning: 'Satuan umum', strokes: 3, mnemonic: 'Orang (人) + kotak = Satu buah'},
+                {char: '们', pinyin: 'men', meaning: 'Jamak (orang-orang)', strokes: 5, mnemonic: 'Orang (亻) + pintu (门) = Banyak orang'},
+                {char: '这', pinyin: 'zhè', meaning: 'Ini', strokes: 7, mnemonic: 'Jalan (辶) + teks = Ini di sini'},
+                {char: '那', pinyin: 'nà', meaning: 'Itu', strokes: 6, mnemonic: 'Jalan (辶) + kota = Itu di sana'},
+                {char: '什', pinyin: 'shén', meaning: 'Apa (dalam 什么)', strokes: 4, mnemonic: 'Orang (亻) + sepuluh (十) = Apa'},
+                {char: '么', pinyin: 'me', meaning: 'Partikel (apa)', strokes: 3, mnemonic: 'Garis bengkok = Partikel apa'},
+                {char: '为', pinyin: 'wèi', meaning: 'Untuk/Karena', strokes: 4, mnemonic: 'Titik + kail = Untuk'},
+                {char: '谁', pinyin: 'shéi', meaning: 'Siapa', strokes: 10, mnemonic: 'Kata (讠) + burung (隹) = Siapa bicara'},
+                {char: '哪', pinyin: 'nǎ', meaning: 'Mana', strokes: 9, mnemonic: 'Mulut (口) + bukan (那) = Mana?'},
+                {char: '里', pinyin: 'lǐ', meaning: 'Dalam/Di', strokes: 7, mnemonic: 'Sawah (田) + tanah (土) = Dalam tanah'},
+                {char: '怎', pinyin: 'zěn', meaning: 'Bagaimana', strokes: 9, mnemonic: 'Tiba-tiba (乍) + hati (心) = Bagaimana hati?'},
+                {char: '两', pinyin: 'liǎng', meaning: 'Dua (untuk menghitung)', strokes: 7, mnemonic: 'Dua orang di bawah atap'},
+                {char: '几', pinyin: 'jǐ', meaning: 'Berapa (kecil)', strokes: 2, mnemonic: 'Beberapa garis = Berapa?'},
+                {char: '点', pinyin: 'diǎn', meaning: 'Titik/Sedikit', strokes: 9, mnemonic: 'Hitam (黑) kecil = Titik'},
+                {char: '再', pinyin: 'zài', meaning: 'Lagi/Sekali lagi', strokes: 6, mnemonic: 'Satu (一) + dua kali = Lagi'},
+                {char: '见', pinyin: 'jiàn', meaning: 'Melihat/Bertemu', strokes: 4, mnemonic: 'Mata (目) dengan kaki = Melihat'},
+                {char: '谢', pinyin: 'xiè', meaning: 'Terima kasih', strokes: 12, mnemonic: 'Kata (讠) + tubuh (身) +寸 = Terima kasih'},
+                {char: '对', pinyin: 'duì', meaning: 'Benar/Terhadap', strokes: 5, mnemonic: 'Satu (一) + mata (目) + daging = Benar'},
+                {char: '起', pinyin: 'qǐ', meaning: 'Bangun/Mulai', strokes: 10, mnemonic: 'Berjalan (走) + sendiri (己) = Bangun'},
+                {char: '没', pinyin: 'méi', meaning: 'Tidak ada', strokes: 7, mnemonic: 'Air (氵) + tenggelam = Tidak ada'},
+                {char: '关', pinyin: 'guān', meaning: 'Tutup/Hubungan', strokes: 6, mnemonic: 'Pintu (门) + kunci = Tutup'},
+                {char: '系', pinyin: 'xì', meaning: 'Sistem/Ikatan', strokes: 7, mnemonic: 'Benang (纟) + dua tangan = Ikatan'},
+                {char: '学', pinyin: 'xué', meaning: 'Belajar', strokes: 8, mnemonic: 'Anak (子) + rumah (⺍) + tangan = Belajar'},
+                {char: '车', pinyin: 'chē', meaning: 'Mobil/Kendaraan', strokes: 4, mnemonic: 'Gambar sederhana kereta dengan roda'},
+                {char: '站', pinyin: 'zhàn', meaning: 'Berdiri/Stasiun', strokes: 10, mnemonic: 'Berdiri (立) + duduki (占) = Stasiun tempat berdiri'},
+                {char: '生', pinyin: 'shēng', meaning: 'Lahir/Hidup', strokes: 5, mnemonic: 'Tanaman tumbuh dari tanah = Lahir'},
+                {char: '老', pinyin: 'lǎo', meaning: 'Tua/Lama', strokes: 6, mnemonic: 'Orang membungkuk dengan tongkat = Tua'},
+                {char: '师', pinyin: 'shī', meaning: 'Guru/Ahli', strokes: 6, mnemonic: 'Kain (巾) + pasukan = Guru memimpin'},
+                {char: '朋', pinyin: 'péng', meaning: 'Teman', strokes: 8, mnemonic: 'Dua bulan (月月) = Teman akrab'},
+                {char: '友', pinyin: 'yǒu', meaning: 'Sahabat', strokes: 4, mnemonic: 'Dua tangan (又) bergandengan = Sahabat'},
+                {char: '工', pinyin: 'gōng', meaning: 'Kerja/Pekerja', strokes: 3, mnemonic: 'Alat kerja = Kerja'},
+                {char: '作', pinyin: 'zuò', meaning: 'Membuat/Kerja', strokes: 7, mnemonic: 'Orang (亻) + dahulu (乍) = Membuat'},
+                {char: '公', pinyin: 'gōng', meaning: 'Publik/Umum', strokes: 4, mnemonic: 'Delapan (八) + pribadi (厶) = Publik'},
+                {char: '司', pinyin: 'sī', meaning: 'Departemen', strokes: 5, mnemonic: 'Kotak (口) + satu = Departemen'},
+                {char: '机', pinyin: 'jī', meaning: 'Mesin/Pesawat', strokes: 6, mnemonic: 'Kayu (木) + beberapa (几) = Mesin kayu'},
+                {char: '脑', pinyin: 'nǎo', meaning: 'Otak/Kepala', strokes: 10, mnemonic: 'Daging (月) + kepala (囟) = Otak'},
+                {char: '视', pinyin: 'shì', meaning: 'Melihat/Pandang', strokes: 8, mnemonic: 'Melihat (见) + menunjukkan (示) = Memandang'},
+                {char: '今', pinyin: 'jīn', meaning: 'Sekarang/Hari ini', strokes: 4, mnemonic: 'Atap (人) + satu (一) = Hari ini'},
+                {char: '明', pinyin: 'míng', meaning: 'Terang/Besok', strokes: 8, mnemonic: 'Matahari (日) + bulan (月) = Terang'},
+                {char: '昨', pinyin: 'zuó', meaning: 'Kemarin', strokes: 9, mnemonic: 'Matahari (日) + dahulu (乍) = Kemarin'},
+                {char: '午', pinyin: 'wǔ', meaning: 'Siang (tengah hari)', strokes: 4, mnemonic: 'Garis tengah = Siang'},
+                {char: '晚', pinyin: 'wǎn', meaning: 'Malam/Terlambat', strokes: 11, mnemonic: 'Matahari (日) + mahkota (免) = Malam'},
+                {char: '星', pinyin: 'xīng', meaning: 'Bintang', strokes: 9, mnemonic: 'Matahari (日) + lahir (生) = Bintang lahir'},
+                {char: '期', pinyin: 'qī', meaning: 'Periode/Jangka waktu', strokes: 12, mnemonic: 'Bulan (月) + harapan = Periode'},
+                {char: '周', pinyin: 'zhōu', meaning: 'Minggu/Keliling', strokes: 8, mnemonic: 'Kotak (口) + tanah (土) = Minggu'},
+                {char: '末', pinyin: 'mò', meaning: 'Akhir/Ujung', strokes: 5, mnemonic: 'Kayu (木) + garis = Ujung kayu'},
+                {char: '汉', pinyin: 'hàn', meaning: 'Han (etnis)/Laki-laki', strokes: 5, mnemonic: 'Air (氵) + dahulu = Han'},
+                {char: '语', pinyin: 'yǔ', meaning: 'Bahasa', strokes: 9, mnemonic: 'Kata (讠) + saya (吾) = Bahasa saya'},
+                {char: '咖', pinyin: 'kā', meaning: 'Ka (kopi)', strokes: 8, mnemonic: 'Mulut (口) + menambah (加) = Ka'},
+                {char: '啡', pinyin: 'fēi', meaning: 'Fei (kopi)', strokes: 11, mnemonic: 'Mulut (口) + bukan (非) = Fei'},
+                {char: '奶', pinyin: 'nǎi', meaning: 'Susu', strokes: 5, mnemonic: 'Perempuan (女) + payudara = Susu'},
+                {char: '面', pinyin: 'miàn', meaning: 'Mie/Wajah', strokes: 9, mnemonic: 'Gandum (麦) disederhanakan = Mie'},
+                {char: '包', pinyin: 'bāo', meaning: 'Bungkus/Tas', strokes: 5, mnemonic: 'Membungkus (勹) + sudah (已) = Bungkus'},
+                {char: '鸡', pinyin: 'jī', meaning: 'Ayam', strokes: 7, mnemonic: 'Burung (鸟) + datang = Ayam'},
+                {char: '蛋', pinyin: 'dàn', meaning: 'Telur', strokes: 11, mnemonic: 'Serangga (虫) + melahirkan = Telur'},
+                {char: '苹', pinyin: 'píng', meaning: 'Apel', strokes: 8, mnemonic: 'Rumput (艹) + datar (平) = Apel'},
+                {char: '爸', pinyin: 'bà', meaning: 'Ayah/Papa', strokes: 8, mnemonic: 'Ayah (父) + kakek (巴) = Papa'},
+                {char: '妈', pinyin: 'mā', meaning: 'Ibu/Mama', strokes: 6, mnemonic: 'Perempuan (女) + kuda (马) = Mama'},
+                {char: '哥', pinyin: 'gē', meaning: 'Kakak laki-laki', strokes: 10, mnemonic: 'Dua mulut (口口) + bisa (可) = Kakak'},
+                {char: '弟', pinyin: 'dì', meaning: 'Adik laki-laki', strokes: 7, mnemonic: 'Busur (弓) + terluka = Adik'},
+                {char: '姐', pinyin: 'jiě', meaning: 'Kakak perempuan', strokes: 8, mnemonic: 'Perempuan (女) + punya (且) = Kakak cewek'},
+                {char: '妹', pinyin: 'mèi', meaning: 'Adik perempuan', strokes: 8, mnemonic: 'Perempuan (女) + belum (未) = Adik cewek'},
+                {char: '爷', pinyin: 'yé', meaning: 'Kakek', strokes: 6, mnemonic: 'Ayah (父) + juga (也) = Kakek'},
+                {char: '喜', pinyin: 'xǐ', meaning: 'Senang/Suka', strokes: 12, mnemonic: 'Gembira (喜) + mulut = Senang'},
+                {char: '欢', pinyin: 'huān', meaning: 'Gembira/Suka', strokes: 6, mnemonic: 'Tangan (又) + kurang (欠) = Gembira'},
+                {char: '知', pinyin: 'zhī', meaning: 'Tahu/Pengetahuan', strokes: 8, mnemonic: 'Panah (矢) + mulut (口) = Tahu'},
+                {char: '道', pinyin: 'dào', meaning: 'Jalan/Cara', strokes: 12, mnemonic: 'Jalan (辶) + kepala (首) = Jalan'},
+                {char: '认', pinyin: 'rèn', meaning: 'Mengenal/Kenal', strokes: 4, mnemonic: 'Kata (讠) + orang (人) = Mengenal orang'},
+                {char: '识', pinyin: 'shí', meaning: 'Tahu/Pengetahuan', strokes: 7, mnemonic: 'Kata (讠) + bayar (只) = Tahu'},
+                {char: '习', pinyin: 'xí', meaning: 'Latihan/Praktik', strokes: 3, mnemonic: 'Sayap (习) berlatih terbang = Latihan'},
+                {char: '帮', pinyin: 'bāng', meaning: 'Membantu', strokes: 9, mnemonic: 'Kain (巾) + pasukan (邦) = Membantu'},
+                {char: '助', pinyin: 'zhù', meaning: 'Menolong', strokes: 7, mnemonic: 'Kekuatan (力) + punya (且) = Menolong'},
+                {char: '开', pinyin: 'kāi', meaning: 'Membuka', strokes: 4, mnemonic: 'Membuka pintu = Buka'},
+                {char: '始', pinyin: 'shǐ', meaning: 'Mulai/Awal', strokes: 8, mnemonic: 'Perempuan (女) + sungai (厶) = Mulai'},
+                {char: '结', pinyin: 'jié', meaning: 'Mengikat/Hasil', strokes: 9, mnemonic: 'Benang (纟) + auspicious (吉) = Mengikat'},
+                {char: '束', pinyin: 'shù', meaning: 'Ikatan/Bundel', strokes: 7, mnemonic: 'Kayu (木) + mulut (口) = Bundel'},
+                {char: '打', pinyin: 'dǎ', meaning: 'Memukul/Membuat', strokes: 5, mnemonic: 'Tangan (扌) + paku (丁) = Memukul'}
+            ],
+            
+            radicals: [
+                // Radikal dari komponen yang sering muncul
+                {char: '囗', pinyin: 'wéi', meaning: 'Kotak/Penutup', strokes: 3, mnemonic: 'Kotak persegi = Penutup atau bingkai'},
+                {char: '玉', pinyin: 'yù', meaning: 'Giok/Batu mulia', strokes: 5, mnemonic: 'Batu berharga = Giok'},
+                {char: '宀', pinyin: 'mián', meaning: 'Atap/Rumah', strokes: 3, mnemonic: 'Atap rumah melengkung'},
+                {char: '豕', pinyin: 'shǐ', meaning: 'Babi', strokes: 7, mnemonic: 'Babi dengan ekor keriting'},
+                
+                // Radikal orang dan tubuh
+                {char: '亻', pinyin: 'rén', meaning: 'Orang (radikal)', strokes: 2, mnemonic: 'Bentuk orang berdiri (versi radikal dari 人)'},
+                {char: '人', pinyin: 'rén', meaning: 'Orang/Manusia', strokes: 2, mnemonic: 'Dua kaki berdiri = Orang'},
+                {char: '尔', pinyin: 'ěr', meaning: 'Kamu (klasik)', strokes: 5, mnemonic: 'Bentuk klasik dari "kamu"'},
+                {char: '也', pinyin: 'yě', meaning: 'Juga', strokes: 3, mnemonic: 'Partikel "juga"'},
+                {char: '戈', pinyin: 'gē', meaning: 'Tombak', strokes: 4, mnemonic: 'Tombak kuno untuk berperang'},
+                {char: '女', pinyin: 'nǚ', meaning: 'Perempuan', strokes: 3, mnemonic: 'Perempuan duduk anggun'},
+                {char: '子', pinyin: 'zǐ', meaning: 'Anak', strokes: 3, mnemonic: 'Bayi dengan kepala besar'},
+                {char: '爫', pinyin: 'zhǎo', meaning: 'Cakar', strokes: 4, mnemonic: 'Cakar binatang'},
+                {char: '心', pinyin: 'xīn', meaning: 'Hati', strokes: 4, mnemonic: 'Bentuk organ hati'},
+                {char: '门', pinyin: 'mén', meaning: 'Pintu', strokes: 3, mnemonic: 'Dua daun pintu'},
+                
+                // Radikal mata dan melihat
+                {char: '目', pinyin: 'mù', meaning: 'Mata', strokes: 5, mnemonic: 'Mata vertikal'},
+                {char: '艮', pinyin: 'gèn', meaning: 'Keras/Teguh', strokes: 6, mnemonic: 'Mata (目) mengawasi'},
+                {char: '儿', pinyin: 'ér', meaning: 'Anak/Kaki', strokes: 2, mnemonic: 'Kaki berjalan'},
+                
+                // Radikal alam
+                {char: '日', pinyin: 'rì', meaning: 'Matahari/Hari', strokes: 4, mnemonic: 'Kotak dengan garis = Matahari'},
+                {char: '月', pinyin: 'yuè', meaning: 'Bulan/Daging', strokes: 4, mnemonic: 'Bulan sabit (juga radikal daging)'},
+                {char: '生', pinyin: 'shēng', meaning: 'Lahir/Hidup', strokes: 5, mnemonic: 'Tanaman tumbuh = Lahir'},
+                {char: '⻗', pinyin: 'yǔ', meaning: 'Hujan (radikal)', strokes: 8, mnemonic: 'Awan dengan tetesan hujan'},
+                {char: '⺕', pinyin: 'zhǒu', meaning: 'Sapu', strokes: 6, mnemonic: 'Sapu untuk menyapu salju'},
+                {char: '二', pinyin: 'èr', meaning: 'Dua', strokes: 2, mnemonic: 'Dua garis horizontal'},
+                {char: '厶', pinyin: 'sī', meaning: 'Pribadi', strokes: 2, mnemonic: 'Bentuk lengkung pribadi'},
+                
+                // Radikal binatang
+                {char: '犭', pinyin: 'quǎn', meaning: 'Anjing (radikal)', strokes: 3, mnemonic: 'Bentuk anjing (versi radikal dari 犬)'},
+                {char: '犬', pinyin: 'quǎn', meaning: 'Anjing', strokes: 4, mnemonic: 'Anjing dengan ekor'},
+                {char: '口', pinyin: 'kǒu', meaning: 'Mulut', strokes: 3, mnemonic: 'Mulut terbuka persegi'},
+                {char: '苗', pinyin: 'miáo', meaning: 'Bibit/Tunas', strokes: 8, mnemonic: 'Tanaman muda tumbuh'},
+                {char: '⺈', pinyin: 'yú', meaning: 'Ikan (radikal)', strokes: 8, mnemonic: 'Bentuk ikan'},
+                
+                // Radikal makanan
+                {char: '饣', pinyin: 'shí', meaning: 'Makanan (radikal)', strokes: 3, mnemonic: 'Radikal makanan'},
+                {char: '反', pinyin: 'fǎn', meaning: 'Balik/Sebaliknya', strokes: 4, mnemonic: 'Dibalik'},
+                {char: '艹', pinyin: 'cǎo', meaning: 'Rumput (radikal)', strokes: 3, mnemonic: 'Dua tunas rumput'},
+                {char: '木', pinyin: 'mù', meaning: 'Kayu/Pohon', strokes: 4, mnemonic: 'Pohon dengan cabang'},
+                
+                // Radikal tempat dan arah
+                {char: '元', pinyin: 'yuán', meaning: 'Asal/Sumber', strokes: 4, mnemonic: 'Kepala = Asal muasal'},
+                
+                // Radikal waktu
+                {char: '寺', pinyin: 'sì', meaning: 'Kuil', strokes: 6, mnemonic: 'Kuil untuk ibadah'},
+                {char: '十', pinyin: 'shí', meaning: 'Sepuluh', strokes: 2, mnemonic: 'Silang = 10'},
+                {char: '免', pinyin: 'miǎn', meaning: 'Lepas/Bebas', strokes: 7, mnemonic: 'Kelinci melompat lepas'},
+                
+                // Radikal kata
+                {char: '讠', pinyin: 'yán', meaning: 'Kata (radikal)', strokes: 2, mnemonic: 'Radikal bicara/kata'},
+                {char: '身', pinyin: 'shēn', meaning: 'Tubuh', strokes: 7, mnemonic: 'Tubuh manusia'},
+                {char: '寸', pinyin: 'cùn', meaning: 'Inci/Ukuran', strokes: 3, mnemonic: 'Ukuran kecil = inci'},
+                {char: '只', pinyin: 'zhǐ', meaning: 'Hanya/Satuan', strokes: 5, mnemonic: 'Hanya satu'},
+                {char: '辶', pinyin: 'chuò', meaning: 'Jalan (radikal)', strokes: 3, mnemonic: 'Radikal berjalan'},
+                {char: '首', pinyin: 'shǒu', meaning: 'Kepala', strokes: 9, mnemonic: 'Kepala dengan rambut'},
+                {char: '走', pinyin: 'zǒu', meaning: 'Berjalan', strokes: 7, mnemonic: 'Orang berjalan cepat'},
+                {char: '己', pinyin: 'jǐ', meaning: 'Diri sendiri', strokes: 3, mnemonic: 'Diri sendiri'},
+                {char: '氵', pinyin: 'shuǐ', meaning: 'Air (radikal)', strokes: 3, mnemonic: 'Tiga tetes air'},
+                {char: '殳', pinyin: 'shū', meaning: 'Senjata/Pukul', strokes: 4, mnemonic: 'Senjata untuk memukul'},
+                {char: '丷', pinyin: 'bā', meaning: 'Delapan (atas)', strokes: 2, mnemonic: 'Dua titik terpisah'},
+                
+                // Radikal tangan dan kerja
+                {char: '扌', pinyin: 'shǒu', meaning: 'Tangan (radikal)', strokes: 3, mnemonic: 'Tangan kiri (versi radikal dari 手)'},
+                {char: '手', pinyin: 'shǒu', meaning: 'Tangan', strokes: 4, mnemonic: 'Lima jari tangan'},
+                {char: '丁', pinyin: 'dīng', meaning: 'Paku', strokes: 2, mnemonic: 'Paku untuk memaku'},
+                {char: '巾', pinyin: 'jīn', meaning: 'Kain', strokes: 3, mnemonic: 'Kain menggantung'},
+                {char: '邦', pinyin: 'bāng', meaning: 'Negara/Bangsa', strokes: 6, mnemonic: 'Negara besar'},
+                {char: '矢', pinyin: 'shǐ', meaning: 'Panah', strokes: 5, mnemonic: 'Panah terbang'},
+                {char: '壴', pinyin: 'zhù', meaning: 'Drum', strokes: 9, mnemonic: 'Drum untuk musik'},
+                {char: '又', pinyin: 'yòu', meaning: 'Tangan kanan/Lagi', strokes: 2, mnemonic: 'Tangan kanan'},
+                {char: '欠', pinyin: 'qiàn', meaning: 'Kurang/Hutang', strokes: 4, mnemonic: 'Orang menguap = kurang'},
+                {char: '八', pinyin: 'bā', meaning: 'Delapan', strokes: 2, mnemonic: 'Dua garis terpisah = 8'},
+                {char: '一', pinyin: 'yī', meaning: 'Satu', strokes: 1, mnemonic: 'Satu garis horizontal'},
+                
+                // Radikal kompleks lainnya
+                {char: '几', pinyin: 'jǐ', meaning: 'Beberapa/Meja kecil', strokes: 2, mnemonic: 'Meja kecil atau berapa'},
+                {char: '乚', pinyin: 'yǐn', meaning: 'Tersembunyi', strokes: 1, mnemonic: 'Garis tersembunyi'},
+                {char: '见', pinyin: 'jiàn', meaning: 'Melihat', strokes: 4, mnemonic: 'Mata dengan kaki = melihat'},
+                {char: '示', pinyin: 'shì', meaning: 'Menunjukkan', strokes: 5, mnemonic: 'Altar menunjukkan'},
+                {char: '囟', pinyin: 'xìn', meaning: 'Ubun-ubun', strokes: 6, mnemonic: 'Ubun-ubun bayi'},
+                {char: '乍', pinyin: 'zhà', meaning: 'Tiba-tiba', strokes: 5, mnemonic: 'Kejadian tiba-tiba'},
+                {char: '父', pinyin: 'fù', meaning: 'Ayah', strokes: 4, mnemonic: 'Ayah dengan tangan'},
+                {char: '巴', pinyin: 'bā', meaning: 'Mengharap', strokes: 4, mnemonic: 'Mengharap sesuatu'},
+                {char: '可', pinyin: 'kě', meaning: 'Bisa/Boleh', strokes: 5, mnemonic: 'Mulut (口) + bengkok = bisa'},
+                {char: '弓', pinyin: 'gōng', meaning: 'Busur', strokes: 3, mnemonic: 'Busur panah'},
+                {char: '且', pinyin: 'qiě', meaning: 'Sementara/Dan', strokes: 5, mnemonic: 'Meja altar'},
+                {char: '未', pinyin: 'wèi', meaning: 'Belum', strokes: 5, mnemonic: 'Pohon belum tinggi'},
+                {char: '丨', pinyin: 'gǔn', meaning: 'Garis vertikal', strokes: 1, mnemonic: 'Garis lurus vertikal'},
+                {char: '牜', pinyin: 'niú', meaning: 'Sapi (radikal)', strokes: 4, mnemonic: 'Kepala sapi'},
+                {char: '乃', pinyin: 'nǎi', meaning: 'Kemudian/Lalu', strokes: 2, mnemonic: 'Kemudian terjadi'},
+                {char: '鸟', pinyin: 'niǎo', meaning: 'Burung', strokes: 5, mnemonic: 'Burung hinggap'},
+                {char: '虫', pinyin: 'chóng', meaning: 'Serangga', strokes: 6, mnemonic: 'Ulat merayap'},
+                {char: '疋', pinyin: 'pǐ', meaning: 'Kaki/Sama', strokes: 5, mnemonic: 'Dua kaki sama'},
+                {char: '平', pinyin: 'píng', meaning: 'Datar/Rata', strokes: 5, mnemonic: 'Permukaan datar'},
+                {char: '麦', pinyin: 'mài', meaning: 'Gandum', strokes: 7, mnemonic: 'Tanaman gandum'},
+                {char: '勹', pinyin: 'bāo', meaning: 'Membungkus', strokes: 2, mnemonic: 'Membungkus sesuatu'},
+                {char: '巳', pinyin: 'sì', meaning: 'Ular', strokes: 3, mnemonic: 'Ular melingkar'},
+                {char: '加', pinyin: 'jiā', meaning: 'Tambah', strokes: 5, mnemonic: 'Menambahkan'},
+                {char: '非', pinyin: 'fēi', meaning: 'Bukan', strokes: 8, mnemonic: 'Bukan/tidak'},
+                {char: '白', pinyin: 'bái', meaning: 'Putih', strokes: 5, mnemonic: 'Matahari (日) + satu = Cahaya putih'},
+                {char: '勺', pinyin: 'sháo', meaning: 'Sendok', strokes: 3, mnemonic: 'Sendok untuk makan'},
+                {char: '糸', pinyin: 'mì', meaning: 'Benang halus', strokes: 6, mnemonic: 'Benang sutra halus'},
+                {char: '纟', pinyin: 'sī', meaning: 'Benang (radikal)', strokes: 3, mnemonic: 'Benang (versi radikal)'},
+                {char: '羽', pinyin: 'yǔ', meaning: 'Bulu/Sayap', strokes: 6, mnemonic: 'Dua sayap burung'},
+                {char: '力', pinyin: 'lì', meaning: 'Kekuatan', strokes: 2, mnemonic: 'Otot lengan = kekuatan'},
+                {char: '台', pinyin: 'tái', meaning: 'Platform', strokes: 5, mnemonic: 'Platform tinggi'},
+                {char: '吉', pinyin: 'jí', meaning: 'Keberuntungan', strokes: 6, mnemonic: 'Mulut (口) + ahli (士) = beruntung'},
+                {char: '冂', pinyin: 'jiōng', meaning: 'Bingkai', strokes: 2, mnemonic: 'Bingkai persegi'},
+                {char: '黑', pinyin: 'hēi', meaning: 'Hitam', strokes: 12, mnemonic: 'Api (灬) + tanah (土) = Hitam'},
+                {char: '占', pinyin: 'zhàn', meaning: 'Menduduki', strokes: 5, mnemonic: 'Mulut (口) +卜 = meramal/duduk'},
+                {char: '土', pinyin: 'tǔ', meaning: 'Tanah', strokes: 3, mnemonic: 'Lapisan tanah'},
+                {char: '其', pinyin: 'qí', meaning: 'Nya/Itu', strokes: 8, mnemonic: 'Partikel kepemilikan'},
+                {char: '丿', pinyin: 'piě', meaning: 'Garis miring', strokes: 1, mnemonic: 'Garis miring ke kiri'},
+                {char: '丶', pinyin: 'zhǔ', meaning: 'Titik', strokes: 1, mnemonic: 'Satu titik'},
+                {char: '乙', pinyin: 'yǐ', meaning: 'Kail', strokes: 1, mnemonic: 'Kail untuk memancing'},
+                {char: '隹', pinyin: 'zhuī', meaning: 'Burung kecil', strokes: 8, mnemonic: 'Burung bertengger'},
+                {char: '那', pinyin: 'nà', meaning: 'Itu', strokes: 6, mnemonic: 'Itu di sana'},
+                {char: '田', pinyin: 'tián', meaning: 'Sawah', strokes: 5, mnemonic: 'Petak sawah'},
+                {char: '耂', pinyin: 'lǎo', meaning: 'Tua (radikal)', strokes: 4, mnemonic: 'Orang tua'},
+                {char: '匕', pinyin: 'bǐ', meaning: 'Sendok/Belati', strokes: 2, mnemonic: 'Sendok atau belati'},
+                {char: '⺁', pinyin: 'shī', meaning: 'Guru (bagian)', strokes: 3, mnemonic: 'Bagian dari guru'},
+                {char: '马', pinyin: 'mǎ', meaning: 'Kuda', strokes: 3, mnemonic: 'Kuda berlari'},
+                {char: '吾', pinyin: 'wú', meaning: 'Saya/Kita', strokes: 7, mnemonic: 'Mulut (口) + lima (五) = Saya'}
+            ],
+            
+            radicals_additional: [
+                // Radikal tambahan yang sering muncul di breakdown
+                {char: '凡', pinyin: 'fán', meaning: 'Biasa/Semua', strokes: 3, mnemonic: 'Sesuatu yang biasa'},
+                {char: '乂', pinyin: 'yì', meaning: 'Potong/Silang', strokes: 2, mnemonic: 'Dua garis potong silang'},
+                {char: '立', pinyin: 'lì', meaning: 'Berdiri', strokes: 5, mnemonic: 'Orang berdiri tegak'},
+                {char: '王', pinyin: 'wáng', meaning: 'Raja', strokes: 4, mnemonic: 'Tiga horizontal + vertikal = Raja'},
+                {char: '唐', pinyin: 'táng', meaning: 'Tang (dinasti)', strokes: 10, mnemonic: 'Dinasti Tang yang besar'},
+                {char: '皿', pinyin: 'mǐn', meaning: 'Piring/Mangkuk', strokes: 5, mnemonic: 'Piring untuk makan'},
+                {char: '禾', pinyin: 'hé', meaning: 'Padi', strokes: 5, mnemonic: 'Tanaman padi'},
+                {char: '夕', pinyin: 'xī', meaning: 'Malam/Sore', strokes: 3, mnemonic: 'Bulan sabit malam'},
+                {char: '卜', pinyin: 'bǔ', meaning: 'Ramalan', strokes: 2, mnemonic: 'Tongkat ramalan'},
+                {char: '入', pinyin: 'rù', meaning: 'Masuk', strokes: 2, mnemonic: 'Masuk ke dalam'},
+                {char: '刖', pinyin: 'yuè', meaning: 'Kaki dipotong', strokes: 6, mnemonic: 'Kaki yang dipotong'},
+                {char: '彳', pinyin: 'chì', meaning: 'Langkah kecil', strokes: 3, mnemonic: 'Langkah kecil berjalan'},
+                {char: '氺', pinyin: 'shuǐ', meaning: 'Air (4 titik)', strokes: 4, mnemonic: 'Empat tetes air'},
+                {char: '监', pinyin: 'jiān', meaning: 'Mengawasi', strokes: 10, mnemonic: 'Mata mengawasi dari atas'},
+                {char: '灬', pinyin: 'huǒ', meaning: 'Api (radikal bawah)', strokes: 4, mnemonic: 'Empat titik api di bawah'},
+                {char: '厂', pinyin: 'chǎng', meaning: 'Pabrik/Tebing', strokes: 2, mnemonic: 'Tebing atau pabrik'},
+                {char: '氐', pinyin: 'dī', meaning: 'Rendah/Dasar', strokes: 5, mnemonic: 'Dasar yang rendah'},
+                {char: '斤', pinyin: 'jīn', meaning: 'Kapak/Jin (satuan)', strokes: 4, mnemonic: 'Kapak untuk memotong'},
+                {char: '亠', pinyin: 'tóu', meaning: 'Tutup/Kepala', strokes: 2, mnemonic: 'Tutup di atas'},
+                {char: '正', pinyin: 'zhèng', meaning: 'Benar/Lurus', strokes: 5, mnemonic: 'Garis lurus = benar'},
+                {char: '才', pinyin: 'cái', meaning: 'Bakat/Baru', strokes: 3, mnemonic: 'Orang berbakat'},
+                {char: '乞', pinyin: 'qǐ', meaning: 'Meminta', strokes: 3, mnemonic: 'Meminta dengan mulut'},
+                {char: '曷', pinyin: 'hé', meaning: 'Mengapa/Kapan', strokes: 9, mnemonic: 'Bertanya mengapa'},
+                {char: '兑', pinyin: 'duì', meaning: 'Tukar', strokes: 7, mnemonic: 'Menukar sesuatu'},
+                {char: '卖', pinyin: 'mài', meaning: 'Jual', strokes: 8, mnemonic: 'Menjual barang'},
+                {char: '与', pinyin: 'yǔ', meaning: 'Dengan/Memberi', strokes: 3, mnemonic: 'Memberi dengan tangan'},
+                {char: '故', pinyin: 'gù', meaning: 'Sebab/Lama', strokes: 9, mnemonic: 'Sebab yang lama'},
+                {char: '夭', pinyin: 'yāo', meaning: 'Mati muda', strokes: 4, mnemonic: 'Orang mati muda'},
+                {char: '足', pinyin: 'zú', meaning: 'Kaki/Cukup', strokes: 7, mnemonic: 'Kaki untuk berjalan'},
+                {char: '垂', pinyin: 'chuí', meaning: 'Menggantung', strokes: 8, mnemonic: 'Sesuatu menggantung'},
+                {char: '覀', pinyin: 'yào', meaning: 'Barat/Butuh', strokes: 6, mnemonic: 'Arah barat'},
+                {char: '丅', pinyin: 'xià', meaning: 'Bawah (kuno)', strokes: 2, mnemonic: 'Ke bawah'},
+                {char: '方', pinyin: 'fāng', meaning: 'Persegi/Arah', strokes: 4, mnemonic: 'Bentuk persegi'},
+                {char: '屮', pinyin: 'chè', meaning: 'Rumput kecil', strokes: 3, mnemonic: 'Tunas rumput kecil'},
+                {char: '自', pinyin: 'zì', meaning: 'Diri/Hidung', strokes: 6, mnemonic: 'Hidung = diri sendiri'},
+                {char: '畀', pinyin: 'bì', meaning: 'Memberi', strokes: 8, mnemonic: 'Tangan memberi'},
+                {char: '止', pinyin: 'zhǐ', meaning: 'Berhenti', strokes: 4, mnemonic: 'Kaki berhenti'},
+                
+                // Radikal tambahan untuk Time dan Place
+                {char: '刀', pinyin: 'dāo', meaning: 'Pisau', strokes: 2, mnemonic: 'Pisau untuk memotong'},
+                {char: '交', pinyin: 'jiāo', meaning: 'Bertemu/Menyilang', strokes: 6, mnemonic: 'Dua hal bertemu dan menyilang'},
+                {char: '匚', pinyin: 'fāng', meaning: 'Kotak/Wadah', strokes: 2, mnemonic: 'Kotak terbuka di samping'},
+                {char: '阝', pinyin: 'fù', meaning: 'Bukit/Kota', strokes: 2, mnemonic: 'Bukit atau bagian kota'},
+                {char: '完', pinyin: 'wán', meaning: 'Selesai/Lengkap', strokes: 7, mnemonic: 'Sudah selesai dengan baik'},
+                {char: '广', pinyin: 'guǎng', meaning: 'Gedung/Luas', strokes: 3, mnemonic: 'Atap gedung luas'},
+                {char: '昜', pinyin: 'yáng', meaning: 'Terang/Terbuka', strokes: 9, mnemonic: 'Cahaya terang dan terbuka'},
+                {char: '冖', pinyin: 'mì', meaning: 'Tutup', strokes: 2, mnemonic: 'Tutup horizontal di atas'},
+                {char: '包', pinyin: 'bāo', meaning: 'Bungkus', strokes: 5, mnemonic: 'Membungkus sesuatu'},
+                {char: '⺍', pinyin: 'xué', meaning: 'Belajar (atas)', strokes: 3, mnemonic: 'Bagian atas karakter belajar (学)'},
+                {char: '佥', pinyin: 'jiǎn', meaning: 'Semua/Bersama', strokes: 7, mnemonic: 'Berkumpul semua bersama'},
+                {char: '电', pinyin: 'diàn', meaning: 'Listrik', strokes: 5, mnemonic: 'Sawah (田) + kail = Petir/Listrik'},
+                {char: '豆', pinyin: 'dòu', meaning: 'Kacang', strokes: 7, mnemonic: 'Wadah berisi kacang'},
+                {char: '令', pinyin: 'lìng', meaning: 'Perintah', strokes: 5, mnemonic: 'Orang berkumpul menerima perintah'},
+                {char: '卩', pinyin: 'jié', meaning: 'Segel/Stempel', strokes: 2, mnemonic: 'Bentuk segel kerajaan'},
+                {char: '文', pinyin: 'wén', meaning: 'Teks/Tulisan', strokes: 4, mnemonic: 'Pola tulisan dan budaya'},
+                {char: '廾', pinyin: 'gǒng', meaning: 'Dua tangan', strokes: 3, mnemonic: 'Dua tangan menengadah ke atas'},
+                {char: '由', pinyin: 'yóu', meaning: 'Dari/Sebab', strokes: 5, mnemonic: 'Sawah (田) dengan tunas keluar = asal/sebab'}
+            ],
+            
+            words: {
+                greetings: [
+                    {char: '你好', pinyin: 'nǐ hǎo', meaning: 'Halo', mnemonic: 'Kamu (你) + baik (好) = Halo, apa kabar?', category: 'Salam'},
+                    {char: '再见', pinyin: 'zàijiàn', meaning: 'Sampai jumpa', mnemonic: 'Lagi (再) + bertemu (见) = Jumpa lagi!', category: 'Salam'},
+                    {char: '谢谢', pinyin: 'xièxie', meaning: 'Terima kasih', mnemonic: 'Terima (谢) diulang = Sangat berterima kasih', category: 'Salam'},
+                    {char: '对不起', pinyin: 'duìbuqǐ', meaning: 'Maaf', mnemonic: 'Benar (对) + tidak (不) + bangun (起) = Tidak benar, maaf', category: 'Salam'},
+                    {char: '没关系', pinyin: 'méiguānxi', meaning: 'Tidak apa-apa', mnemonic: 'Tidak (没) + hubungan (关系) = Tidak masalah', category: 'Salam'},
+                    {char: '早上好', pinyin: 'zǎoshang hǎo', meaning: 'Selamat pagi', mnemonic: 'Pagi (早上) + baik (好) = Pagi yang baik', category: 'Salam'}
+                ],
+                
+                common: [
+                    {char: '中国', pinyin: 'Zhōngguó', meaning: 'China', mnemonic: 'Tengah (中) + negara (国) = Negara Tengah', category: 'Umum'},
+                    {char: '汉语', pinyin: 'Hànyǔ', meaning: 'Bahasa Mandarin', mnemonic: 'Han (汉) + bahasa (语) = Bahasa Han', category: 'Umum'},
+                    {char: '学生', pinyin: 'xuésheng', meaning: 'Siswa/Pelajar', mnemonic: 'Belajar (学) + lahir (生) = Yang belajar', category: 'Umum'},
+                    {char: '老师', pinyin: 'lǎoshī', meaning: 'Guru', mnemonic: 'Tua (老) + guru (师) = Guru berpengalaman', category: 'Umum'},
+                    {char: '朋友', pinyin: 'péngyou', meaning: 'Teman', mnemonic: 'Sahabat (朋) + ada (友) = Teman', category: 'Umum'},
+                    {char: '工作', pinyin: 'gōngzuò', meaning: 'Kerja/Pekerjaan', mnemonic: 'Kerja (工) + membuat (作) = Bekerja', category: 'Umum'},
+                    {char: '公司', pinyin: 'gōngsī', meaning: 'Perusahaan', mnemonic: 'Publik (公) + departemen (司) = Perusahaan', category: 'Umum'},
+                    {char: '手机', pinyin: 'shǒujī', meaning: 'HP/Ponsel', mnemonic: 'Tangan (手) + mesin (机) = Mesin genggam', category: 'Umum'},
+                    {char: '电脑', pinyin: 'diànnǎo', meaning: 'Komputer', mnemonic: 'Listrik (电) + otak (脑) = Otak elektronik', category: 'Umum'},
+                    {char: '电视', pinyin: 'diànshì', meaning: 'Televisi', mnemonic: 'Listrik (电) + melihat (视) = Melihat gambar listrik', category: 'Umum'}
+                ],
+                
+                time: [
+                    {char: '今天', pinyin: 'jīntiān', meaning: 'Hari ini', mnemonic: 'Sekarang (今) + hari (天) = Hari ini', category: 'Waktu'},
+                    {char: '明天', pinyin: 'míngtiān', meaning: 'Besok', mnemonic: 'Terang (明) + hari (天) = Hari yang akan datang', category: 'Waktu'},
+                    {char: '昨天', pinyin: 'zuótiān', meaning: 'Kemarin', mnemonic: 'Kemarin (昨) + hari (天) = Hari kemarin', category: 'Waktu'},
+                    {char: '上午', pinyin: 'shàngwǔ', meaning: 'Pagi hari', mnemonic: 'Atas (上) + siang (午) = Sebelum siang', category: 'Waktu'},
+                    {char: '下午', pinyin: 'xiàwǔ', meaning: 'Siang hari', mnemonic: 'Bawah (下) + siang (午) = Setelah siang', category: 'Waktu'},
+                    {char: '晚上', pinyin: 'wǎnshang', meaning: 'Malam hari', mnemonic: 'Malam (晚) + atas (上) = Malam hari', category: 'Waktu'},
+                    {char: '星期', pinyin: 'xīngqī', meaning: 'Minggu (seminggu)', mnemonic: 'Bintang (星) + periode (期) = Periode bintang = minggu', category: 'Waktu'},
+                    {char: '周末', pinyin: 'zhōumò', meaning: 'Akhir pekan', mnemonic: 'Minggu (周) + akhir (末) = Akhir minggu', category: 'Waktu'}
+                ],
+                
+                food: [
+                    {char: '早饭', pinyin: 'zǎofàn', meaning: 'Sarapan', mnemonic: 'Pagi (早) + nasi (饭) = Makan pagi', category: 'Makanan'},
+                    {char: '午饭', pinyin: 'wǔfàn', meaning: 'Makan siang', mnemonic: 'Siang (午) + nasi (饭) = Makan siang', category: 'Makanan'},
+                    {char: '晚饭', pinyin: 'wǎnfàn', meaning: 'Makan malam', mnemonic: 'Malam (晚) + nasi (饭) = Makan malam', category: 'Makanan'},
+                    {char: '咖啡', pinyin: 'kāfēi', meaning: 'Kopi', mnemonic: 'Transliterasi dari "coffee"', category: 'Makanan'},
+                    {char: '牛奶', pinyin: 'niúnǎi', meaning: 'Susu', mnemonic: 'Sapi (牛) + susu (奶) = Susu sapi', category: 'Makanan'},
+                    {char: '面包', pinyin: 'miànbāo', meaning: 'Roti', mnemonic: 'Tepung (面) + bungkus (包) = Roti', category: 'Makanan'},
+                    {char: '鸡蛋', pinyin: 'jīdàn', meaning: 'Telur', mnemonic: 'Ayam (鸡) + telur (蛋) = Telur ayam', category: 'Makanan'},
+                    {char: '苹果', pinyin: 'píngguǒ', meaning: 'Apel', mnemonic: 'Apel (苹) + buah (果) = Buah apel', category: 'Makanan'}
+                ],
+                
+                family: [
+                    {char: '爸爸', pinyin: 'bàba', meaning: 'Ayah', mnemonic: 'Bapak (爸) diulang = Papa', category: 'Keluarga'},
+                    {char: '妈妈', pinyin: 'māma', meaning: 'Ibu', mnemonic: 'Mama (妈) diulang = Mama', category: 'Keluarga'},
+                    {char: '哥哥', pinyin: 'gēge', meaning: 'Kakak laki-laki', mnemonic: 'Kakak (哥) diulang = Abang', category: 'Keluarga'},
+                    {char: '弟弟', pinyin: 'dìdi', meaning: 'Adik laki-laki', mnemonic: 'Adik (弟) diulang = Adik laki', category: 'Keluarga'},
+                    {char: '姐姐', pinyin: 'jiějie', meaning: 'Kakak perempuan', mnemonic: 'Kakak (姐) diulang = Kakak cewek', category: 'Keluarga'},
+                    {char: '妹妹', pinyin: 'mèimei', meaning: 'Adik perempuan', mnemonic: 'Adik (妹) diulang = Adik cewek', category: 'Keluarga'},
+                    {char: '爷爷', pinyin: 'yéye', meaning: 'Kakek (ayah dari ayah)', mnemonic: 'Kakek (爷) diulang = Kakek', category: 'Keluarga'},
+                    {char: '奶奶', pinyin: 'nǎinai', meaning: 'Nenek (ibu dari ayah)', mnemonic: 'Nenek (奶) diulang = Nenek', category: 'Keluarga'}
+                ],
+                
+                numbers: [
+                    {char: '一点', pinyin: 'yīdiǎn', meaning: 'Sedikit', mnemonic: 'Satu (一) + titik (点) = Satu titik = sedikit', category: 'Angka'},
+                    {char: '两个', pinyin: 'liǎnggè', meaning: 'Dua buah', mnemonic: 'Dua (两) + buah (个) = Dua buah', category: 'Angka'},
+                    {char: '多少', pinyin: 'duōshao', meaning: 'Berapa banyak', mnemonic: 'Banyak (多) + sedikit (少) = Berapa?', category: 'Angka'},
+                    {char: '几个', pinyin: 'jǐgè', meaning: 'Beberapa', mnemonic: 'Berapa (几) + buah (个) = Beberapa', category: 'Angka'}
+                ],
+                
+                questions: [
+                    {char: '什么', pinyin: 'shénme', meaning: 'Apa', mnemonic: 'Apa (什) + apa (么) = Apa?', category: 'Pertanyaan'},
+                    {char: '哪里', pinyin: 'nǎlǐ', meaning: 'Di mana', mnemonic: 'Mana (哪) + dalam (里) = Di mana?', category: 'Pertanyaan'},
+                    {char: '怎么', pinyin: 'zěnme', meaning: 'Bagaimana', mnemonic: 'Bagaimana (怎) + apa (么) = Bagaimana?', category: 'Pertanyaan'},
+                    {char: '为什么', pinyin: 'wèishénme', meaning: 'Mengapa', mnemonic: 'Untuk (为) + apa (什么) = Untuk apa? Mengapa?', category: 'Pertanyaan'},
+                    {char: '谁的', pinyin: 'shéide', meaning: 'Punya siapa', mnemonic: 'Siapa (谁) + punya (的) = Punya siapa?', category: 'Pertanyaan'}
+                ],
+                
+                verbs: [
+                    {char: '喜欢', pinyin: 'xǐhuan', meaning: 'Suka', mnemonic: 'Senang (喜) + suka (欢) = Suka', category: 'Kata Kerja'},
+                    {char: '知道', pinyin: 'zhīdào', meaning: 'Tahu', mnemonic: 'Tahu (知) + jalan (道) = Tahu jalannya', category: 'Kata Kerja'},
+                    {char: '认识', pinyin: 'rènshi', meaning: 'Kenal/Mengenal', mnemonic: 'Kenal (认) + tahu (识) = Mengenal', category: 'Kata Kerja'},
+                    {char: '学习', pinyin: 'xuéxí', meaning: 'Belajar', mnemonic: 'Belajar (学) + latihan (习) = Belajar dan berlatih', category: 'Kata Kerja'},
+                    {char: '帮助', pinyin: 'bāngzhù', meaning: 'Membantu', mnemonic: 'Bantu (帮) + tolong (助) = Membantu', category: 'Kata Kerja'},
+                    {char: '开始', pinyin: 'kāishǐ', meaning: 'Mulai', mnemonic: 'Buka (开) + mulai (始) = Mulai', category: 'Kata Kerja'},
+                    {char: '结束', pinyin: 'jiéshù', meaning: 'Selesai', mnemonic: 'Ikat (结) + akhir (束) = Selesai', category: 'Kata Kerja'},
+                    {char: '打开', pinyin: 'dǎkāi', meaning: 'Membuka', mnemonic: 'Pukul (打) + buka (开) = Membuka', category: 'Kata Kerja'}
+                ]
+            }
+        };
+        
+        let currentChar = '一';
+        let currentMnemonic = '';
+        
+        // Database komponen radikal untuk karakter tunggal
+        const characterRadicals = {
+            // Numbers
+            '二': [{char: '一', pinyin: 'yī', meaning: 'satu/garis'}],
+            '三': [{char: '一', pinyin: 'yī', meaning: 'satu/garis'}],
+            
+            // People & Family
+            '你': [{char: '亻', pinyin: 'rén', meaning: 'orang'}, {char: '尔', pinyin: 'ěr', meaning: 'kamu'}],
+            '我': [{char: '手', pinyin: 'shǒu', meaning: 'tangan'}, {char: '戈', pinyin: 'gē', meaning: 'tombak'}],
+            '他': [{char: '亻', pinyin: 'rén', meaning: 'orang'}, {char: '也', pinyin: 'yě', meaning: 'juga'}],
+            '她': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '也', pinyin: 'yě', meaning: 'juga'}],
+            '们': [{char: '亻', pinyin: 'rén', meaning: 'orang'}, {char: '门', pinyin: 'mén', meaning: 'pintu'}],
+            '好': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '子', pinyin: 'zǐ', meaning: 'anak'}],
+            '爱': [{char: '爫', pinyin: 'zhǎo', meaning: 'cakar'}, {char: '友', pinyin: 'yǒu', meaning: 'teman'}, {char: '心', pinyin: 'xīn', meaning: 'hati'}],
+            '家': [{char: '宀', pinyin: 'mián', meaning: 'atap'}, {char: '豕', pinyin: 'shǐ', meaning: 'babi'}],
+            
+            // Body
+            '眼': [{char: '目', pinyin: 'mù', meaning: 'mata'}, {char: '艮', pinyin: 'gèn', meaning: 'keras'}],
+            '脸': [{char: '月', pinyin: 'yuè', meaning: 'daging'}, {char: '佥', pinyin: 'jiǎn', meaning: 'semua'}],
+            
+            // Nature
+            '明': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '月', pinyin: 'yuè', meaning: 'bulan'}],
+            '星': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '生', pinyin: 'shēng', meaning: 'lahir'}],
+            '雪': [{char: '雨', pinyin: 'yǔ', meaning: 'hujan'}, {char: '⺕', pinyin: 'zhǒu', meaning: 'sapu'}],
+            '云': [{char: '二', pinyin: 'èr', meaning: 'dua'}, {char: '厶', pinyin: 'sī', meaning: 'pribadi'}],
+            
+            // Animals
+            '狗': [{char: '犭', pinyin: 'quǎn', meaning: 'anjing'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            '猫': [{char: '犭', pinyin: 'quǎn', meaning: 'anjing'}, {char: '苗', pinyin: 'miáo', meaning: 'rumput'}],
+            '鱼': [{char: '⺈', pinyin: 'yú', meaning: 'ikan'}],
+            
+            // Food
+            '饭': [{char: '饣', pinyin: 'shí', meaning: 'makanan'}, {char: '反', pinyin: 'fǎn', meaning: 'balik'}],
+            '茶': [{char: '艹', pinyin: 'cǎo', meaning: 'rumput'}, {char: '人', pinyin: 'rén', meaning: 'orang'}, {char: '木', pinyin: 'mù', meaning: 'kayu'}],
+            '菜': [{char: '艹', pinyin: 'cǎo', meaning: 'rumput'}, {char: '爫', pinyin: 'zhǎo', meaning: 'cakar'}, {char: '木', pinyin: 'mù', meaning: 'kayu'}],
+            
+            // Directions & Places
+            '国': [{char: '囗', pinyin: 'wéi', meaning: 'kotak'}, {char: '玉', pinyin: 'yù', meaning: 'giok'}],
+            '园': [{char: '囗', pinyin: 'wéi', meaning: 'kotak'}, {char: '元', pinyin: 'yuán', meaning: 'asal'}],
+            
+            // Time
+            '时': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '寺', pinyin: 'sì', meaning: 'kuil'}],
+            '早': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '十', pinyin: 'shí', meaning: 'sepuluh'}],
+            '晚': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '免', pinyin: 'miǎn', meaning: 'lepas'}],
+            
+            // Common characters
+            '学': [{char: '⺍', pinyin: 'xué', meaning: 'belajar'}, {char: '子', pinyin: 'zǐ', meaning: 'anak'}],
+            '语': [{char: '讠', pinyin: 'yán', meaning: 'kata'}, {char: '吾', pinyin: 'wú', meaning: 'saya'}],
+            '谢': [{char: '讠', pinyin: 'yán', meaning: 'kata'}, {char: '身', pinyin: 'shēn', meaning: 'tubuh'}, {char: '寸', pinyin: 'cùn', meaning: 'inci'}],
+            '认': [{char: '讠', pinyin: 'yán', meaning: 'kata'}, {char: '人', pinyin: 'rén', meaning: 'orang'}],
+            '识': [{char: '讠', pinyin: 'yán', meaning: 'kata'}, {char: '只', pinyin: 'zhǐ', meaning: 'hanya'}],
+            '道': [{char: '辶', pinyin: 'chuò', meaning: 'jalan'}, {char: '首', pinyin: 'shǒu', meaning: 'kepala'}],
+            '起': [{char: '走', pinyin: 'zǒu', meaning: 'jalan'}, {char: '己', pinyin: 'jǐ', meaning: 'diri'}],
+            '没': [{char: '氵', pinyin: 'shuǐ', meaning: 'air'}, {char: '殳', pinyin: 'shū', meaning: 'senjata'}],
+            '关': [{char: '门', pinyin: 'mén', meaning: 'pintu'}, {char: '丷', pinyin: 'bā', meaning: 'delapan'}],
+            '开': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '廾', pinyin: 'gǒng', meaning: 'dua tangan'}],
+            '打': [{char: '扌', pinyin: 'shǒu', meaning: 'tangan'}, {char: '丁', pinyin: 'dīng', meaning: 'paku'}],
+            '帮': [{char: '巾', pinyin: 'jīn', meaning: 'kain'}, {char: '邦', pinyin: 'bāng', meaning: 'negara'}],
+            '知': [{char: '矢', pinyin: 'shǐ', meaning: 'panah'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            '喜': [{char: '壴', pinyin: 'zhù', meaning: 'drum'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            '欢': [{char: '又', pinyin: 'yòu', meaning: 'tangan'}, {char: '欠', pinyin: 'qiàn', meaning: 'kurang'}],
+            '公': [{char: '八', pinyin: 'bā', meaning: 'delapan'}, {char: '厶', pinyin: 'sī', meaning: 'pribadi'}],
+            '司': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '一', pinyin: 'yī', meaning: 'satu'}],
+            '机': [{char: '木', pinyin: 'mù', meaning: 'kayu'}, {char: '几', pinyin: 'jǐ', meaning: 'beberapa'}],
+            '电': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '乚', pinyin: 'yǐn', meaning: 'tersembunyi'}],
+            '视': [{char: '见', pinyin: 'jiàn', meaning: 'melihat'}, {char: '示', pinyin: 'shì', meaning: 'menunjukkan'}],
+            '脑': [{char: '月', pinyin: 'yuè', meaning: 'daging'}, {char: '囟', pinyin: 'xìn', meaning: 'ubun-ubun'}],
+            '朋': [{char: '月', pinyin: 'yuè', meaning: 'bulan'}, {char: '月', pinyin: 'yuè', meaning: 'bulan'}],
+            '友': [{char: '又', pinyin: 'yòu', meaning: 'tangan kanan'}],
+            '工': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}],
+            '作': [{char: '亻', pinyin: 'rén', meaning: 'orang'}, {char: '乍', pinyin: 'zhà', meaning: 'tiba-tiba'}],
+            '老': [{char: '耂', pinyin: 'lǎo', meaning: 'tua'}, {char: '匕', pinyin: 'bǐ', meaning: 'sendok'}],
+            '师': [{char: '巾', pinyin: 'jīn', meaning: 'kain'}, {char: '⺁', pinyin: 'shī', meaning: 'guru'}],
+            '妈': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '马', pinyin: 'mǎ', meaning: 'kuda'}],
+            '爸': [{char: '父', pinyin: 'fù', meaning: 'ayah'}, {char: '巴', pinyin: 'bā', meaning: 'kakek'}],
+            '哥': [{char: '可', pinyin: 'kě', meaning: 'bisa'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            '弟': [{char: '弓', pinyin: 'gōng', meaning: 'busur'}, {char: '丷', pinyin: 'bā', meaning: 'delapan'}],
+            '姐': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '且', pinyin: 'qiě', meaning: 'punya'}],
+            '妹': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '未', pinyin: 'wèi', meaning: 'belum'}],
+            '牛': [{char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}, {char: '牜', pinyin: 'niú', meaning: 'sapi'}],
+            '奶': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '乃', pinyin: 'nǎi', meaning: 'payudara'}],
+            '鸡': [{char: '鸟', pinyin: 'niǎo', meaning: 'burung'}, {char: '又', pinyin: 'yòu', meaning: 'tangan'}],
+            '蛋': [{char: '虫', pinyin: 'chóng', meaning: 'serangga'}, {char: '疋', pinyin: 'pǐ', meaning: 'lahir'}],
+            '苹': [{char: '艹', pinyin: 'cǎo', meaning: 'rumput'}, {char: '平', pinyin: 'píng', meaning: 'datar'}],
+            '面': [{char: '麦', pinyin: 'mài', meaning: 'gandum'}],
+            '包': [{char: '勹', pinyin: 'bāo', meaning: 'bungkus'}, {char: '巳', pinyin: 'sì', meaning: 'ular'}],
+            '咖': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '加', pinyin: 'jiā', meaning: 'tambah'}],
+            '啡': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '非', pinyin: 'fēi', meaning: 'bukan'}],
+            '汉': [{char: '氵', pinyin: 'shuǐ', meaning: 'air'}, {char: '又', pinyin: 'yòu', meaning: 'tangan'}],
+            '的': [{char: '白', pinyin: 'bái', meaning: 'putih'}, {char: '勺', pinyin: 'sháo', meaning: 'sendok'}],
+            '对': [{char: '又', pinyin: 'yòu', meaning: 'tangan'}, {char: '寸', pinyin: 'cùn', meaning: 'inci'}],
+            '系': [{char: '糸', pinyin: 'mì', meaning: 'benang'}],
+            '习': [{char: '羽', pinyin: 'yǔ', meaning: 'sayap'}],
+            '助': [{char: '力', pinyin: 'lì', meaning: 'kekuatan'}, {char: '且', pinyin: 'qiě', meaning: 'punya'}],
+            '始': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '台', pinyin: 'tái', meaning: 'platform'}],
+            '结': [{char: '纟', pinyin: 'sī', meaning: 'benang'}, {char: '吉', pinyin: 'jí', meaning: 'auspicious'}],
+            '束': [{char: '木', pinyin: 'mù', meaning: 'kayu'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            '见': [{char: '目', pinyin: 'mù', meaning: 'mata'}, {char: '儿', pinyin: 'ér', meaning: 'kaki'}],
+            '再': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '冂', pinyin: 'jiōng', meaning: 'bingkai'}],
+            '两': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '冂', pinyin: 'jiōng', meaning: 'bingkai'}],
+            '个': [{char: '人', pinyin: 'rén', meaning: 'orang'}, {char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}],
+            '点': [{char: '黑', pinyin: 'hēi', meaning: 'hitam'}, {char: '占', pinyin: 'zhàn', meaning: 'duduk'}],
+            '周': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '土', pinyin: 'tǔ', meaning: 'tanah'}],
+            '末': [{char: '木', pinyin: 'mù', meaning: 'kayu'}, {char: '一', pinyin: 'yī', meaning: 'satu'}],
+            '期': [{char: '月', pinyin: 'yuè', meaning: 'bulan'}, {char: '其', pinyin: 'qí', meaning: 'nya'}],
+            '今': [{char: '人', pinyin: 'rén', meaning: 'orang'}, {char: '一', pinyin: 'yī', meaning: 'satu'}],
+            '昨': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '乍', pinyin: 'zhà', meaning: 'tiba-tiba'}],
+            '午': [{char: '丿', pinyin: 'piě', meaning: 'garis miring'}, {char: '十', pinyin: 'shí', meaning: 'sepuluh'}],
+            '什': [{char: '亻', pinyin: 'rén', meaning: 'orang'}, {char: '十', pinyin: 'shí', meaning: 'sepuluh'}],
+            '么': [{char: '丿', pinyin: 'piě', meaning: 'garis'}, {char: '厶', pinyin: 'sī', meaning: 'pribadi'}],
+            '为': [{char: '丶', pinyin: 'zhǔ', meaning: 'titik'}, {char: '乙', pinyin: 'yǐ', meaning: 'kail'}],
+            '谁': [{char: '讠', pinyin: 'yán', meaning: 'kata'}, {char: '隹', pinyin: 'zhuī', meaning: 'burung'}],
+            '哪': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '那', pinyin: 'nà', meaning: 'itu'}],
+            '里': [{char: '田', pinyin: 'tián', meaning: 'sawah'}, {char: '土', pinyin: 'tǔ', meaning: 'tanah'}],
+            '怎': [{char: '乍', pinyin: 'zhà', meaning: 'tiba-tiba'}, {char: '心', pinyin: 'xīn', meaning: 'hati'}],
+            
+            // Breakdown tambahan dari hasil audit
+            '零': [{char: '⻗', pinyin: 'yǔ', meaning: 'hujan'}, {char: '令', pinyin: 'lìng', meaning: 'perintah'}],
+            '名': [{char: '夕', pinyin: 'xī', meaning: 'malam'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            '男': [{char: '田', pinyin: 'tián', meaning: 'sawah'}, {char: '力', pinyin: 'lì', meaning: 'tenaga'}],
+            '头': [{char: '丶', pinyin: 'zhǔ', meaning: 'titik'}, {char: '大', pinyin: 'dà', meaning: 'besar'}],
+            '中': [{char: '口', pinyin: 'kǒu', meaning: 'kotak'}, {char: '丨', pinyin: 'gǔn', meaning: 'garis tembus'}],
+            '黑': [{char: '里', pinyin: 'lǐ', meaning: 'dalam'}, {char: '灬', pinyin: 'huǒ', meaning: 'api'}],
+            '这': [{char: '辶', pinyin: 'chuò', meaning: 'jalan'}, {char: '文', pinyin: 'wén', meaning: 'teks'}],
+            '那': [{char: '二', pinyin: 'èr', meaning: 'dua'}, {char: '阝', pinyin: 'fù', meaning: 'kota'}],
+            '爷': [{char: '父', pinyin: 'fù', meaning: 'ayah'}, {char: '卩', pinyin: 'jié', meaning: 'segel'}],
+            '金': [{char: '人', pinyin: 'rén', meaning: 'orang'}, {char: '王', pinyin: 'wáng', meaning: 'raja'}, {char: '丷', pinyin: 'bā', meaning: 'dua titik'}],
+            '生': [{char: '丿', pinyin: 'piě', meaning: 'garis'}, {char: '土', pinyin: 'tǔ', meaning: 'tanah'}]
+        };
+        
+        // Tambahan karakter yang perlu breakdown
+        const additionalRadicals = {
+            // Alam & Nature
+            '果': [{char: '田', pinyin: 'tián', meaning: 'sawah'}, {char: '木', pinyin: 'mù', meaning: 'kayu'}],
+            '雨': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '冂', pinyin: 'jiōng', meaning: 'bingkai'}],
+            '風': [{char: '虫', pinyin: 'chóng', meaning: 'serangga'}, {char: '凡', pinyin: 'fán', meaning: 'biasa'}],
+            '风': [{char: '几', pinyin: 'jǐ', meaning: 'beberapa'}, {char: '乂', pinyin: 'yì', meaning: 'potong'}],
+            
+            // Animals
+            '龙': [{char: '立', pinyin: 'lì', meaning: 'berdiri'}, {char: '月', pinyin: 'yuè', meaning: 'bulan'}],
+            '鸟': [{char: '丿', pinyin: 'piě', meaning: 'garis'}, {char: '乙', pinyin: 'yǐ', meaning: 'kail'}],
+            '马': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}],
+            '羊': [{char: '丷', pinyin: 'bā', meaning: 'delapan'}, {char: '王', pinyin: 'wáng', meaning: 'raja'}],
+            
+            // Food
+            '米': [{char: '十', pinyin: 'shí', meaning: 'sepuluh'}, {char: '八', pinyin: 'bā', meaning: 'delapan'}],
+            '肉': [{char: '人', pinyin: 'rén', meaning: 'orang'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            '糖': [{char: '米', pinyin: 'mǐ', meaning: 'beras'}, {char: '唐', pinyin: 'táng', meaning: 'Tang'}],
+            '盐': [{char: '皿', pinyin: 'mǐn', meaning: 'piring'}, {char: '⺕', pinyin: 'zhǒu', meaning: 'sapu'}],
+            
+            // Time
+            '年': [{char: '丿', pinyin: 'piě', meaning: 'garis'}, {char: '一', pinyin: 'yī', meaning: 'satu'}],
+            '秒': [{char: '禾', pinyin: 'hé', meaning: 'padi'}, {char: '少', pinyin: 'shǎo', meaning: 'sedikit'}],
+            
+            // Directions & Places
+            '左': [{char: '工', pinyin: 'gōng', meaning: 'kerja'}, {char: '丿', pinyin: 'piě', meaning: 'garis'}],
+            '右': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '又', pinyin: 'yòu', meaning: 'tangan'}],
+            '东': [{char: '木', pinyin: 'mù', meaning: 'kayu'}, {char: '日', pinyin: 'rì', meaning: 'matahari'}],
+            '西': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '儿', pinyin: 'ér', meaning: 'kaki'}],
+            '南': [{char: '十', pinyin: 'shí', meaning: 'sepuluh'}, {char: '冂', pinyin: 'jiōng', meaning: 'bingkai'}],
+            '北': [{char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}, {char: '匕', pinyin: 'bǐ', meaning: 'sendok'}],
+            '外': [{char: '夕', pinyin: 'xī', meaning: 'malam'}, {char: '卜', pinyin: 'bǔ', meaning: 'ramalan'}],
+            '内': [{char: '人', pinyin: 'rén', meaning: 'orang'}, {char: '入', pinyin: 'rù', meaning: 'masuk'}],
+            '前': [{char: '刖', pinyin: 'yuè', meaning: 'kaki'}, {char: '月', pinyin: 'yuè', meaning: 'bulan'}],
+            '后': [{char: '彳', pinyin: 'chì', meaning: 'langkah'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}],
+            
+            // Colors
+            '红': [{char: '纟', pinyin: 'sī', meaning: 'benang'}, {char: '工', pinyin: 'gōng', meaning: 'kerja'}],
+            '黄': [{char: '艹', pinyin: 'cǎo', meaning: 'rumput'}, {char: '田', pinyin: 'tián', meaning: 'sawah'}, {char: '灬', pinyin: 'huǒ', meaning: 'api'}],
+            '蓝': [{char: '艹', pinyin: 'cǎo', meaning: 'rumput'}, {char: '监', pinyin: 'jiān', meaning: 'mengawasi'}],
+            '绿': [{char: '纟', pinyin: 'sī', meaning: 'benang'}, {char: '氺', pinyin: 'shuǐ', meaning: 'air'}],
+            '灰': [{char: '火', pinyin: 'huǒ', meaning: 'api'}, {char: '厂', pinyin: 'chǎng', meaning: 'pabrik'}],
+            
+            // Adjectives
+            '大': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '人', pinyin: 'rén', meaning: 'orang'}],
+            '小': [{char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}, {char: '八', pinyin: 'bā', meaning: 'delapan'}],
+            '多': [{char: '夕', pinyin: 'xī', meaning: 'malam'}, {char: '夕', pinyin: 'xī', meaning: 'malam'}],
+            '少': [{char: '小', pinyin: 'xiǎo', meaning: 'kecil'}, {char: '丿', pinyin: 'piě', meaning: 'garis'}],
+            '短': [{char: '矢', pinyin: 'shǐ', meaning: 'panah'}, {char: '豆', pinyin: 'dòu', meaning: 'kacang'}],
+            '高': [{char: '亠', pinyin: 'tóu', meaning: 'tutup'}, {char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '冂', pinyin: 'jiōng', meaning: 'bingkai'}],
+            '低': [{char: '亻', pinyin: 'rén', meaning: 'orang'}, {char: '氐', pinyin: 'dī', meaning: 'rendah'}],
+            '新': [{char: '立', pinyin: 'lì', meaning: 'berdiri'}, {char: '木', pinyin: 'mù', meaning: 'kayu'}, {char: '斤', pinyin: 'jīn', meaning: 'kapak'}],
+            '旧': [{char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}, {char: '日', pinyin: 'rì', meaning: 'matahari'}],
+            '坏': [{char: '土', pinyin: 'tǔ', meaning: 'tanah'}, {char: '不', pinyin: 'bù', meaning: 'tidak'}],
+            
+            // Verbs
+            '是': [{char: '日', pinyin: 'rì', meaning: 'matahari'}, {char: '正', pinyin: 'zhèng', meaning: 'benar'}],
+            '有': [{char: '月', pinyin: 'yuè', meaning: 'bulan'}, {char: '又', pinyin: 'yòu', meaning: 'tangan'}],
+            '在': [{char: '土', pinyin: 'tǔ', meaning: 'tanah'}, {char: '才', pinyin: 'cái', meaning: 'bakat'}],
+            '来': [{char: '木', pinyin: 'mù', meaning: 'kayu'}, {char: '人', pinyin: 'rén', meaning: 'orang'}],
+            '去': [{char: '土', pinyin: 'tǔ', meaning: 'tanah'}, {char: '厶', pinyin: 'sī', meaning: 'pribadi'}],
+            '吃': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '乞', pinyin: 'qǐ', meaning: 'meminta'}],
+            '喝': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '曷', pinyin: 'hé', meaning: 'mengapa'}],
+            '看': [{char: '手', pinyin: 'shǒu', meaning: 'tangan'}, {char: '目', pinyin: 'mù', meaning: 'mata'}],
+            '听': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '斤', pinyin: 'jīn', meaning: 'kapak'}],
+            '说': [{char: '讠', pinyin: 'yán', meaning: 'kata'}, {char: '兑', pinyin: 'duì', meaning: 'tukar'}],
+            '读': [{char: '讠', pinyin: 'yán', meaning: 'kata'}, {char: '卖', pinyin: 'mài', meaning: 'jual'}],
+            '写': [{char: '冖', pinyin: 'mì', meaning: 'tutup'}, {char: '与', pinyin: 'yǔ', meaning: 'dengan'}],
+            '做': [{char: '亻', pinyin: 'rén', meaning: 'orang'}, {char: '故', pinyin: 'gù', meaning: 'sebab'}],
+            '走': [{char: '土', pinyin: 'tǔ', meaning: 'tanah'}, {char: '止', pinyin: 'zhǐ', meaning: 'berhenti/kaki'}],
+            '跑': [{char: '足', pinyin: 'zú', meaning: 'kaki'}, {char: '包', pinyin: 'bāo', meaning: 'bungkus'}],
+            '坐': [{char: '人', pinyin: 'rén', meaning: 'orang'}, {char: '土', pinyin: 'tǔ', meaning: 'tanah'}],
+            '站': [{char: '立', pinyin: 'lì', meaning: 'berdiri'}, {char: '占', pinyin: 'zhàn', meaning: 'duduk'}],
+            '睡': [{char: '目', pinyin: 'mù', meaning: 'mata'}, {char: '垂', pinyin: 'chuí', meaning: 'menggantung'}],
+            '要': [{char: '覀', pinyin: 'yào', meaning: 'barat'}, {char: '女', pinyin: 'nǚ', meaning: 'perempuan'}],
+            
+            // Numbers yang kompleks
+            '四': [{char: '囗', pinyin: 'wéi', meaning: 'kotak'}, {char: '儿', pinyin: 'ér', meaning: 'kaki'}],
+            '五': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '丅', pinyin: 'xià', meaning: 'bawah'}],
+            '六': [{char: '亠', pinyin: 'tóu', meaning: 'tutup'}, {char: '八', pinyin: 'bā', meaning: 'delapan'}],
+            '七': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '乚', pinyin: 'yǐn', meaning: 'tersembunyi'}],
+            '八': [{char: '丿', pinyin: 'piě', meaning: 'garis kiri'}, {char: '丶', pinyin: 'zhǔ', meaning: 'titik'}],
+            '九': [{char: '丿', pinyin: 'piě', meaning: 'garis'}, {char: '乙', pinyin: 'yǐ', meaning: 'kail'}],
+            '十': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}],
+            '百': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '白', pinyin: 'bái', meaning: 'putih'}],
+            '千': [{char: '丿', pinyin: 'piě', meaning: 'garis'}, {char: '十', pinyin: 'shí', meaning: 'sepuluh'}],
+            '万': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '方', pinyin: 'fāng', meaning: 'persegi'}],
+            
+            // People
+            '父': [{char: '八', pinyin: 'bā', meaning: 'delapan'}, {char: '乂', pinyin: 'yì', meaning: 'potong'}],
+            '母': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '丶', pinyin: 'zhǔ', meaning: 'titik'}],
+            '妻': [{char: '女', pinyin: 'nǚ', meaning: 'perempuan'}, {char: '屮', pinyin: 'chè', meaning: 'rumput'}],
+            '夫': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '大', pinyin: 'dà', meaning: 'besar'}],
+            
+            // Body
+            '耳': [{char: '二', pinyin: 'èr', meaning: 'dua'}, {char: '丨', pinyin: 'gǔn', meaning: 'vertikal'}],
+            '鼻': [{char: '自', pinyin: 'zì', meaning: 'diri'}, {char: '畀', pinyin: 'bì', meaning: 'memberi'}],
+            '足': [{char: '口', pinyin: 'kǒu', meaning: 'mulut'}, {char: '止', pinyin: 'zhǐ', meaning: 'berhenti'}]
+        };
+        
+        // Tambahan breakdown untuk tab Waktu dan Tempat
+        const timeAndPlaceRadicals = {
+            // Tab Waktu
+            '分': [{char: '八', pinyin: 'bā', meaning: 'delapan'}, {char: '刀', pinyin: 'dāo', meaning: 'pisau'}],
+            
+            // Tab Tempat yang masih missing
+            '学校': [{char: '学', pinyin: 'xué', meaning: 'belajar'}, {char: '校', pinyin: 'xiào', meaning: 'gedung/sekolah'}],
+            '校': [{char: '木', pinyin: 'mù', meaning: 'kayu'}, {char: '交', pinyin: 'jiāo', meaning: 'bertemu'}],
+            '医院': [{char: '医', pinyin: 'yī', meaning: 'dokter'}, {char: '院', pinyin: 'yuàn', meaning: 'halaman'}],
+            '医': [{char: '匚', pinyin: 'fāng', meaning: 'kotak'}, {char: '矢', pinyin: 'shǐ', meaning: 'panah'}],
+            '院': [{char: '阝', pinyin: 'fù', meaning: 'bukit'}, {char: '完', pinyin: 'wán', meaning: 'selesai'}],
+            '店': [{char: '广', pinyin: 'guǎng', meaning: 'gedung'}, {char: '占', pinyin: 'zhàn', meaning: 'duduk'}],
+            '饭店': [{char: '饭', pinyin: 'fàn', meaning: 'nasi'}, {char: '店', pinyin: 'diàn', meaning: 'toko'}],
+            '公园': [{char: '公', pinyin: 'gōng', meaning: 'publik'}, {char: '园', pinyin: 'yuán', meaning: 'taman'}],
+            '车站': [{char: '车', pinyin: 'chē', meaning: 'mobil'}, {char: '站', pinyin: 'zhàn', meaning: 'berdiri'}],
+            '车': [{char: '十', pinyin: 'shí', meaning: 'sepuluh/poros'}, {char: '由', pinyin: 'yóu', meaning: 'sumber/sumbu'}],
+            '机场': [{char: '机', pinyin: 'jī', meaning: 'mesin'}, {char: '场', pinyin: 'chǎng', meaning: 'lapangan'}],
+            '场': [{char: '土', pinyin: 'tǔ', meaning: 'tanah'}, {char: '昜', pinyin: 'yáng', meaning: 'terang'}]
+        };
+        
+        // Gabungkan dengan characterRadicals yang sudah ada
+        Object.assign(characterRadicals, additionalRadicals, timeAndPlaceRadicals);
+        
+        function getCharacterRadicals(char) {
+            return characterRadicals[char] || [];
+        }
+        
+        function createRadicalBox(char) {
+            const radicals = getCharacterRadicals(char);
+            if (radicals.length === 0) return '';
+            
+            let html = `
+                <div class="component-box">
+                    <div class="component-label">🔍 Komponen Radikal:</div>
+                    <div class="component-formula">
+            `;
+            
+            radicals.forEach((rad, index) => {
+                if (index > 0) {
+                    html += '<span class="plus-sign">+</span>';
+                }
+                html += `
+                    <div class="component-item" onclick="jumpToCharacter('${rad.char}', event)">
+                        <div class="component-char">${rad.char}</div>
+                        <div class="component-info">
+                            <div class="component-pinyin">${rad.pinyin}</div>
+                            <div class="component-meaning">${rad.meaning}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                        💡 Klik komponen untuk melihat karakter dasar
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        // Database komponen untuk kata-kata
+        const wordComponents = {
+            '你好': [{char: '你', pinyin: 'nǐ', meaning: 'kamu'}, {char: '好', pinyin: 'hǎo', meaning: 'baik'}],
+            '再见': [{char: '再', pinyin: 'zài', meaning: 'lagi'}, {char: '见', pinyin: 'jiàn', meaning: 'bertemu'}],
+            '谢谢': [{char: '谢', pinyin: 'xiè', meaning: 'terima'}, {char: '谢', pinyin: 'xiè', meaning: 'terima'}],
+            '对不起': [{char: '对', pinyin: 'duì', meaning: 'benar'}, {char: '不', pinyin: 'bù', meaning: 'tidak'}, {char: '起', pinyin: 'qǐ', meaning: 'bangun'}],
+            '没关系': [{char: '没', pinyin: 'méi', meaning: 'tidak ada'}, {char: '关', pinyin: 'guān', meaning: 'tutup'}, {char: '系', pinyin: 'xì', meaning: 'ikatan'}],
+            '早上好': [{char: '早', pinyin: 'zǎo', meaning: 'pagi'}, {char: '上', pinyin: 'shàng', meaning: 'atas'}, {char: '好', pinyin: 'hǎo', meaning: 'baik'}],
+            '中国': [{char: '中', pinyin: 'zhōng', meaning: 'tengah'}, {char: '国', pinyin: 'guó', meaning: 'negara'}],
+            '汉语': [{char: '汉', pinyin: 'hàn', meaning: 'Han'}, {char: '语', pinyin: 'yǔ', meaning: 'bahasa'}],
+            '学生': [{char: '学', pinyin: 'xué', meaning: 'belajar'}, {char: '生', pinyin: 'shēng', meaning: 'lahir'}],
+            '老师': [{char: '老', pinyin: 'lǎo', meaning: 'tua'}, {char: '师', pinyin: 'shī', meaning: 'guru'}],
+            '朋友': [{char: '朋', pinyin: 'péng', meaning: 'teman'}, {char: '友', pinyin: 'yǒu', meaning: 'sahabat'}],
+            '工作': [{char: '工', pinyin: 'gōng', meaning: 'kerja'}, {char: '作', pinyin: 'zuò', meaning: 'membuat'}],
+            '公司': [{char: '公', pinyin: 'gōng', meaning: 'publik'}, {char: '司', pinyin: 'sī', meaning: 'departemen'}],
+            '手机': [{char: '手', pinyin: 'shǒu', meaning: 'tangan'}, {char: '机', pinyin: 'jī', meaning: 'mesin'}],
+            '电脑': [{char: '电', pinyin: 'diàn', meaning: 'listrik'}, {char: '脑', pinyin: 'nǎo', meaning: 'otak'}],
+            '电视': [{char: '电', pinyin: 'diàn', meaning: 'listrik'}, {char: '视', pinyin: 'shì', meaning: 'melihat'}],
+            '今天': [{char: '今', pinyin: 'jīn', meaning: 'sekarang'}, {char: '天', pinyin: 'tiān', meaning: 'hari'}],
+            '明天': [{char: '明', pinyin: 'míng', meaning: 'terang'}, {char: '天', pinyin: 'tiān', meaning: 'hari'}],
+            '昨天': [{char: '昨', pinyin: 'zuó', meaning: 'kemarin'}, {char: '天', pinyin: 'tiān', meaning: 'hari'}],
+            '上午': [{char: '上', pinyin: 'shàng', meaning: 'atas'}, {char: '午', pinyin: 'wǔ', meaning: 'siang'}],
+            '下午': [{char: '下', pinyin: 'xià', meaning: 'bawah'}, {char: '午', pinyin: 'wǔ', meaning: 'siang'}],
+            '晚上': [{char: '晚', pinyin: 'wǎn', meaning: 'malam'}, {char: '上', pinyin: 'shàng', meaning: 'atas'}],
+            '星期': [{char: '星', pinyin: 'xīng', meaning: 'bintang'}, {char: '期', pinyin: 'qī', meaning: 'periode'}],
+            '周末': [{char: '周', pinyin: 'zhōu', meaning: 'minggu'}, {char: '末', pinyin: 'mò', meaning: 'akhir'}],
+            '早饭': [{char: '早', pinyin: 'zǎo', meaning: 'pagi'}, {char: '饭', pinyin: 'fàn', meaning: 'nasi'}],
+            '午饭': [{char: '午', pinyin: 'wǔ', meaning: 'siang'}, {char: '饭', pinyin: 'fàn', meaning: 'nasi'}],
+            '晚饭': [{char: '晚', pinyin: 'wǎn', meaning: 'malam'}, {char: '饭', pinyin: 'fàn', meaning: 'nasi'}],
+            '咖啡': [{char: '咖', pinyin: 'kā', meaning: 'ka'}, {char: '啡', pinyin: 'fēi', meaning: 'fei'}],
+            '牛奶': [{char: '牛', pinyin: 'niú', meaning: 'sapi'}, {char: '奶', pinyin: 'nǎi', meaning: 'susu'}],
+            '面包': [{char: '面', pinyin: 'miàn', meaning: 'tepung'}, {char: '包', pinyin: 'bāo', meaning: 'bungkus'}],
+            '鸡蛋': [{char: '鸡', pinyin: 'jī', meaning: 'ayam'}, {char: '蛋', pinyin: 'dàn', meaning: 'telur'}],
+            '苹果': [{char: '苹', pinyin: 'píng', meaning: 'apel'}, {char: '果', pinyin: 'guǒ', meaning: 'buah'}],
+            '爸爸': [{char: '爸', pinyin: 'bà', meaning: 'ayah'}, {char: '爸', pinyin: 'bà', meaning: 'ayah'}],
+            '妈妈': [{char: '妈', pinyin: 'mā', meaning: 'ibu'}, {char: '妈', pinyin: 'mā', meaning: 'ibu'}],
+            '哥哥': [{char: '哥', pinyin: 'gē', meaning: 'kakak'}, {char: '哥', pinyin: 'gē', meaning: 'kakak'}],
+            '弟弟': [{char: '弟', pinyin: 'dì', meaning: 'adik'}, {char: '弟', pinyin: 'dì', meaning: 'adik'}],
+            '姐姐': [{char: '姐', pinyin: 'jiě', meaning: 'kakak'}, {char: '姐', pinyin: 'jiě', meaning: 'kakak'}],
+            '妹妹': [{char: '妹', pinyin: 'mèi', meaning: 'adik'}, {char: '妹', pinyin: 'mèi', meaning: 'adik'}],
+            '爷爷': [{char: '爷', pinyin: 'yé', meaning: 'kakek'}, {char: '爷', pinyin: 'yé', meaning: 'kakek'}],
+            '奶奶': [{char: '奶', pinyin: 'nǎi', meaning: 'nenek'}, {char: '奶', pinyin: 'nǎi', meaning: 'nenek'}],
+            '一点': [{char: '一', pinyin: 'yī', meaning: 'satu'}, {char: '点', pinyin: 'diǎn', meaning: 'titik'}],
+            '两个': [{char: '两', pinyin: 'liǎng', meaning: 'dua'}, {char: '个', pinyin: 'gè', meaning: 'buah'}],
+            '多少': [{char: '多', pinyin: 'duō', meaning: 'banyak'}, {char: '少', pinyin: 'shǎo', meaning: 'sedikit'}],
+            '几个': [{char: '几', pinyin: 'jǐ', meaning: 'berapa'}, {char: '个', pinyin: 'gè', meaning: 'buah'}],
+            '什么': [{char: '什', pinyin: 'shén', meaning: 'apa'}, {char: '么', pinyin: 'me', meaning: 'apa'}],
+            '哪里': [{char: '哪', pinyin: 'nǎ', meaning: 'mana'}, {char: '里', pinyin: 'lǐ', meaning: 'dalam'}],
+            '怎么': [{char: '怎', pinyin: 'zěn', meaning: 'bagaimana'}, {char: '么', pinyin: 'me', meaning: 'apa'}],
+            '为什么': [{char: '为', pinyin: 'wèi', meaning: 'untuk'}, {char: '什', pinyin: 'shén', meaning: 'apa'}, {char: '么', pinyin: 'me', meaning: 'apa'}],
+            '谁的': [{char: '谁', pinyin: 'shéi', meaning: 'siapa'}, {char: '的', pinyin: 'de', meaning: 'punya'}],
+            '喜欢': [{char: '喜', pinyin: 'xǐ', meaning: 'senang'}, {char: '欢', pinyin: 'huān', meaning: 'suka'}],
+            '知道': [{char: '知', pinyin: 'zhī', meaning: 'tahu'}, {char: '道', pinyin: 'dào', meaning: 'jalan'}],
+            '认识': [{char: '认', pinyin: 'rèn', meaning: 'kenal'}, {char: '识', pinyin: 'shi', meaning: 'tahu'}],
+            '学习': [{char: '学', pinyin: 'xué', meaning: 'belajar'}, {char: '习', pinyin: 'xí', meaning: 'latihan'}],
+            '帮助': [{char: '帮', pinyin: 'bāng', meaning: 'bantu'}, {char: '助', pinyin: 'zhù', meaning: 'tolong'}],
+            '开始': [{char: '开', pinyin: 'kāi', meaning: 'buka'}, {char: '始', pinyin: 'shǐ', meaning: 'mulai'}],
+            '结束': [{char: '结', pinyin: 'jié', meaning: 'ikat'}, {char: '束', pinyin: 'shù', meaning: 'akhir'}],
+            '打开': [{char: '打', pinyin: 'dǎ', meaning: 'pukul'}, {char: '开', pinyin: 'kāi', meaning: 'buka'}]
+        };
+        
+        function getWordComponents(word) {
+            return wordComponents[word] || [];
+        }
+        
+        function createComponentBox(word) {
+            const components = getWordComponents(word);
+            if (components.length === 0) return '';
+            
+            let html = `
+                <div class="component-box">
+                    <div class="component-label">🔤 Komponen Karakter:</div>
+                    <div class="component-formula">
+            `;
+            
+            components.forEach((comp, index) => {
+                if (index > 0) {
+                    html += '<span class="plus-sign">+</span>';
+                }
+                html += `
+                    <div class="component-item" onclick="jumpToCharacter('${comp.char}', event)">
+                        <div class="component-char">${comp.char}</div>
+                        <div class="component-info">
+                            <div class="component-pinyin">${comp.pinyin}</div>
+                            <div class="component-meaning">${comp.meaning}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                        💡 Klik komponen untuk melihat karakter tersebut
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        function jumpToCharacter(char, evt) {
+            if (evt) evt.stopPropagation();
+            
+            // Cari karakter di semua kategori
+            let found = false;
+            Object.keys(charactersData).forEach(category => {
+                if (category === 'words' || category === 'radicals_additional') return;
+                
+                let dataToSearch = charactersData[category];
+                
+                // Untuk radicals, gabungkan dengan radicals_additional
+                if (category === 'radicals' && charactersData.radicals_additional) {
+                    dataToSearch = [...charactersData.radicals, ...charactersData.radicals_additional];
+                }
+                
+                const item = dataToSearch.find(c => c.char === char);
+                if (item) {
+                    found = true;
+                    
+                    // Switch ke tab kategori yang sesuai
+                    const tabMap = {
+                        'numbers': 'numbers',
+                        'people': 'people',
+                        'family': 'family',
+                        'body': 'body',
+                        'nature': 'nature',
+                        'animals': 'animals',
+                        'food': 'food',
+                        'directions': 'directions',
+                        'time': 'time',
+                        'colors': 'colors',
+                        'adjectives': 'adjectives',
+                        'verbs': 'verbs',
+                        'places': 'places',
+                        'common_chars': 'common_chars',
+                        'radicals': 'radicals'
+                    };
+                    
+                    const tabButton = document.querySelector(`.tab-btn[onclick*="${tabMap[category]}"]`);
+                    if (tabButton) {
+                        tabButton.click();
+                    }
+                    
+                    // Tunggu tab terbuka, lalu scroll ke karakter
+                    setTimeout(() => {
+                        const cards = document.querySelectorAll('.character-card');
+                        cards.forEach(card => {
+                            if (card.dataset.char === char) {
+                                card.style.animation = 'highlight 2s';
+                                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                
+                                // Flash effect
+                                card.style.border = '3px solid #ffd700';
+                                card.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.8)';
+                                setTimeout(() => {
+                                    card.style.border = '2px solid #e0e0e0';
+                                    card.style.boxShadow = '';
+                                }, 2000);
+                            }
+                        });
+                    }, 300);
+                }
+            });
+            
+            if (!found) {
+                alert(`Karakter "${char}" belum ada dalam database karakter tunggal.`);
+            }
+        }
+        
+        function speakChinese(char, pinyin, evt) {
+            if (evt) evt.stopPropagation();
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(char);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.8;
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        let previousTab = 'numbers'; // Menyimpan tab sebelumnya
+        let allCharacters = []; // Array semua karakter untuk navigasi
+        let currentCharIndex = 0; // Index karakter saat ini
+        
+        function goToPractice(char, pinyin, meaning, mnemonic, evt) {
+            if (evt) evt.stopPropagation();
+            
+            // Simpan tab yang sedang aktif
+            const activeTab = document.querySelector('.tab-content.active');
+            if (activeTab && activeTab.id !== 'practice') {
+                previousTab = activeTab.id;
+            }
+            
+            // Build array semua karakter dari tab saat ini untuk navigasi
+            buildCharacterList();
+            
+            // Set karakter yang dipilih untuk latihan
+            selectCharacter(char, pinyin, meaning, mnemonic);
+            
+            // Cari index karakter saat ini
+            currentCharIndex = allCharacters.findIndex(c => c.char === char);
+            
+            // Switch ke tab practice
+            const practiceTab = document.querySelector('.tab-btn[onclick*="practice"]');
+            if (practiceTab) {
+                practiceTab.click();
+            }
+            
+            // Scroll ke canvas area
+            setTimeout(() => {
+                const canvas = document.getElementById('canvas');
+                if (canvas) {
+                    canvas.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 300);
+        }
+        
+        function buildCharacterList() {
+            allCharacters = [];
+            
+            // Ambil semua karakter dari tab yang aktif sebelumnya
+            const activeTabContent = document.getElementById(previousTab);
+            if (activeTabContent) {
+                const cards = activeTabContent.querySelectorAll('.character-card');
+                cards.forEach(card => {
+                    allCharacters.push({
+                        char: card.dataset.char,
+                        pinyin: card.dataset.pinyin,
+                        meaning: card.dataset.meaning,
+                        mnemonic: card.dataset.mnemonic
+                    });
+                });
+            }
+        }
+        
+        function goBack() {
+            // Kembali ke tab sebelumnya
+            const tabButton = document.querySelector(`.tab-btn[onclick*="${previousTab}"]`);
+            if (tabButton) {
+                tabButton.click();
+                
+                // Scroll ke posisi sebelumnya jika ada
+                setTimeout(() => {
+                    const targetCard = document.querySelector(`.character-card[data-char="${currentChar}"]`);
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 300);
+            }
+        }
+        
+        function nextCharacter() {
+            if (currentCharIndex < allCharacters.length - 1) {
+                currentCharIndex++;
+                const nextChar = allCharacters[currentCharIndex];
+                selectCharacter(nextChar.char, nextChar.pinyin, nextChar.meaning, nextChar.mnemonic);
+                clearCanvas();
+            } else {
+                alert('✅ Ini adalah karakter terakhir dalam kategori ini!');
+            }
+        }
+        
+        function previousCharacter() {
+            if (currentCharIndex > 0) {
+                currentCharIndex--;
+                const prevChar = allCharacters[currentCharIndex];
+                selectCharacter(prevChar.char, prevChar.pinyin, prevChar.meaning, prevChar.mnemonic);
+                clearCanvas();
+            } else {
+                alert('⚠️ Ini adalah karakter pertama dalam kategori ini!');
+            }
+        }
+        
+        function speakCurrentChar() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(currentChar);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.7;
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function renderCharacters(category, data) {
+            const container = document.getElementById(category);
+            const categoryNames = {
+                numbers: '🔢 Angka (Shùzì - 数字)',
+                people: '👥 Orang (Rén - 人)',
+                family: '👨‍👩‍👧 Keluarga (Jiātíng - 家庭)',
+                body: '👁️ Tubuh (Shēntǐ - 身体)',
+                nature: '🌳 Alam (Zìrán - 自然)',
+                animals: '🐾 Hewan (Dòngwù - 动物)',
+                food: '🍜 Makanan (Shíwù - 食物)',
+                directions: '🧭 Arah & Posisi (Fāngxiàng - 方向)',
+                time: '⏰ Waktu (Shíjiān - 时间)',
+                colors: '🎨 Warna (Yánsè - 颜色)',
+                adjectives: '📏 Sifat (Xíngróngcí - 形容词)',
+                verbs: '⚡ Kata Kerja (Dòngcí - 动词)',
+                places: '🏛️ Tempat (Dìfāng - 地方)',
+                common_chars: '📖 Karakter Umum (Chángyòng Hànzì - 常用汉字)',
+                radicals: '🔠 Radikal & Dasar (Bùshǒu - 部首)'
+            };
+            
+            let html = `
+                <div class="category-header">
+                    <h2 class="category-title">${categoryNames[category]}</h2>
+                </div>
+                <div class="character-grid">
+            `;
+            
+            data.forEach(item => {
+                const radicalBox = createRadicalBox(item.char);
+                
+                html += `
+                    <div class="character-card" data-char="${item.char}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-mnemonic="${item.mnemonic}">
+                        <div class="character-display">${item.char}</div>
+                        <div class="character-pinyin">${item.pinyin}</div>
+                        <div class="character-meaning">${item.meaning}</div>
+                        ${radicalBox}
+                        <div class="mnemonic-box">
+                            <div class="mnemonic-label">💡 Cara Ingat:</div>
+                            <div class="mnemonic-text">${item.mnemonic}</div>
+                        </div>
+                        <div class="stroke-count">${item.strokes} guratan</div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button class="pronunciation-btn" onclick="speakChinese('${item.char}', '${item.pinyin}', event)" style="flex: 1;">
+                                🔊 Audio
+                            </button>
+                            <button class="practice-btn" onclick="goToPractice('${item.char}', '${item.pinyin}', '${item.meaning}', \`${item.mnemonic.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, event)" style="flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s;">
+                                ✍️ Latihan
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        Object.keys(charactersData).forEach(category => {
+            if (category !== 'words' && category !== 'radicals_additional') {
+                // Gabungkan radicals dengan radicals_additional
+                if (category === 'radicals' && charactersData.radicals_additional) {
+                    const combinedRadicals = [...charactersData.radicals, ...charactersData.radicals_additional];
+                    renderCharacters(category, combinedRadicals);
+                } else {
+                    renderCharacters(category, charactersData[category]);
+                }
+            }
+        });
+        
+        // Render words section
+        function renderWords() {
+            const container = document.getElementById('words');
+            let html = `
+                <div class="category-header">
+                    <h2 class="category-title">📝 Kata-Kata (Cíyǔ - 词语)</h2>
+                    <p style="color: #666; margin-top: 10px;">Latihan menulis kata yang terdiri dari 2+ karakter</p>
+                </div>
+            `;
+            
+            const categories = {
+                greetings: '👋 Salam & Ungkapan Dasar',
+                common: '💬 Kata Umum Sehari-hari',
+                time: '⏰ Waktu & Hari',
+                food: '🍜 Makanan & Minuman',
+                family: '👨‍👩‍👧 Keluarga',
+                numbers: '🔢 Angka & Jumlah',
+                questions: '❓ Kata Tanya',
+                verbs: '⚡ Kata Kerja Gabungan'
+            };
+            
+            Object.keys(categories).forEach(catKey => {
+                html += `
+                    <div style="margin-bottom: 40px;">
+                        <h3 style="font-size: 1.5em; color: #667eea; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #667eea;">
+                            ${categories[catKey]}
+                        </h3>
+                        <div class="character-grid">
+                `;
+                
+                charactersData.words[catKey].forEach(item => {
+                    const componentBox = createComponentBox(item.char);
+                    
+                    html += `
+                        <div class="character-card" data-char="${item.char}" data-pinyin="${item.pinyin}" data-meaning="${item.meaning}" data-mnemonic="${item.mnemonic}" data-isword="true">
+                            <div class="character-display" style="font-size: ${item.char.length > 2 ? '2.5em' : '3.5em'};">${item.char}</div>
+                            <div class="character-pinyin">${item.pinyin}</div>
+                            <div class="character-meaning">${item.meaning}</div>
+                            ${componentBox}
+                            <div class="mnemonic-box">
+                                <div class="mnemonic-label">💡 Cara Ingat:</div>
+                                <div class="mnemonic-text">${item.mnemonic}</div>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button class="pronunciation-btn" onclick="speakChinese('${item.char}', '${item.pinyin}', event)" style="flex: 1;">
+                                    🔊 Audio
+                                </button>
+                                <button class="practice-btn" onclick="goToPractice('${item.char}', '${item.pinyin}', '${item.meaning}', \`${item.mnemonic.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, event)" style="flex: 1;">
+                                    ✍️ Latihan
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div></div>';
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        renderWords();
+        
+        function showTab(tabName, buttonElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            if (buttonElement) buttonElement.classList.add('active');
+        }
+        
+        function selectCharacter(char, pinyin, meaning, mnemonic) {
+            currentChar = char;
+            currentMnemonic = mnemonic;
+            
+            const isWord = char.length > 1;
+            
+            document.getElementById('bigCharDisplay').textContent = char;
+            document.getElementById('bigCharDisplay').style.fontSize = isWord ? '4em' : '6em';
+            document.getElementById('charInfo').textContent = `${pinyin} - ${meaning}`;
+            document.getElementById('practiceMnemonic').innerHTML = `
+                <div style="font-weight: bold; color: #ff6b6b; margin-bottom: 8px;">💡 Cara Mengingat:</div>
+                <div style="color: #666;">${mnemonic}</div>
+            `;
+            document.getElementById('referenceChar').textContent = char;
+            document.getElementById('referenceChar').style.fontSize = isWord ? '180px' : '280px';
+            
+            clearCanvas();
+        }
+        
+        // Event listener untuk klik kartu - DIHAPUS
+        // Sekarang hanya bisa ke latihan lewat tombol "✍️ Latihan"
+        
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.character-card').forEach(card => {
+                const char = card.dataset.char;
+                const pinyin = card.dataset.pinyin.toLowerCase();
+                const meaning = card.dataset.meaning.toLowerCase();
+                const mnemonic = card.dataset.mnemonic.toLowerCase();
+                card.style.display = (char.includes(term) || pinyin.includes(term) || 
+                                     meaning.includes(term) || mnemonic.includes(term)) ? 'block' : 'none';
+            });
+        });
+        
+        // Canvas dengan state management yang lebih baik
+        const canvas = document.getElementById('practiceCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let brushSize = 5;
+        let brushColor = '#000000';
+        
+        // Set initial brush properties
+        ctx.lineWidth = brushSize;
+        ctx.strokeStyle = brushColor;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.strokeStyle = brushColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        });
+        
+        canvas.addEventListener('mouseup', () => { 
+            isDrawing = false; 
+            ctx.beginPath(); // Reset path untuk stroke berikutnya
+        });
+        
+        canvas.addEventListener('mouseout', () => { 
+            isDrawing = false;
+            ctx.beginPath();
+        });
+        
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            ctx.strokeStyle = brushColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        });
+        
+        canvas.addEventListener('touchend', () => { 
+            isDrawing = false;
+            ctx.beginPath();
+        });
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        function toggleReference() {
+            const ref = document.getElementById('referenceChar');
+            ref.style.display = ref.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function changeBrushSize(size) {
+            brushSize = size;
+            ctx.lineWidth = size;
+            
+            // Update visual feedback pada buttons
+            const buttons = document.querySelectorAll('.controls button');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes('Tipis') || 
+                    btn.textContent.includes('Sedang') || 
+                    btn.textContent.includes('Tebal')) {
+                    btn.style.border = '2px solid transparent';
+                }
+            });
+            
+            // Highlight active button
+            event.target.style.border = '2px solid #ffd700';
+            event.target.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+        }
+        
+        function changeBrushSize(size) {
+            brushSize = size;
+            ctx.lineWidth = size;
+            
+            // Update visual feedback pada buttons
+            document.getElementById('thinBtn').style.border = '2px solid transparent';
+            document.getElementById('thinBtn').style.boxShadow = 'none';
+            document.getElementById('mediumBtn').style.border = '2px solid transparent';
+            document.getElementById('mediumBtn').style.boxShadow = 'none';
+            document.getElementById('thickBtn').style.border = '2px solid transparent';
+            document.getElementById('thickBtn').style.boxShadow = 'none';
+            
+            // Highlight active button
+            if (size === 2) {
+                document.getElementById('thinBtn').style.border = '2px solid #ffd700';
+                document.getElementById('thinBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+            } else if (size === 5) {
+                document.getElementById('mediumBtn').style.border = '2px solid #ffd700';
+                document.getElementById('mediumBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+            } else if (size === 10) {
+                document.getElementById('thickBtn').style.border = '2px solid #ffd700';
+                document.getElementById('thickBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
+            }
+            
+            // Update preview
+            updateBrushPreview();
+        }
+        
+        function updateBrushPreview() {
+            const previewCanvas = document.getElementById('brushPreview');
+            if (!previewCanvas) return;
+            
+            const previewCtx = previewCanvas.getContext('2d');
+            previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+            
+            // Draw three lines with different sizes
+            const sizes = [2, 5, 10];
+            const labels = ['Tipis (2px)', 'Sedang (5px)', 'Tebal (10px)'];
+            const yPositions = [15, 30, 45];
+            
+            sizes.forEach((size, index) => {
+                // Highlight current brush size
+                if (size === brushSize) {
+                    previewCtx.fillStyle = '#fff9e6';
+                    previewCtx.fillRect(10, yPositions[index] - 8, 280, 16);
+                }
+                
+                // Draw label
+                previewCtx.fillStyle = size === brushSize ? '#667eea' : '#999';
+                previewCtx.font = size === brushSize ? 'bold 11px Arial' : '11px Arial';
+                previewCtx.textAlign = 'left';
+                previewCtx.fillText(labels[index], 15, yPositions[index] + 4);
+                
+                // Draw line
+                previewCtx.beginPath();
+                previewCtx.moveTo(120, yPositions[index]);
+                previewCtx.lineTo(280, yPositions[index]);
+                previewCtx.strokeStyle = size === brushSize ? '#000' : '#666';
+                previewCtx.lineWidth = size;
+                previewCtx.lineCap = 'round';
+                previewCtx.stroke();
+            });
+        }
+        
+        // Initialize preview
+        setTimeout(() => {
+            updateBrushPreview();
+        }, 100);
+        
+        function evaluateWriting() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let hasDrawing = false;
+            for (let i = 3; i < imageData.data.length; i += 4) {
+                if (imageData.data[i] > 0) {
+                    hasDrawing = true;
+                    break;
+                }
+            }
+            
+            if (!hasDrawing) {
+                alert('⚠️ Silakan tulis karakter terlebih dahulu!');
+                return;
+            }
+            
+            const score = Math.floor(Math.random() * 30) + 70;
+            document.getElementById('totalScore').textContent = score;
+            
+            let stars = score >= 90 ? '⭐⭐⭐⭐⭐' : score >= 75 ? '⭐⭐⭐⭐' : 
+                       score >= 60 ? '⭐⭐⭐' : '⭐⭐';
+            document.getElementById('scoreStars').textContent = stars;
+            
+            let verdict = score >= 90 ? '🎉 Luar Biasa!' : score >= 75 ? '👍 Bagus Sekali!' : '😊 Cukup Baik!';
+            document.getElementById('scoreVerdict').textContent = verdict;
+            
+            document.getElementById('evaluationPanel').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('evaluationPanel').scrollIntoView({ 
+                    behavior: 'smooth', block: 'center'
+                });
+            }, 300);
+        }
+        
+        function closeEvaluation() {
+            document.getElementById('evaluationPanel').classList.remove('show');
+            clearCanvas();
+        }
+    </script>
+</body>
+</html>
