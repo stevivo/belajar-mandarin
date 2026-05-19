@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modul Lengkap Mandarin - 100+ Karakter</title>
+    <title>Modul Mandarin v2.5.0</title>
     <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #667eea;
-            --primary-dark: #764ba2;
-            --accent: #f5576c;
-            --accent2: #fa709a;
+            --primary:      #DE2910;   /* Merah bendera China */
+            --primary-dark: #B01E0A;   /* Merah China gelap */
+            --yellow:       #FFDE00;   /* Kuning bintang China */
+            --yellow-dark:  #C8A400;   /* Kuning China gelap */
+            --accent:       #FFDE00;
+            --accent2:      #FFC300;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #DE2910 0%, #B01E0A 100%);
             min-height: 100vh;
             padding: 10px;
         }
@@ -33,12 +35,39 @@
 
         /* HEADER */
         .header {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: #DE2910;
             color: white;
             padding: clamp(16px,4vw,40px);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 4px solid #FFDE00;
         }
-        .header h1 { font-size: clamp(1.3em,5vw,2.6em); margin-bottom:6px; text-shadow:2px 2px 4px rgba(0,0,0,0.2); }
+        /* Bintang dekoratif bendera China */
+        .header::before {
+            content: '★';
+            position: absolute;
+            left: clamp(12px, 3vw, 24px);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: clamp(2em, 6vw, 4em);
+            color: #FFDE00;
+            opacity: 0.85;
+            text-shadow: 0 0 20px rgba(255,222,0,0.5);
+        }
+        .header::after {
+            content: '★ ★ ★ ★';
+            position: absolute;
+            left: clamp(54px, 12vw, 96px);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: clamp(0.7em, 2vw, 1.2em);
+            color: #FFDE00;
+            opacity: 0.7;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255,222,0,0.4);
+        }
+        .header h1 { font-size: clamp(1.3em,5vw,2.6em); margin-bottom:6px; text-shadow:1px 1px 3px rgba(0,0,0,0.3); }
         .header p  { font-size: clamp(0.8em,2.5vw,1em); opacity:0.9; }
 
         .stats { display:flex; justify-content:center; gap:10px; margin-top:14px; flex-wrap:wrap; }
@@ -56,7 +85,7 @@
             padding:11px 18px; font-size:1em;
             border:2px solid #ddd; border-radius:25px; outline:none; transition:all 0.3s;
         }
-        .search-input:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(102,126,234,0.1); }
+        .search-input:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(222,41,16,0.1); }
 
         /* NAV TABS */
         .nav-tabs {
@@ -70,7 +99,7 @@
             font-size:clamp(0.72em,2.5vw,0.9em); transition:all 0.3s; font-weight:600; white-space:nowrap;
         }
         .tab-btn:hover  { background:#e0e0e0; transform:translateY(-2px); }
-        .tab-btn.active { background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%); color:white; box-shadow:0 4px 12px rgba(102,126,234,0.4); }
+        .tab-btn.active { background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%); color:white; box-shadow:0 4px 12px rgba(222,41,16,0.4); }
 
         /* TAB CONTENT */
         .tab-content { display:none; }
@@ -94,7 +123,7 @@
             background:#fff; border:2px solid #e8e8e8; border-radius:16px;
             padding:16px; transition:all 0.3s; text-align:center; position:relative; overflow:hidden;
         }
-        .character-card:hover { transform:translateY(-5px); box-shadow:0 12px 30px rgba(102,126,234,0.25); border-color:var(--primary); }
+        .character-card:hover { transform:translateY(-5px); box-shadow:0 12px 30px rgba(222,41,16,0.25); border-color:var(--primary); }
         .character-display { font-size:clamp(2.8em,10vw,4em); color:#333; margin:10px 0; font-family:'Microsoft YaHei','SimHei',sans-serif; font-weight:bold; line-height:1.1; }
         .character-pinyin  { font-size:clamp(1.1em,3.5vw,1.4em); color:var(--primary); font-weight:bold; margin-bottom:6px; }
         .character-meaning { font-size:clamp(0.9em,3vw,1.05em); color:#666; margin-bottom:10px; }
@@ -123,21 +152,21 @@
             color:white; border:none; padding:9px 16px; border-radius:18px;
             font-size:clamp(0.8em,2.5vw,0.95em); cursor:pointer; transition:all 0.3s; font-weight:600;
         }
-        button:hover { transform:scale(1.04); box-shadow:0 4px 14px rgba(102,126,234,0.35); }
+        button:hover { transform:scale(1.04); box-shadow:0 4px 14px rgba(222,41,16,0.35); }
 
         .pronunciation-btn {
-            background:linear-gradient(135deg,#fa709a 0%,#fee140 100%);
+            background:linear-gradient(135deg,#FFDE00 0%,#C8A400 100%);
             color:white; border:none; padding:10px 16px; border-radius:20px;
             font-size:0.95em; cursor:pointer; transition:all 0.3s; font-weight:bold; margin-top:10px;
         }
-        .pronunciation-btn:hover { transform:scale(1.05); box-shadow:0 5px 15px rgba(250,112,154,0.4); }
+        .pronunciation-btn:hover { transform:scale(1.05); box-shadow:0 5px 15px rgba(255,222,0,0.4); }
 
         .practice-btn {
             background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
             color:white; border:none; padding:10px 16px; border-radius:20px;
             font-size:0.95em; cursor:pointer; transition:all 0.3s; font-weight:bold;
         }
-        .practice-btn:hover { transform:scale(1.05); box-shadow:0 5px 15px rgba(102,126,234,0.4); }
+        .practice-btn:hover { transform:scale(1.05); box-shadow:0 5px 15px rgba(222,41,16,0.4); }
         .practice-btn:active, .pronunciation-btn:active { transform:scale(0.97); }
 
         /* PRACTICE SECTION */
@@ -148,7 +177,7 @@
         .selected-char { font-size:clamp(4em,15vw,7em); font-family:'Microsoft YaHei','SimHei',sans-serif; color:#333; margin:8px 0; line-height:1; }
 
         .big-audio-btn {
-            background:linear-gradient(135deg,#fa709a 0%,#fee140 100%);
+            background:linear-gradient(135deg,#FFDE00 0%,#C8A400 100%);
             color:white; border:none; padding:12px 28px; border-radius:25px;
             font-size:clamp(1em,3vw,1.2em); cursor:pointer; transition:all 0.3s; font-weight:bold; margin-top:12px;
         }
@@ -166,7 +195,7 @@
         #practiceCanvas { display:block; width:100%; height:100%; cursor:crosshair; touch-action:none; }
         .reference-character {
             position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-            font-size:clamp(100px,28vw,280px); color:rgba(102,126,234,0.12);
+            font-size:clamp(100px,28vw,280px); color:rgba(222,41,16,0.12);
             pointer-events:none; font-family:'Microsoft YaHei','SimHei',sans-serif;
             font-weight:bold; user-select:none; line-height:1;
         }
@@ -180,7 +209,7 @@
 
         /* STROKE ORDER PANEL */
         #strokeOrderPanel {
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #DE2910;
             transition: all 0.3s;
         }
         #strokeOrderSteps > div:hover {
@@ -194,6 +223,89 @@
         .stroke-mini-card:hover {
             transform: scale(1.1);
         }
+
+        /* ===== QUIZ MODULE ===== */
+        .quiz-mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,168px),1fr));gap:10px;margin:14px 0}
+        .quiz-mode-card{background:white;border:2px solid #e8e8e8;border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .3s}
+        .quiz-mode-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(222,41,16,.25);border-color:var(--primary)}
+        .quiz-mode-card.selected{border-color:var(--primary);background:#f0f4ff}
+        .quiz-mode-icon{font-size:2.2em;margin-bottom:6px}
+        .quiz-mode-title{font-weight:bold;color:#333;font-size:.95em;margin-bottom:4px}
+        .quiz-mode-desc{font-size:.74em;color:#888;line-height:1.4}
+        .quiz-settings{background:#f8f9ff;border-radius:12px;padding:14px;margin:12px 0}
+        .quiz-settings label{font-weight:bold;color:#555;font-size:.88em;display:block;margin-bottom:4px}
+        .quiz-settings select{width:100%;padding:8px 12px;border:2px solid #ddd;border-radius:8px;font-size:.88em;margin-bottom:10px;outline:none}
+        .quiz-settings select:focus{border-color:var(--primary)}
+        .quiz-start-btn{width:100%;padding:13px;background:linear-gradient(135deg,#DE2910,#B01E0A);color:white;border:none;border-radius:12px;font-size:1.05em;font-weight:bold;cursor:pointer;transition:all .3s;margin-top:6px}
+        .quiz-start-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(222,41,16,.4)}
+        .quiz-progress-bar{height:8px;background:#e0e0e0;border-radius:4px;margin-bottom:14px;overflow:hidden}
+        .quiz-progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#DE2910,#B01E0A);transition:width .4s}
+        .quiz-score-badge{background:linear-gradient(135deg,#FFDE00,#C8A400);color:white;padding:5px 12px;border-radius:18px;font-weight:bold;font-size:.88em}
+        .quiz-question-box{background:linear-gradient(135deg,#a8edea18,#fed6e330);border:2px solid #e0e0e0;border-radius:16px;padding:clamp(14px,4vw,26px);text-align:center;margin-bottom:14px}
+        .quiz-char-big{font-size:clamp(2.8em,12vw,5.5em);font-family:"Microsoft YaHei","SimHei",sans-serif;color:#333;line-height:1.1}
+        .quiz-pinyin{font-size:clamp(1.1em,4vw,1.6em);color:var(--primary);font-weight:bold;margin:6px 0}
+        .quiz-question-label{font-size:.85em;color:#888;margin-bottom:6px}
+        .quiz-hint{font-size:.82em;color:#aaa;margin-top:6px;font-style:italic}
+        .quiz-fill-input{width:100%;max-width:320px;padding:11px 14px;font-size:1.05em;border:2px solid #ddd;border-radius:10px;outline:none;text-align:center;transition:all .3s;font-family:"Microsoft YaHei","SimHei",sans-serif}
+        .quiz-fill-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(222,41,16,.12)}
+        .quiz-fill-input.correct{border-color:#FFDE00;background:#f0fff4}
+        .quiz-fill-input.wrong{border-color:#DE2910;background:#fff0f3}
+        .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+        .quiz-option{padding:13px 8px;border:2px solid #e0e0e0;border-radius:12px;background:white;cursor:pointer;font-size:clamp(.82em,2.5vw,1em);font-weight:600;transition:all .25s;text-align:center;line-height:1.4;font-family:"Microsoft YaHei","SimHei",sans-serif}
+        .quiz-option:hover:not(.disabled){border-color:var(--primary);background:#f0f4ff;transform:translateY(-2px)}
+        .quiz-option.correct{border-color:#FFDE00!important;background:#f0fff4!important;color:#1a6b3a}
+        .quiz-option.wrong{border-color:#DE2910!important;background:#fff0f3!important;color:#a01}
+        .quiz-option.revealed{border-color:#FFDE00!important;background:#f0fff4!important}
+        .quiz-option.disabled{cursor:default}
+        .quiz-feedback{padding:10px 14px;border-radius:10px;margin:10px 0;font-weight:bold;text-align:center;font-size:.95em;display:none}
+        .quiz-feedback.show{display:block;animation:fadeIn .3s}
+        .quiz-feedback.correct{background:#f0fff4;color:#1a6b3a;border:2px solid #FFDE00}
+        .quiz-feedback.wrong{background:#fff0f3;color:#a01;border:2px solid #DE2910}
+        .sentence-display{font-size:clamp(1.3em,5vw,2em);font-family:"Microsoft YaHei","SimHei",sans-serif;letter-spacing:3px;margin:10px 0;color:#333;line-height:1.8}
+        .sentence-blank{display:inline-block;min-width:44px;border-bottom:3px solid var(--primary);color:var(--primary);font-weight:bold;vertical-align:bottom}
+        .quiz-results{text-align:center;padding:16px 0;animation:fadeIn .5s}
+        .result-score-circle{width:clamp(110px,32vw,150px);height:clamp(110px,32vw,150px);border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(135deg,#DE2910,#B01E0A);box-shadow:0 8px 30px rgba(222,41,16,.4)}
+        .result-score-num{font-size:clamp(1.8em,7vw,2.8em);color:white;font-weight:bold;line-height:1}
+        .result-score-label{font-size:.8em;color:rgba(255,255,255,.8)}
+        .result-stars{font-size:clamp(1.6em,5vw,2.2em);margin:8px 0;letter-spacing:4px}
+        .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+        .result-stat{background:#f8f9ff;border-radius:10px;padding:10px;text-align:center}
+        .result-stat-num{font-size:1.5em;font-weight:bold;color:var(--primary)}
+        .result-stat-label{font-size:.75em;color:#888}
+        .result-wrong-item{display:flex;align-items:center;gap:8px;padding:7px;border-bottom:1px solid #eee;font-size:.85em}
+        .quiz-option.mc-selected { border-color:var(--primary) !important; background:#f0f4ff !important; }
+
+        /* ===== CHANGELOG ===== */
+        .cl-app-name{font-size:clamp(1.6em,5vw,2.4em);font-weight:bold;color:#333}
+        .cl-tagline{color:#888;font-size:.9em;margin-top:4px}
+        .cl-version-card{border:2px solid #e8e8e8;border-radius:16px;margin-bottom:18px;overflow:hidden;transition:box-shadow .3s}
+        .cl-version-card:hover{box-shadow:0 6px 24px rgba(222,41,16,.15)}
+        .cl-version-card.latest{border-color:var(--primary)}
+        .cl-version-header{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;flex-wrap:wrap}
+        .cl-version-badge{font-size:1em;font-weight:bold;padding:5px 14px;border-radius:20px;color:white;white-space:nowrap;background:linear-gradient(135deg,#DE2910,#B01E0A)}
+        .cl-version-badge.latest{background:linear-gradient(135deg,#DE2910,#B01E0A)}
+        .cl-version-name{font-weight:bold;color:#333;font-size:1em}
+        .cl-version-date{color:#aaa;font-size:.8em;margin-left:auto;white-space:nowrap}
+        .cl-version-arrow{color:#bbb;font-size:.9em;transition:transform .3s}
+        .cl-version-body{padding:0 18px 14px;display:none}
+        .cl-version-body.open{display:block;animation:fadeIn .3s}
+        .cl-section{margin:10px 0}
+        .cl-section-title{font-size:.76em;font-weight:bold;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:6px;display:inline-block;margin-bottom:7px}
+        .cl-section-title.new{background:#e8f5e9;color:#2e7d32}
+        .cl-section-title.fix{background:#fff3e0;color:#e65100}
+        .cl-section-title.improve{background:#e3f2fd;color:#1565c0}
+        .cl-section-title.remove{background:#fce4ec;color:#880e4f}
+        .cl-item{display:flex;gap:8px;padding:5px 0;border-bottom:1px dashed #f0f0f0;font-size:.88em;color:#555;line-height:1.5}
+        .cl-item:last-child{border:none}
+        .cl-dot{width:7px;height:7px;border-radius:50%;margin-top:6px;flex-shrink:0}
+        .dot-new{background:#FFDE00}
+        .dot-fix{background:#ffa726}
+        .dot-improve{background:#42a5f5}
+        .dot-remove{background:#ef5350}
+        .cl-stats-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px}
+        .cl-stat{background:#f8f9ff;border-radius:10px;padding:8px 14px;text-align:center;min-width:68px}
+        .cl-stat-num{font-size:1.25em;font-weight:bold;color:var(--primary)}
+        .cl-stat-label{font-size:.7em;color:#888}
 
         /* EVALUATION */
         .evaluation-panel { background:linear-gradient(135deg,#e0c3fc 0%,#8ec5fc 100%); padding:clamp(14px,4vw,25px); border-radius:14px; margin:16px 0; display:none; }
@@ -227,24 +339,34 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎓 Modul Lengkap Mandarin</h1>
-            <p>270+ Karakter + 60+ Kata dengan Mnemonic & Audio</p>
+            <div style="display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:4px;">
+                <h1>🎓 Modul Mandarin</h1>
+                <button onclick="showTab('changelog', this)" 
+                    style="background:rgba(255,255,255,0.25); color:white; border:1.5px solid rgba(255,255,255,0.5);
+                    padding:4px 12px; border-radius:20px; font-size:0.8em; font-weight:bold; cursor:pointer;
+                    backdrop-filter:blur(4px); transition:all 0.3s; letter-spacing:0.5px;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.4)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.25)'">
+                    v2.8.0
+                </button>
+            </div>
+            <p>340+ Karakter · 60+ Kata · Quiz Interaktif · Audio</p>
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-number">270+</div>
+                    <div class="stat-number">340+</div>
                     <div class="stat-label">Karakter</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">60+</div>
-                    <div class="stat-label">Kata-Kata</div>
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Mode Quiz</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">🔊</div>
                     <div class="stat-label">Audio</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">💡</div>
-                    <div class="stat-label">Mnemonic</div>
+                    <div class="stat-number">✍️</div>
+                    <div class="stat-label">Latihan</div>
                 </div>
             </div>
         </div>
@@ -272,6 +394,8 @@
                 <button class="tab-btn" onclick="showTab('radicals', this)">🔠 Radikal & Dasar</button>
                 <button class="tab-btn" onclick="showTab('words', this)">📝 Kata-Kata</button>
                 <button class="tab-btn" onclick="showTab('practice', this)">✍️ Latihan</button>
+                <button class="tab-btn" onclick="showTab('quiz', this); initQuizHub()">🎯 Quiz</button>
+                <button class="tab-btn" onclick="showTab('changelog', this)">📋 Changelog</button>
             </div>
             
             <div id="numbers" class="tab-content active"></div>
@@ -291,17 +415,21 @@
             <div id="radicals" class="tab-content"></div>
             <div id="words" class="tab-content"></div>
             
+            <div id="quiz" class="tab-content"></div>
+            
+            <div id="changelog" class="tab-content"></div>
+            
             <div id="practice" class="tab-content">
                 <div class="practice-section">
                     <!-- Tombol Navigasi -->
                     <div style="display:flex; gap:8px; justify-content:center; margin-bottom:16px; flex-wrap:wrap;">
-                        <button onclick="goBack()" style="background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%); box-shadow:0 4px 12px rgba(240,147,251,0.4);">
+                        <button onclick="goBack()" style="background:linear-gradient(135deg,#DE2910 0%,#B01E0A 100%); box-shadow:0 4px 12px rgba(240,147,251,0.4);">
                             ← Kembali
                         </button>
-                        <button onclick="previousCharacter()" style="background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%); box-shadow:0 4px 12px rgba(79,172,254,0.4);">
+                        <button onclick="previousCharacter()" style="background:linear-gradient(135deg,#FF6B6B 0%,#DE2910 100%); box-shadow:0 4px 12px rgba(255,107,107,0.4);">
                             ◄ Sebelumnya
                         </button>
-                        <button onclick="nextCharacter()" style="background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%); box-shadow:0 4px 12px rgba(67,233,123,0.4);">
+                        <button onclick="nextCharacter()" style="background:linear-gradient(135deg,#FFDE00 0%,#C8A400 100%); box-shadow:0 4px 12px rgba(255,222,0,0.4);">
                             Berikutnya ►
                         </button>
                     </div>
@@ -312,8 +440,8 @@
                         <div id="practiceMnemonic" style="background:white; padding:12px; border-radius:10px; margin:12px auto; max-width:480px; text-align:left;"></div>
                         
                         <!-- STROKE ORDER PANEL - HanziWriter -->
-                        <div id="strokeOrderPanel" style="background:white; border-radius:12px; padding:14px; margin:12px auto; max-width:480px; text-align:left; display:none; border-left:4px solid #667eea;">
-                            <div style="font-weight:bold; color:#667eea; margin-bottom:10px; font-size:0.95em;">✍️ Urutan Guratan:</div>
+                        <div id="strokeOrderPanel" style="background:white; border-radius:12px; padding:14px; margin:12px auto; max-width:480px; text-align:left; display:none; border-left:4px solid #DE2910;">
+                            <div style="font-weight:bold; color:#DE2910; margin-bottom:10px; font-size:0.95em;">✍️ Urutan Guratan:</div>
                             <div id="strokeOrderSteps" style="font-size:0.88em; color:#555; line-height:1.9; margin-bottom:12px;"></div>
                             
                             <!-- HanziWriter container -->
@@ -326,19 +454,19 @@
                                 </div>
                                 <div style="display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
                                     <button id="btnAnimate" onclick="hwAnimate()"
-                                        style="background:linear-gradient(135deg,#667eea,#764ba2); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
+                                        style="background:linear-gradient(135deg,#DE2910,#B01E0A); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
                                         ▶ Animasi Guratan
                                     </button>
                                     <button id="btnQuiz" onclick="hwQuiz()"
-                                        style="background:linear-gradient(135deg,#43e97b,#38f9d7); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
+                                        style="background:linear-gradient(135deg,#FFDE00,#C8A400); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
                                         ✏️ Quiz Menulis
                                     </button>
                                     <button id="btnReset" onclick="hwReset()"
-                                        style="background:linear-gradient(135deg,#f093fb,#f5576c); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
+                                        style="background:linear-gradient(135deg,#DE2910,#B01E0A); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
                                         ↺ Reset
                                     </button>
                                 </div>
-                                <div id="hwStatus" style="margin-top:8px; font-size:0.8em; color:#667eea; min-height:20px;"></div>
+                                <div id="hwStatus" style="margin-top:8px; font-size:0.8em; color:#DE2910; min-height:20px;"></div>
                             </div>
                             
                             <div style="margin-top:12px; padding:8px; background:#f0f7ff; border-radius:8px; font-size:0.8em; color:#4a90e2;">
@@ -358,28 +486,30 @@
                         <div class="controls">
                             <button onclick="clearCanvas()">🗑️ Hapus</button>
                             <button onclick="toggleReference()">👁️ Panduan</button>
-                            <button id="thinBtn"   onclick="changeBrushSize(2)"  style="border:2px solid transparent;">✏️ Tipis</button>
-                            <button id="mediumBtn" onclick="changeBrushSize(5)"  style="border:2px solid #ffd700; box-shadow:0 0 8px rgba(255,215,0,0.5);">✏️ Sedang</button>
-                            <button id="thickBtn"  onclick="changeBrushSize(10)" style="border:2px solid transparent;">✏️ Tebal</button>
+                            <button id="thinBtn"   onclick="changeBrushSize(6)"  style="border:2px solid transparent;">✏️ Tipis</button>
+                            <button id="mediumBtn" onclick="changeBrushSize(12)" style="border:2px solid #FFDE00; box-shadow:0 0 8px rgba(255,222,0,0.6);">✏️ Sedang</button>
+                            <button id="thickBtn"  onclick="changeBrushSize(20)" style="border:2px solid transparent;">✏️ Tebal</button>
                             <button class="evaluate-btn" onclick="evaluateWriting()">⭐ Nilai</button>
                         </div>
                         
                         <div class="brush-preview-box">
-                            <div style="font-weight:bold; color:#667eea; margin-bottom:8px; font-size:0.9em;">Preview Ketebalan:</div>
+                            <div style="font-weight:bold; color:#DE2910; margin-bottom:8px; font-size:0.9em;">Preview Ketebalan:</div>
                             <canvas id="brushPreview" width="280" height="50"></canvas>
                         </div>
                     </div>
                     
                     <div class="evaluation-panel" id="evaluationPanel">
-                        <h3 style="text-align:center; font-size:clamp(1.3em,4vw,1.8em); margin-bottom:16px;">📊 Hasil Penilaian</h3>
+                        <h3 style="text-align:center; font-size:clamp(1.2em,4vw,1.6em); margin-bottom:14px;">📊 Hasil Penilaian</h3>
                         <div class="score-display">
                             <div class="score-number" id="totalScore">0</div>
-                            <div style="font-size:clamp(1em,3vw,1.4em); color:#666;">dari 100</div>
-                            <div style="font-size:clamp(1.5em,5vw,2.5em); margin:12px 0;" id="scoreStars">⭐⭐⭐⭐⭐</div>
-                            <div style="font-size:clamp(1em,3vw,1.3em); color:#667eea; font-weight:bold;" id="scoreVerdict">Sempurna!</div>
+                            <div style="font-size:clamp(0.9em,3vw,1.2em); color:#666;">dari 100</div>
+                            <div style="font-size:clamp(1.4em,5vw,2.2em); margin:10px 0;" id="scoreStars">⭐⭐⭐⭐⭐</div>
+                            <div style="font-size:clamp(0.95em,3vw,1.2em); color:#DE2910; font-weight:bold;" id="scoreVerdict">Sempurna!</div>
                         </div>
-                        <div style="text-align:center;">
-                            <button class="evaluate-btn" onclick="closeEvaluation()">Tutup & Coba Lagi</button>
+                        <!-- Detail skor per kriteria -->
+                        <div id="scoreCriteria" style="margin:12px 0;"></div>
+                        <div style="text-align:center; margin-top:12px;">
+                            <button class="evaluate-btn" onclick="closeEvaluation()">✏️ Coba Lagi</button>
                         </div>
                     </div>
                 </div>
@@ -1405,18 +1535,143 @@
             }
         }
         
-        function speakChinese(char, pinyin, evt) {
-            if (evt) evt.stopPropagation();
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(char);
-                utterance.lang = 'zh-CN';
-                utterance.rate = 0.8;
-                speechSynthesis.cancel();
-                speechSynthesis.speak(utterance);
+        // =============================================
+        // AUDIO ENGINE - Cross-device compatible
+        // Menangani: iOS, Android, Desktop, Samsung
+        // =============================================
+        const Audio = window.Audio;
+        let voicesLoaded = false;
+        let zhVoice = null;
+        let audioUnlocked = false;
+
+        // Unlock AudioContext pada gesture pertama (wajib untuk iOS)
+        function unlockAudio() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            if (window.speechSynthesis) {
+                // iOS butuh speak+cancel pada gesture pertama untuk unlock
+                const dummy = new SpeechSynthesisUtterance('');
+                dummy.volume = 0;
+                window.speechSynthesis.speak(dummy);
+                setTimeout(() => window.speechSynthesis.cancel(), 100);
             }
         }
-        
-        let previousTab = 'numbers'; // Menyimpan tab sebelumnya
+        document.addEventListener('touchstart', unlockAudio, { once: true });
+        document.addEventListener('click', unlockAudio, { once: true });
+
+        // Load & cache voice Mandarin terbaik
+        function loadZhVoice() {
+            if (!window.speechSynthesis) return;
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices.length) return;
+
+            // Prioritas: zh-TW > zh-CN > zh > any Mandarin
+            const priority = [
+                v => v.lang === 'zh-TW',
+                v => v.lang === 'zh-CN',
+                v => v.lang.startsWith('zh'),
+                v => v.name.toLowerCase().includes('chinese'),
+                v => v.name.toLowerCase().includes('mandarin'),
+            ];
+
+            for (const test of priority) {
+                const found = voices.find(test);
+                if (found) { zhVoice = found; break; }
+            }
+            voicesLoaded = true;
+        }
+
+        // Voices bisa async di beberapa browser
+        if (window.speechSynthesis) {
+            loadZhVoice();
+            window.speechSynthesis.onvoiceschanged = loadZhVoice;
+        }
+
+        // Retry queue untuk iOS yang sering gagal pertama kali
+        let speakRetryTimer = null;
+
+        function speakChinese(char, pinyin, evt) {
+            if (evt) evt.stopPropagation();
+            unlockAudio();
+            _doSpeak(char, 0);
+        }
+
+        function speakCurrentChar() {
+            unlockAudio();
+            _doSpeak(currentChar, 0);
+        }
+
+        function _doSpeak(char, attempt) {
+            if (!window.speechSynthesis) {
+                _showAudioToast('❌ Browser tidak mendukung audio');
+                return;
+            }
+
+            clearTimeout(speakRetryTimer);
+            window.speechSynthesis.cancel();
+
+            // Perlu sedikit delay setelah cancel (terutama Android/Samsung)
+            setTimeout(() => {
+                const utter = new SpeechSynthesisUtterance(char);
+                utter.lang   = 'zh-CN';
+                utter.rate   = 0.75;
+                utter.pitch  = 1;
+                utter.volume = 1;
+
+                // Pakai voice Mandarin kalau sudah loaded
+                if (zhVoice) utter.voice = zhVoice;
+
+                utter.onstart = () => _showAudioToast('🔊 ...');
+                utter.onend   = () => _clearAudioToast();
+                utter.onerror = (e) => {
+                    // Retry sekali kalau gagal (iOS issue)
+                    if (attempt < 2) {
+                        speakRetryTimer = setTimeout(() => _doSpeak(char, attempt + 1), 300);
+                    } else {
+                        _showAudioToast('⚠️ Audio gagal — coba lagi');
+                        setTimeout(_clearAudioToast, 2000);
+                    }
+                };
+
+                try {
+                    window.speechSynthesis.speak(utter);
+
+                    // Workaround: Chrome Desktop kadang hang setelah 15 detik
+                    // Kita resume setiap 10 detik selama berlangsung
+                    const resumeTimer = setInterval(() => {
+                        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+                    }, 10000);
+                    utter.onend = () => { clearInterval(resumeTimer); _clearAudioToast(); };
+
+                } catch(e) {
+                    _showAudioToast('⚠️ Audio tidak tersedia');
+                }
+            }, attempt === 0 ? 50 : 300);
+        }
+
+        // Toast kecil indicator audio
+        function _showAudioToast(msg) {
+            let toast = document.getElementById('audioToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'audioToast';
+                toast.style.cssText = `
+                    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+                    background:rgba(222,41,16,0.92); color:white; padding:8px 20px;
+                    border-radius:20px; font-size:.9em; font-weight:bold;
+                    z-index:9999; pointer-events:none; transition:opacity .3s;
+                    white-space:nowrap; backdrop-filter:blur(4px);`;
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+        }
+        function _clearAudioToast() {
+            const t = document.getElementById('audioToast');
+            if (t) t.style.opacity = '0';
+        }
+
+
         let allCharacters = []; // Array semua karakter untuk navigasi
         let currentCharIndex = 0; // Index karakter saat ini
         
@@ -1509,16 +1764,8 @@
             }
         }
         
-        function speakCurrentChar() {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(currentChar);
-                utterance.lang = 'zh-CN';
-                utterance.rate = 0.7;
-                speechSynthesis.cancel();
-                speechSynthesis.speak(utterance);
-            }
-        }
-        
+        let previousTab = 'numbers';
+
         function renderCharacters(category, data) {
             const container = document.getElementById(category);
             const categoryNames = {
@@ -1564,7 +1811,7 @@
                             <button class="pronunciation-btn" onclick="speakChinese('${item.char}', '${item.pinyin}', event)" style="flex: 1;">
                                 🔊 Audio
                             </button>
-                            <button class="practice-btn" onclick="goToPractice('${item.char}', '${item.pinyin}', '${item.meaning}', \`${item.mnemonic.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, event)" style="flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s;">
+                            <button class="practice-btn" onclick="goToPractice('${item.char}', '${item.pinyin}', '${item.meaning}', \`${item.mnemonic.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, event)" style="flex: 1; background: linear-gradient(135deg, #DE2910 0%, #B01E0A 100%); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s;">
                                 ✍️ Latihan
                             </button>
                         </div>
@@ -1612,7 +1859,7 @@
             Object.keys(categories).forEach(catKey => {
                 html += `
                     <div style="margin-bottom: 40px;">
-                        <h3 style="font-size: 1.5em; color: #667eea; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #667eea;">
+                        <h3 style="font-size: 1.5em; color: #DE2910; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #DE2910;">
                             ${categories[catKey]}
                         </h3>
                         <div class="character-grid">
@@ -1660,6 +1907,13 @@
             });
             document.getElementById(tabName).classList.add('active');
             if (buttonElement) buttonElement.classList.add('active');
+            
+            // Inisialisasi halaman changelog saat pertama dibuka
+            if (tabName === 'changelog') {
+                initChangelog();
+                // Scroll ke atas
+                document.getElementById('changelog').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
         
         // =============================================
@@ -1920,7 +2174,7 @@
         const canvas = document.getElementById('practiceCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
-        let brushSize = 5;
+        let brushSize = 12;
         let brushColor = '#000000';
         
         ctx.lineWidth = brushSize;
@@ -2019,110 +2273,1468 @@
             ctx.lineWidth = size;
             
             // Update visual feedback pada buttons
-            document.getElementById('thinBtn').style.border = '2px solid transparent';
-            document.getElementById('thinBtn').style.boxShadow = 'none';
-            document.getElementById('mediumBtn').style.border = '2px solid transparent';
-            document.getElementById('mediumBtn').style.boxShadow = 'none';
-            document.getElementById('thickBtn').style.border = '2px solid transparent';
-            document.getElementById('thickBtn').style.boxShadow = 'none';
+            ['thinBtn','mediumBtn','thickBtn'].forEach(id => {
+                document.getElementById(id).style.border = '2px solid transparent';
+                document.getElementById(id).style.boxShadow = 'none';
+            });
             
             // Highlight active button
-            if (size === 2) {
-                document.getElementById('thinBtn').style.border = '2px solid #ffd700';
-                document.getElementById('thinBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
-            } else if (size === 5) {
-                document.getElementById('mediumBtn').style.border = '2px solid #ffd700';
-                document.getElementById('mediumBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
-            } else if (size === 10) {
-                document.getElementById('thickBtn').style.border = '2px solid #ffd700';
-                document.getElementById('thickBtn').style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.5)';
-            }
+            const activeId = size === 6 ? 'thinBtn' : size === 12 ? 'mediumBtn' : 'thickBtn';
+            document.getElementById(activeId).style.border = '2px solid #FFDE00';
+            document.getElementById(activeId).style.boxShadow = '0 0 10px rgba(255,222,0,0.6)';
             
-            // Update preview
             updateBrushPreview();
         }
         
         function updateBrushPreview() {
             const previewCanvas = document.getElementById('brushPreview');
             if (!previewCanvas) return;
-            
             const previewCtx = previewCanvas.getContext('2d');
             previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
             
-            // Draw three lines with different sizes
-            const sizes = [2, 5, 10];
-            const labels = ['Tipis (2px)', 'Sedang (5px)', 'Tebal (10px)'];
-            const yPositions = [15, 30, 45];
+            const sizes  = [6, 12, 20];
+            const labels = ['Tipis (6px)', 'Sedang (12px)', 'Tebal (20px)'];
+            const yPos   = [15, 30, 48];
             
-            sizes.forEach((size, index) => {
-                // Highlight current brush size
-                if (size === brushSize) {
+            sizes.forEach((size, i) => {
+                const active = size === brushSize;
+                if (active) {
                     previewCtx.fillStyle = '#fff9e6';
-                    previewCtx.fillRect(10, yPositions[index] - 8, 280, 16);
+                    previewCtx.fillRect(8, yPos[i] - 9, previewCanvas.width - 16, 18);
                 }
+                previewCtx.fillStyle  = active ? '#DE2910' : '#999';
+                previewCtx.font       = active ? 'bold 11px Arial' : '11px Arial';
+                previewCtx.textAlign  = 'left';
+                previewCtx.fillText(labels[i], 12, yPos[i] + 4);
                 
-                // Draw label
-                previewCtx.fillStyle = size === brushSize ? '#667eea' : '#999';
-                previewCtx.font = size === brushSize ? 'bold 11px Arial' : '11px Arial';
-                previewCtx.textAlign = 'left';
-                previewCtx.fillText(labels[index], 15, yPositions[index] + 4);
-                
-                // Draw line
                 previewCtx.beginPath();
-                previewCtx.moveTo(120, yPositions[index]);
-                previewCtx.lineTo(280, yPositions[index]);
-                previewCtx.strokeStyle = size === brushSize ? '#000' : '#666';
-                previewCtx.lineWidth = size;
-                previewCtx.lineCap = 'round';
+                previewCtx.moveTo(118, yPos[i]);
+                previewCtx.lineTo(previewCanvas.width - 10, yPos[i]);
+                previewCtx.strokeStyle = active ? '#111' : '#888';
+                previewCtx.lineWidth   = size;
+                previewCtx.lineCap     = 'round';
                 previewCtx.stroke();
             });
         }
         
         // Initialize preview
-        setTimeout(() => {
-            updateBrushPreview();
-        }, 100);
+        setTimeout(() => updateBrushPreview(), 100);
         
+        // =============================================
+        // SISTEM PENILAIAN DETERMINISTIK v2.8
+        // Rumus: Coverage(25) + Posisi(20) + Kepadatan(20) + Proporsi(15) + Kerapian(20)
+        // Penalti coretan liar: deteksi stroke fragments yang tidak beraturan
+        // Setiap tulisan yang sama → nilai yang sama (tidak random)
+        // =============================================
         function evaluateWriting() {
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let hasDrawing = false;
-            for (let i = 3; i < imageData.data.length; i += 4) {
-                if (imageData.data[i] > 0) {
-                    hasDrawing = true;
-                    break;
+            const W = canvas.width;
+            const H = canvas.height;
+            const imageData = ctx.getImageData(0, 0, W, H);
+            const data = imageData.data;
+
+            // ── Kumpulkan semua piksel bertinta ─────────────────
+            const inkPixels = [];
+            for (let y = 0; y < H; y++) {
+                for (let x = 0; x < W; x++) {
+                    const a = data[(y * W + x) * 4 + 3];
+                    if (a > 30) inkPixels.push({ x, y });
                 }
             }
-            
-            if (!hasDrawing) {
+
+            if (inkPixels.length < 20) {
                 alert('⚠️ Silakan tulis karakter terlebih dahulu!');
                 return;
             }
-            
-            const score = Math.floor(Math.random() * 30) + 70;
-            document.getElementById('totalScore').textContent = score;
-            
-            let stars = score >= 90 ? '⭐⭐⭐⭐⭐' : score >= 75 ? '⭐⭐⭐⭐' : 
-                       score >= 60 ? '⭐⭐⭐' : '⭐⭐';
-            document.getElementById('scoreStars').textContent = stars;
-            
-            let verdict = score >= 90 ? '🎉 Luar Biasa!' : score >= 75 ? '👍 Bagus Sekali!' : '😊 Cukup Baik!';
+
+            const totalPx   = W * H;
+            const inkRatio  = inkPixels.length / totalPx;
+
+            // ── KRITERIA 1: COVERAGE (25 poin) ──────────────────
+            // Ideal: 10%–45% luas kanvas
+            let coverScore;
+            if      (inkRatio < 0.02)  coverScore = 3;
+            else if (inkRatio < 0.08)  coverScore = Math.round(3  + (inkRatio - 0.02) / 0.06 * 10);
+            else if (inkRatio <= 0.45) coverScore = Math.round(13 + (inkRatio - 0.08) / 0.37 * 12);
+            else if (inkRatio <= 0.65) coverScore = Math.round(25 - (inkRatio - 0.45) / 0.20 * 15);
+            else                       coverScore = 5;
+            coverScore = Math.min(25, Math.max(0, coverScore));
+
+            // ── KRITERIA 2: POSISI TENGAH (20 poin) ─────────────
+            const sumX = inkPixels.reduce((s, p) => s + p.x, 0);
+            const sumY = inkPixels.reduce((s, p) => s + p.y, 0);
+            const cx = sumX / inkPixels.length;
+            const cy = sumY / inkPixels.length;
+            const dx = Math.abs(cx - W / 2) / (W / 2);
+            const dy = Math.abs(cy - H / 2) / (H / 2);
+            const centerDist = Math.sqrt(dx * dx + dy * dy) / Math.sqrt(2);
+            const posScore = Math.round(20 * Math.pow(1 - centerDist, 1.5));
+
+            // ── KRITERIA 3: KEPADATAN MERATA (20 poin) ──────────
+            // Grid 4×4 = 16 sel, hitung berapa sel berisi tinta
+            const GRID = 4;
+            const cellW = W / GRID;
+            const cellH = H / GRID;
+            const cellSet = new Set();
+            inkPixels.forEach(p => {
+                const col = Math.floor(p.x / cellW);
+                const row = Math.floor(p.y / cellH);
+                cellSet.add(row * GRID + col);
+            });
+            const filledCells = cellSet.size;
+            let densityScore;
+            if      (filledCells <= 1)  densityScore = 2;
+            else if (filledCells <= 3)  densityScore = Math.round(2  + (filledCells - 1)  / 2  * 5);
+            else if (filledCells <= 10) densityScore = Math.round(7  + (filledCells - 3)  / 7  * 13);
+            else if (filledCells <= 14) densityScore = Math.round(20 - (filledCells - 10) / 4  * 10);
+            else                        densityScore = 5;
+            densityScore = Math.min(20, Math.max(0, densityScore));
+
+            // ── KRITERIA 4: PROPORSI (15 poin) ──────────────────
+            const xs = inkPixels.map(p => p.x);
+            const ys = inkPixels.map(p => p.y);
+            const minX = Math.min(...xs), maxX = Math.max(...xs);
+            const minY = Math.min(...ys), maxY = Math.max(...ys);
+            const bboxW = (maxX - minX) / W;
+            const bboxH = (maxY - minY) / H;
+            const wScore = bboxW < 0.15 ? 1 : bboxW < 0.35 ? Math.round(1 + (bboxW-0.15)/0.2*6) :
+                           bboxW <= 0.80 ? 7 : Math.round(7 - (bboxW-0.80)/0.2*4);
+            const hScore = bboxH < 0.15 ? 1 : bboxH < 0.35 ? Math.round(1 + (bboxH-0.15)/0.2*6) :
+                           bboxH <= 0.80 ? 8 : Math.round(8 - (bboxH-0.80)/0.2*4);
+            const propScore = Math.min(15, Math.max(0, wScore + hScore));
+
+            // ── KRITERIA 5: KERAPIAN / ANTI-CORETAN (20 poin) ───
+            // ── KRITERIA 5: KERAPIAN / ANTI-CORETAN (20 poin) ───
+            // Deteksi coretan liar via connected components pada grid kasar 16×16
+            // Iterative BFS dengan flat array (aman, tidak stack overflow)
+            const SGRID = 16;
+            const sgW   = Math.ceil(W / SGRID);
+            const sgH   = Math.ceil(H / SGRID);
+            const occupied = new Uint8Array(SGRID * SGRID);
+
+            for (let i = 0; i < inkPixels.length; i++) {
+                const col = Math.min(SGRID - 1, (inkPixels[i].x / sgW) | 0);
+                const row = Math.min(SGRID - 1, (inkPixels[i].y / sgH) | 0);
+                occupied[row * SGRID + col] = 1;
+            }
+
+            // Iterative BFS — flat queue dengan head pointer (tidak pakai shift, tidak stack overflow)
+            const vis   = new Uint8Array(SGRID * SGRID);
+            const qBuf  = new Int32Array(SGRID * SGRID); // worst case semua sel
+            let components = 0;
+
+            for (let startIdx = 0; startIdx < SGRID * SGRID; startIdx++) {
+                if (!occupied[startIdx] || vis[startIdx]) continue;
+                components++;
+                // BFS iteratif
+                let head = 0, tail = 0;
+                qBuf[tail++] = startIdx;
+                vis[startIdx] = 1;
+                while (head < tail) {
+                    const idx = qBuf[head++];
+                    const r   = (idx / SGRID) | 0;
+                    const c   = idx % SGRID;
+                    // 8-connected neighbors
+                    for (let dr = -1; dr <= 1; dr++) {
+                        for (let dc = -1; dc <= 1; dc++) {
+                            if (dr === 0 && dc === 0) continue;
+                            const nr = r + dr, nc = c + dc;
+                            if (nr < 0 || nr >= SGRID || nc < 0 || nc >= SGRID) continue;
+                            const ni = nr * SGRID + nc;
+                            if (occupied[ni] && !vis[ni]) {
+                                vis[ni] = 1;
+                                qBuf[tail++] = ni;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Komponen ideal untuk karakter Mandarin: 1–4 (sedikit pulau = rapi)
+            // Coretan liar → banyak fragmen terpisah
+            let neatScore;
+            if      (components <= 2)  neatScore = 20;
+            else if (components <= 4)  neatScore = Math.round(20 - (components - 2) / 2 * 3);
+            else if (components <= 8)  neatScore = Math.round(17 - (components - 4) / 4 * 9);
+            else if (components <= 14) neatScore = Math.round(8  - (components - 8) / 6 * 7);
+            else                       neatScore = 0;
+            neatScore = Math.min(20, Math.max(0, neatScore));
+
+            // ── PENALTI CORETAN LIAR (hingga -35 poin) ──────────
+            // Tiga sinyal coretan liar, masing-masing berkontribusi ke penalti:
+            //
+            // A. Fragment banyak (components > 5) — coretan tidak menyambung
+            // B. Coverage terlalu tinggi (inkRatio > 0.45) — terlalu penuh
+            // C. Kombinasi keduanya — paling kuat
+            let scribblePenalty = 0;
+
+            // Sinyal A: banyak komponen terpisah
+            if (components > 5) {
+                scribblePenalty += Math.min(15, (components - 5) * 2);
+            }
+
+            // Sinyal B: coverage terlalu penuh
+            if (inkRatio > 0.45) {
+                scribblePenalty += Math.min(10, Math.round((inkRatio - 0.45) * 60));
+            }
+
+            // Sinyal C: kombinasi (coverage tinggi + fragmen banyak) = coretan pasti
+            if (inkRatio > 0.40 && components > 8) {
+                const extra = Math.round((inkRatio - 0.40) * 40 + (components - 8) * 2);
+                scribblePenalty += Math.min(15, extra);
+            }
+
+            scribblePenalty = Math.min(35, scribblePenalty); // cap total penalti
+
+            // ── TOTAL ────────────────────────────────────────────
+            const rawTotal = coverScore + posScore + densityScore + propScore + neatScore;
+            const total    = Math.max(0, Math.min(100, rawTotal - scribblePenalty));
+
+            // ── Render hasil ──────────────────────────────────────
+            const stars   = total >= 90 ? '⭐⭐⭐⭐⭐' : total >= 75 ? '⭐⭐⭐⭐' :
+                            total >= 60 ? '⭐⭐⭐' : total >= 40 ? '⭐⭐' : '⭐';
+            const verdict = total >= 90 ? '🎉 Luar Biasa!' : total >= 75 ? '👍 Bagus Sekali!' :
+                            total >= 60 ? '😊 Cukup Baik!'  : total >= 40 ? '💪 Perlu Latihan' :
+                            '📚 Coba Lagi';
+
+            document.getElementById('totalScore').textContent = total;
+            document.getElementById('scoreStars').textContent  = stars;
             document.getElementById('scoreVerdict').textContent = verdict;
-            
+
+            const neatTip = components <= 2  ? 'Guratan sangat rapi dan menyambung ✓' :
+                            components <= 4  ? 'Guratan rapi dan terstruktur ✓' :
+                            components <= 8  ? 'Ada beberapa goresan terpisah — coba lebih menyambung' :
+                            components <= 14 ? '⚠️ Terlalu banyak goresan terpisah — tulis lebih terstruktur' :
+                            '❌ Terdeteksi coretan sembarangan! Tulis karakter yang benar';
+
+            const penaltyParts = [];
+            if (components > 5)  penaltyParts.push(`fragmen banyak (${components} pulau)`);
+            if (inkRatio > 0.45) penaltyParts.push(`terlalu penuh (${Math.round(inkRatio*100)}% kanvas)`);
+            const scribbleTip = scribblePenalty > 0
+                ? ` — penalti coretan: -${scribblePenalty} poin (${penaltyParts.join(', ')})`
+                : '';
+
+            const criteria = [
+                {
+                    label: '✍️ Kerapian Guratan',
+                    score: neatScore, max: 20,
+                    tip: neatTip + scribbleTip
+                },
+                {
+                    label: '📐 Ukuran Tulisan',
+                    score: coverScore, max: 25,
+                    tip: inkRatio < 0.08 ? 'Tulisan terlalu kecil — isi lebih banyak area kanvas' :
+                         inkRatio > 0.55 ? 'Tulisan terlalu besar / penuh — beri ruang di tepi' :
+                         'Ukuran tulisan sudah baik ✓'
+                },
+                {
+                    label: '🎯 Posisi Tengah',
+                    score: posScore, max: 20,
+                    tip: centerDist > 0.4 ? 'Tulisan terlalu ke tepi — tulis lebih ke tengah' :
+                         centerDist > 0.2 ? 'Posisi sedikit miring — usahakan lebih ke tengah' :
+                         'Posisi sudah terpusat ✓'
+                },
+                {
+                    label: '⚖️ Kepadatan Merata',
+                    score: densityScore, max: 20,
+                    tip: filledCells < 3  ? 'Tulisan terlalu sempit / titik saja' :
+                         filledCells > 14 ? 'Terlalu banyak area terisi — lebih fokus' :
+                         'Distribusi guratan merata ✓'
+                },
+                {
+                    label: '📏 Proporsi',
+                    score: propScore, max: 15,
+                    tip: bboxW < 0.3 ? 'Terlalu kurus — perlebar tulisan' :
+                         bboxH < 0.3 ? 'Terlalu pendek — panjangkan tulisan' :
+                         bboxW > 0.85 || bboxH > 0.85 ? 'Terlalu melebar — beri margin' :
+                         'Proporsi sudah baik ✓'
+                },
+            ];
+
+            document.getElementById('scoreCriteria').innerHTML = criteria.map(c => {
+                const pct   = Math.round(c.score / c.max * 100);
+                const color = pct >= 75 ? '#FFDE00' : pct >= 50 ? '#ffa726' : '#DE2910';
+                return `
+                    <div style="background:white; border-radius:10px; padding:10px 14px; margin-bottom:8px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                            <span style="font-size:.88em; font-weight:bold; color:#333;">${c.label}</span>
+                            <span style="font-size:.88em; font-weight:bold; color:${color};">${c.score}/${c.max}</span>
+                        </div>
+                        <div style="background:#eee; border-radius:4px; height:7px; overflow:hidden; margin-bottom:6px;">
+                            <div style="width:${pct}%; height:100%; background:${color};
+                                border-radius:4px; transition:width .6s;"></div>
+                        </div>
+                        <div style="font-size:.78em; color:#888;">${c.tip}</div>
+                    </div>`;
+            }).join('');
+
             document.getElementById('evaluationPanel').classList.add('show');
             setTimeout(() => {
-                document.getElementById('evaluationPanel').scrollIntoView({ 
-                    behavior: 'smooth', block: 'center'
+                document.getElementById('evaluationPanel').scrollIntoView({
+                    behavior: 'smooth', block: 'nearest'
                 });
             }, 300);
         }
-        
         function closeEvaluation() {
             document.getElementById('evaluationPanel').classList.remove('show');
             clearCanvas();
         }
-        
+
+        // =============================================
+        // QUIZ MODULE ENGINE
+        // =============================================
+        const quizModes = [
+            { id:'mc_char2meaning', icon:'🀄', title:'Karakter → Arti',    desc:'Lihat karakter, pilih artinya dalam Bahasa Indonesia' },
+            { id:'mc_meaning2char', icon:'🔤', title:'Arti → Karakter',    desc:'Lihat arti, pilih karakter Mandarinnya yang tepat' },
+            { id:'mc_pinyin2char',  icon:'🔡', title:'Pinyin → Karakter',  desc:'Lihat pinyin, pilih karakter yang sesuai' },
+            { id:'mc_char2pinyin',  icon:'🔊', title:'Karakter → Pinyin',  desc:'Lihat karakter saja (tanpa pinyin), pilih bacaan yang benar' },
+            { id:'fill_meaning',    icon:'✍️', title:'Tulis Arti',         desc:'Lihat karakter, ketik artinya dalam Bahasa Indonesia' },
+            { id:'fill_pinyin',     icon:'📝', title:'Tulis Pinyin',       desc:'Lihat karakter, ketik cara bacanya (tanpa nada)' },
+            { id:'draw_char',       icon:'🖊️', title:'Tulis Karakter',     desc:'Lihat arti & pinyin, tulis karakter Mandarin yang benar di kanvas' },
+            { id:'sentence',        icon:'📖', title:'Lengkapi Kalimat',   desc:'Isi bagian yang hilang dari kalimat Mandarin' },
+            { id:'listen',          icon:'👂', title:'Tebak Dari Audio',   desc:'Dengarkan pengucapan, pilih karakter yang sesuai' },
+        ];
+
+        // Kumpulkan semua item dari semua kategori
+        function getAllQuizItems() {
+            const items = [];
+            const contentCats = ['numbers','people','family','body','nature','animals','food',
+                'directions','time','colors','adjectives','verbs','places','common_chars'];
+            contentCats.forEach(cat => {
+                (charactersData[cat] || []).forEach(item => {
+                    if (item.strokes && item.strokes > 1) // skip 1-stroke radicals
+                        items.push({ ...item, source: cat });
+                });
+            });
+            // Also add words
+            Object.values(charactersData.words || {}).forEach(arr => {
+                arr.forEach(item => items.push({ ...item, source: 'words' }));
+            });
+            return items;
+        }
+
+        function getItemsByCategory(cat) {
+            if (cat === 'all') return getAllQuizItems();
+            if (cat === 'words') {
+                const items = [];
+                Object.values(charactersData.words || {}).forEach(arr =>
+                    arr.forEach(item => items.push({ ...item, source: 'words' })));
+                return items;
+            }
+            return (charactersData[cat] || []).map(i => ({ ...i, source: cat }));
+        }
+
+        // Sentence templates - 完整句子模板
+        const sentenceTemplates = [
+            { sentence: '__很好。', blank: '你好', pinyin: 'nǐ hǎo', hint: 'Salam dalam bahasa Mandarin', alt: ['再见', '谢谢', '早上好'] },
+            { sentence: '我喜欢吃__。', blank: '米饭', pinyin: 'mǐfàn', hint: 'Makanan pokok orang Asia', alt: ['早饭', '面包', '午饭'] },
+            { sentence: '今天天气__。', blank: '很好', pinyin: 'hěn hǎo', hint: 'Cuaca hari ini ...', alt: ['很坏', '不好', '很大'] },
+            { sentence: '他是我的__。', blank: '朋友', pinyin: 'péngyou', hint: 'Orang yang kita kenal', alt: ['老师', '爸爸', '学生'] },
+            { sentence: '我在__工作。', blank: '公司', pinyin: 'gōngsī', hint: 'Tempat bekerja', alt: ['学校', '医院', '家'] },
+            { sentence: '明天我去__。', blank: '学校', pinyin: 'xuéxiào', hint: 'Tempat belajar', alt: ['医院', '公园', '车站'] },
+            { sentence: '这个__很贵。', blank: '手机', pinyin: 'shǒujī', hint: 'Alat komunikasi genggam', alt: ['电脑', '电视', '苹果'] },
+            { sentence: '我有两个__。', blank: '朋友', pinyin: 'péngyou', hint: 'Orang yang kita kenal', alt: ['哥哥', '妹妹', '老师'] },
+            { sentence: '她是我的__。', blank: '妈妈', pinyin: 'māma', hint: 'Ibu kita', alt: ['姐姐', '妹妹', '奶奶'] },
+            { sentence: '我们去__喝茶。', blank: '饭店', pinyin: 'fàndiàn', hint: 'Tempat makan', alt: ['公园', '医院', '学校'] },
+            { sentence: '昨天我学了__。', blank: '汉语', pinyin: 'Hànyǔ', hint: 'Bahasa yang sedang kita pelajari', alt: ['英语', '日语', '法语'] },
+            { sentence: '你喜欢__吗？', blank: '音乐', pinyin: 'yīnyuè', hint: 'Seni yang bisa didengar', alt: ['电影', '运动', '读书'] },
+            { sentence: '我每天__跑步。', blank: '早上', pinyin: 'zǎoshang', hint: 'Waktu di pagi hari', alt: ['晚上', '下午', '中午'] },
+            { sentence: '这里有__个人。', blank: '三', pinyin: 'sān', hint: 'Angka antara 2 dan 4', alt: ['二', '四', '五'] },
+            { sentence: '他喝了一杯__。', blank: '茶', pinyin: 'chá', hint: 'Minuman tradisional Tiongkok', alt: ['水', '酒', '咖啡'] },
+        ];
+
+        // State
+        let qState = {
+            mode: 'mc_char2meaning',
+            category: 'all',
+            count: 10,
+            questions: [],
+            current: 0,
+            score: 0,
+            startTime: 0,
+            answered: false,
+            wrongItems: [],
+            selectedMode: 'mc_char2meaning'
+        };
+
+        function initQuizHub() {
+            const el = document.getElementById('quiz');
+            el.innerHTML = `
+                <div class="quiz-hub">
+                    <div class="category-header">
+                        <div class="category-title">🎯 Quiz Mandarin</div>
+                        <p style="color:#555; font-size:.9em; margin-top:6px;">Pilih mode quiz dan mulai latihan!</p>
+                    </div>
+                    <div class="quiz-mode-grid" id="quizModeGrid">
+                        ${quizModes.map(m => `
+                            <div class="quiz-mode-card ${m.id===qState.selectedMode?'selected':''}"
+                                onclick="selectQuizMode('${m.id}', this)">
+                                <div class="quiz-mode-icon">${m.icon}</div>
+                                <div class="quiz-mode-title">${m.title}</div>
+                                <div class="quiz-mode-desc">${m.desc}</div>
+                            </div>`).join('')}
+                    </div>
+                    <div class="quiz-settings">
+                        <label>📂 Kategori Soal</label>
+                        <select id="qCatSelect">
+                            <option value="all">🌐 Semua Kategori</option>
+                            <option value="numbers">🔢 Angka</option>
+                            <option value="people">👥 Orang</option>
+                            <option value="family">👨‍👩‍👧 Keluarga</option>
+                            <option value="body">👁️ Tubuh</option>
+                            <option value="nature">🌳 Alam</option>
+                            <option value="animals">🐾 Hewan</option>
+                            <option value="food">🍜 Makanan</option>
+                            <option value="directions">🧭 Arah</option>
+                            <option value="time">⏰ Waktu</option>
+                            <option value="colors">🎨 Warna</option>
+                            <option value="adjectives">📏 Sifat</option>
+                            <option value="verbs">⚡ Kata Kerja</option>
+                            <option value="places">🏛️ Tempat</option>
+                            <option value="common_chars">📖 Karakter Umum</option>
+                            <option value="words">📝 Kata-Kata</option>
+                        </select>
+                        <label>🔢 Jumlah Soal</label>
+                        <select id="qCountSelect">
+                            <option value="5">5 soal (cepat)</option>
+                            <option value="10" selected>10 soal</option>
+                            <option value="20">20 soal</option>
+                            <option value="30">30 soal</option>
+                        </select>
+                    </div>
+                    <button class="quiz-start-btn" onclick="startQuiz()">🚀 Mulai Quiz</button>
+                </div>
+            `;
+        }
+
+        function selectQuizMode(id, el) {
+            qState.selectedMode = id;
+            document.querySelectorAll('.quiz-mode-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function startQuiz() {
+            // Baca dari form hub - simpan ke state
+            const catEl   = document.getElementById('qCatSelect');
+            const cntEl   = document.getElementById('qCountSelect');
+            if (!catEl || !cntEl) { restartQuiz(); return; }
+
+            qState.mode     = qState.selectedMode;
+            qState.category = catEl.value;
+            qState.count    = parseInt(cntEl.value);
+            _runQuiz();
+        }
+
+        // Ulangi dengan settings yang sama, soal diacak ulang
+        function restartQuiz() {
+            _runQuiz();
+        }
+
+        function _runQuiz() {
+            qState.current   = 0;
+            qState.score     = 0;
+            qState.wrongItems = [];
+            qState.startTime = Date.now();
+            _selectedMCAnswer = null;
+
+            if (qState.mode === 'sentence') {
+                const pool = [...sentenceTemplates].sort(() => Math.random() - .5);
+                qState.questions = pool.slice(0, qState.count);
+            } else {
+                let pool = getItemsByCategory(qState.category)
+                    .sort(() => Math.random() - .5);
+
+                // Mode draw: hanya karakter tunggal (1 karakter)
+                if (qState.mode === 'draw_char') {
+                    pool = pool.filter(x => x.char && x.char.length === 1);
+                }
+
+                if (pool.length < 4) {
+                    alert('Kategori ini terlalu sedikit soal (min 4). Pilih kategori lain.');
+                    initQuizHub();
+                    return;
+                }
+                qState.questions = pool.slice(0, Math.min(qState.count, pool.length));
+            }
+
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const el = document.getElementById('quiz');
+            if (qState.current >= qState.questions.length) { renderQuizResults(); return; }
+
+            const q = qState.questions[qState.current];
+            const pct = (qState.current / qState.questions.length * 100).toFixed(0);
+            const modeInfo = quizModes.find(m => m.id === qState.mode);
+
+            let questionHTML = '';
+
+            if (qState.mode === 'sentence') {
+                questionHTML = buildSentenceQuestion(q);
+            } else if (qState.mode.startsWith('mc_')) {
+                questionHTML = buildMCQuestion(q);
+            } else if (qState.mode.startsWith('fill_')) {
+                questionHTML = buildFillQuestion(q);
+            } else if (qState.mode === 'draw_char') {
+                questionHTML = buildDrawQuestion(q);
+            } else if (qState.mode === 'listen') {
+                questionHTML = buildListenQuestion(q);
+            }
+
+            el.innerHTML = `
+                <div class="quiz-active" style="padding:4px 0;">
+                    <div class="quiz-header">
+                        <div>
+                            <span style="font-weight:bold; color:#333;">${modeInfo.icon} ${modeInfo.title}</span>
+                            <span style="color:#888; font-size:.85em; margin-left:8px;">
+                                ${qState.current+1} / ${qState.questions.length}
+                            </span>
+                        </div>
+                        <div class="quiz-score-badge">✓ ${qState.score}</div>
+                    </div>
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" style="width:${pct}%"></div>
+                    </div>
+                    ${questionHTML}
+                    <div class="quiz-feedback" id="qFeedback"></div>
+                    <div style="display:flex; gap:8px; justify-content:center; margin-top:12px; flex-wrap:wrap;">
+                        <button id="qSubmitBtn" onclick="submitAnswer()"
+                            style="background:linear-gradient(135deg,#DE2910,#B01E0A);
+                            color:white;border:none;padding:11px 28px;border-radius:22px;
+                            font-weight:bold;font-size:1em;cursor:pointer;">
+                            ✓ Jawab
+                        </button>
+                        <button onclick="skipQuestion()"
+                            style="background:#e0e0e0;color:#666;border:none;padding:11px 20px;
+                            border-radius:22px;font-weight:bold;font-size:.9em;cursor:pointer;">
+                            Lewati →
+                        </button>
+                        <button onclick="initQuizHub()"
+                            style="background:linear-gradient(135deg,#DE2910,#B01E0A);color:white;
+                            border:none;padding:11px 20px;border-radius:22px;
+                            font-weight:bold;font-size:.9em;cursor:pointer;">
+                            ✕ Berhenti
+                        </button>
+                    </div>
+                </div>`;
+
+            qState.answered = false;
+
+            // Auto-play audio for listen mode
+            if (qState.mode === 'listen') {
+                setTimeout(() => speakChinese(q.char, q.pinyin), 500);
+            }
+        }
+
+        function buildMCQuestion(q) {
+            const pool = getItemsByCategory(qState.category);
+            // pastikan opsi salah punya pinyin berbeda (untuk mode char2pinyin)
+            const others = pool.filter(x => x.char !== q.char && x.pinyin !== q.pinyin)
+                .sort(() => Math.random() - .5).slice(0, 3);
+            const opts = [...others, q].sort(() => Math.random() - .5);
+
+            let questionChar = '', questionLabel = '', optionText = () => '';
+
+            switch(qState.mode) {
+                case 'mc_char2meaning':
+                    // Tampilkan karakter SAJA — tanpa pinyin (pinyin = bocoran)
+                    questionChar = `<div class="quiz-char-big">${q.char}</div>`;
+                    questionLabel = 'Apa arti karakter di atas?';
+                    optionText = i => i.meaning;
+                    break;
+                case 'mc_meaning2char':
+                    // Tampilkan arti + pinyin sebagai petunjuk
+                    questionChar = `
+                        <div style="font-size:clamp(1.3em,5vw,2em);color:#333;font-weight:bold;margin:8px 0;">${q.meaning}</div>
+                        <div class="quiz-hint">Pinyin: ${q.pinyin}</div>`;
+                    questionLabel = 'Pilih karakter Mandarin yang tepat:';
+                    optionText = i => `<span style="font-size:1.5em;">${i.char}</span>`;
+                    break;
+                case 'mc_pinyin2char':
+                    // Tampilkan pinyin + arti, pilih karakter
+                    questionChar = `
+                        <div class="quiz-pinyin">${q.pinyin}</div>
+                        <div class="quiz-hint">${q.meaning}</div>`;
+                    questionLabel = 'Pilih karakter yang sesuai pinyin:';
+                    optionText = i => `<span style="font-size:1.4em;">${i.char}</span>`;
+                    break;
+                case 'mc_char2pinyin':
+                    // Tampilkan karakter + arti SAJA — tanpa pinyin sama sekali!
+                    questionChar = `
+                        <div class="quiz-char-big">${q.char}</div>
+                        <div class="quiz-hint" style="color:#888;">${q.meaning}</div>`;
+                    questionLabel = 'Pilih cara membaca karakter ini:';
+                    optionText = i => `<div>${i.pinyin}</div>`;
+                    break;
+            }
+
+            window._qCorrectChar = q.char;
+
+            return `
+                <div class="quiz-question-box">
+                    <div class="quiz-question-label">${questionLabel}</div>
+                    ${questionChar}
+                </div>
+                <div class="quiz-options" id="qOptions">
+                    ${opts.map(opt => `
+                        <div class="quiz-option" onclick="selectMCOption(this, '${opt.char}')"
+                            data-char="${opt.char}">
+                            ${optionText(opt)}
+                        </div>`).join('')}
+                </div>`;
+        }
+
+        function buildFillQuestion(q) {
+            window._qCorrectChar = q.char;
+            const isArtiMode = qState.mode === 'fill_meaning';
+            return `
+                <div class="quiz-question-box">
+                    <div class="quiz-question-label">${isArtiMode ? 'Apa arti karakter ini?' : 'Bagaimana cara membacanya? (ketik pinyin tanpa nada)'}</div>
+                    <div class="quiz-char-big">${q.char}</div>
+                    <div class="quiz-pinyin">${isArtiMode ? q.pinyin : ''}</div>
+                </div>
+                <div style="text-align:center; margin-bottom:10px;">
+                    <input class="quiz-fill-input" id="qFillInput" type="text"
+                        placeholder="${isArtiMode ? 'Tulis artinya...' : 'Tulis pinyin...'}"
+                        onkeydown="if(event.key==='Enter') submitAnswer()" autocomplete="off"/>
+                    <div class="quiz-hint" style="margin-top:8px;">
+                        ${isArtiMode ? '💡 Jawab dalam Bahasa Indonesia' : '💡 Contoh: ni hao (tanpa tanda nada)'}
+                    </div>
+                </div>`;
+        }
+
+        function buildDrawQuestion(q) {
+            window._qCorrectChar = q.char;
+            // Hanya karakter tunggal yang bisa digambar
+            const displayChar = q.char.length === 1 ? q.char : q.char[0];
+            return `
+                <div class="quiz-question-box">
+                    <div class="quiz-question-label">Tulis karakter Mandarin berikut:</div>
+                    <div class="quiz-pinyin" style="font-size:clamp(1.5em,5vw,2.2em);">${q.pinyin}</div>
+                    <div style="font-size:clamp(1em,3.5vw,1.3em); color:#555; margin:4px 0;">${q.meaning}</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="position:relative; display:inline-block; border:2px solid #ddd;
+                        border-radius:12px; overflow:hidden; background:#fafafa;
+                        width:min(240px,80vw); height:min(240px,80vw);">
+                        <!-- Grid panduan saja, tanpa referensi karakter -->
+                        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;" viewBox="0 0 240 240">
+                            <line x1="120" y1="0" x2="120" y2="240" stroke="rgba(222,41,16,0.15)" stroke-width="1.5"/>
+                            <line x1="0" y1="120" x2="240" y2="120" stroke="rgba(222,41,16,0.15)" stroke-width="1.5"/>
+                            <line x1="0" y1="0" x2="240" y2="240" stroke="rgba(222,41,16,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+                            <line x1="240" y1="0" x2="0" y2="240" stroke="rgba(222,41,16,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+                        </svg>
+                        <canvas id="qDrawCanvas"
+                            style="display:block; width:100%; height:100%; cursor:crosshair; touch-action:none;"
+                            width="480" height="480"></canvas>
+                    </div>
+                    <div style="display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+                        <button onclick="qDrawClear()"
+                            style="background:linear-gradient(135deg,#DE2910,#B01E0A);color:white;
+                            border:none;padding:8px 18px;border-radius:18px;cursor:pointer;
+                            font-weight:bold;font-size:.88em;">
+                            🗑️ Hapus
+                        </button>
+                        <button onclick="qDrawSpeak('${q.char}','${q.pinyin}')"
+                            style="background:linear-gradient(135deg,#FFDE00,#C8A400);color:white;
+                            border:none;padding:8px 18px;border-radius:18px;cursor:pointer;
+                            font-weight:bold;font-size:.88em;">
+                            🔊 Audio
+                        </button>
+                    </div>
+                    <div class="quiz-hint" style="margin-top:8px;">
+                        💡 Tulis karakternya, lalu klik <strong>✓ Jawab</strong> untuk menampilkan jawaban benar
+                    </div>
+                </div>`;
+        }
+
+        function buildSentenceQuestion(q) {
+            window._qCorrectChar = q.blank;
+            const displayed = q.sentence.replace('__', `<span class="sentence-blank">__</span>`);
+            const opts = [q.blank, ...q.alt].sort(() => Math.random() - .5);
+            return `
+                <div class="quiz-question-box">
+                    <div class="quiz-question-label">Lengkapi kalimat berikut:</div>
+                    <div class="sentence-display">${displayed}</div>
+                    <div class="quiz-hint">💡 Petunjuk: ${q.hint}</div>
+                    <div style="font-size:.8em; color:#aaa; margin-top:6px;">Pinyin: ${q.pinyin}</div>
+                </div>
+                <div class="quiz-options" id="qOptions">
+                    ${opts.map(opt => `
+                        <div class="quiz-option" onclick="selectMCOption(this, '${opt}')"
+                            data-char="${opt}">
+                            <span style="font-size:1.3em;">${opt}</span>
+                        </div>`).join('')}
+                </div>`;
+        }
+
+        function buildListenQuestion(q) {
+            window._qCorrectChar = q.char;
+            const pool = getItemsByCategory(qState.category);
+            const others = pool.filter(x => x.char !== q.char)
+                .sort(() => Math.random() - .5).slice(0, 3);
+            const opts = [...others, q].sort(() => Math.random() - .5);
+            return `
+                <div class="quiz-question-box">
+                    <div class="quiz-question-label">Dengarkan audio, pilih karakter yang sesuai:</div>
+                    <button onclick="speakChinese('${q.char}','${q.pinyin}')"
+                        style="background:linear-gradient(135deg,#FFDE00,#C8A400);color:white;
+                        border:none;padding:16px 32px;border-radius:25px;font-size:1.5em;
+                        cursor:pointer;margin:12px 0;">
+                        🔊 Putar Audio
+                    </button>
+                    <div style="font-size:.82em; color:#aaa;">Klik untuk mendengar lagi</div>
+                </div>
+                <div class="quiz-options" id="qOptions">
+                    ${opts.map(opt => `
+                        <div class="quiz-option" onclick="selectMCOption(this, '${opt.char}')"
+                            data-char="${opt.char}">
+                            <div style="font-size:1.6em;">${opt.char}</div>
+                            <div style="font-size:.75em; color:#888; margin-top:2px;">${opt.meaning}</div>
+                        </div>`).join('')}
+                </div>`;
+        }
+
+        let _selectedMCAnswer = null;
+
+        // ── Draw Quiz Canvas ──────────────────────────────
+        let _qDrawing = false;
+        let _qDrawCtx = null;
+        let _qRefVisible = true;
+
+        function _initQDrawCanvas() {
+            const cv = document.getElementById('qDrawCanvas');
+            if (!cv) return;
+            _qDrawCtx = cv.getContext('2d');
+            _qDrawCtx.lineWidth   = 8;
+            _qDrawCtx.strokeStyle = '#222';
+            _qDrawCtx.lineCap     = 'round';
+            _qDrawCtx.lineJoin    = 'round';
+
+            function pos(e) {
+                const r = cv.getBoundingClientRect();
+                const sx = cv.width  / r.width;
+                const sy = cv.height / r.height;
+                const src = e.touches ? e.touches[0] : e;
+                return { x:(src.clientX - r.left)*sx, y:(src.clientY - r.top)*sy };
+            }
+            cv.onmousedown  = e => { _qDrawing=true; const p=pos(e); _qDrawCtx.beginPath(); _qDrawCtx.moveTo(p.x,p.y); };
+            cv.onmousemove  = e => { if(!_qDrawing) return; const p=pos(e); _qDrawCtx.lineTo(p.x,p.y); _qDrawCtx.stroke(); };
+            cv.onmouseup    = () => { _qDrawing=false; _qDrawCtx.beginPath(); };
+            cv.onmouseleave = () => { _qDrawing=false; _qDrawCtx.beginPath(); };
+            cv.addEventListener('touchstart', e => { e.preventDefault(); _qDrawing=true; const p=pos(e); _qDrawCtx.beginPath(); _qDrawCtx.moveTo(p.x,p.y); }, {passive:false});
+            cv.addEventListener('touchmove',  e => { e.preventDefault(); if(!_qDrawing) return; const p=pos(e); _qDrawCtx.lineTo(p.x,p.y); _qDrawCtx.stroke(); }, {passive:false});
+            cv.addEventListener('touchend',   () => { _qDrawing=false; _qDrawCtx.beginPath(); });
+        }
+
+        function qDrawClear() {
+            const cv = document.getElementById('qDrawCanvas');
+            if (cv && _qDrawCtx) _qDrawCtx.clearRect(0,0,cv.width,cv.height);
+        }
+
+        function qDrawToggleRef() {
+            const refText = document.getElementById('qDrawRef');
+            if (refText) {
+                _qRefVisible = !_qRefVisible;
+                refText.style.opacity = _qRefVisible ? '1' : '0';
+            }
+        }
+
+        function qDrawSpeak(char, pinyin) { speakChinese(char, pinyin); }
+
+        // Inisialisasi canvas draw setelah DOM render
+        const _qDrawObserver = new MutationObserver(() => {
+            if (document.getElementById('qDrawCanvas') && !_qDrawCtx) {
+                _initQDrawCanvas();
+            }
+        });
+        _qDrawObserver.observe(document.body, { childList:true, subtree:true });
+
+        // ── Submit draw mode: tampilkan jawaban benar + self-assess ──
+        function _submitDrawAnswer(q) {
+            // Cek apakah canvas ada tulisan
+            const cv = document.getElementById('qDrawCanvas');
+            let hasDrawing = false;
+            if (cv && _qDrawCtx) {
+                const d = _qDrawCtx.getImageData(0,0,cv.width,cv.height).data;
+                for (let i=3; i<d.length; i+=4) { if(d[i]>10){ hasDrawing=true; break; } }
+            }
+            if (!hasDrawing) {
+                showFeedback(false, '⚠️ Tulis karakternya terlebih dahulu!');
+                setTimeout(() => { const f=document.getElementById('qFeedback'); if(f) f.className='quiz-feedback'; }, 1500);
+                return false; // jangan lanjut
+            }
+
+            // Tampilkan jawaban benar di atas canvas
+            const char = q.char;
+            const container = cv?.parentElement;
+            if (container) {
+                // Overlay jawaban benar
+                let overlay = document.getElementById('qDrawAnswer');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.id = 'qDrawAnswer';
+                    overlay.style.cssText = `position:absolute;top:0;left:0;width:100%;height:100%;
+                        display:flex;align-items:center;justify-content:center;
+                        background:rgba(255,255,255,0.88);border-radius:10px;pointer-events:none;z-index:5;`;
+                    container.style.position = 'relative';
+                    container.appendChild(overlay);
+                }
+                overlay.innerHTML = `<div style="text-align:center;">
+                    <div style="font-size:8em;font-family:'Microsoft YaHei','SimHei',sans-serif;
+                        color:#333;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,0.15);">${char}</div>
+                    <div style="font-size:.9em;color:#DE2910;font-weight:bold;margin-top:4px;">
+                        Bandingkan dengan tulisanmu
+                    </div>
+                </div>`;
+            }
+
+            // Self-assess: benar / salah sendiri
+            showFeedback(true, `
+                <div>Apakah tulisanmu mirip dengan <strong>${char}</strong> (${q.pinyin}) ?</div>
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
+                    <button onclick="qDrawSelfAssess(true)"
+                        style="background:#FFDE00;color:white;border:none;padding:7px 18px;
+                        border-radius:14px;cursor:pointer;font-weight:bold;">✅ Ya, mirip</button>
+                    <button onclick="qDrawSelfAssess(false)"
+                        style="background:#DE2910;color:white;border:none;padding:7px 18px;
+                        border-radius:14px;cursor:pointer;font-weight:bold;">❌ Belum mirip</button>
+                </div>`);
+            document.getElementById('qFeedback').className = 'quiz-feedback show correct';
+            return true;
+        }
+
+        function qDrawSelfAssess(correct) {
+            const q = qState.questions[qState.current];
+            if (correct) {
+                qState.score++;
+            } else {
+                qState.wrongItems.push(q);
+            }
+            qState.answered = true;
+            showFeedback(correct,
+                correct ? `✅ Bagus! Lanjut ke karakter berikutnya →` : `📚 Latih lagi: ${q.char} (${q.pinyin}) = ${q.meaning}`);
+            document.getElementById('qFeedback').className = `quiz-feedback show ${correct?'correct':'wrong'}`;
+            const btn = document.getElementById('qSubmitBtn');
+            if (btn) btn.textContent = 'Lanjut →';
+            // Reset canvas ctx ref untuk soal berikutnya
+            _qDrawCtx = null;
+        }
+
+        function selectMCOption(el, char) {
+            if (qState.answered) return;
+
+            // Jika klik yang sudah dipilih → deselect
+            if (_selectedMCAnswer === char) {
+                el.classList.remove('mc-selected');
+                _selectedMCAnswer = null;
+                return;
+            }
+
+            // Hapus semua highlight sebelumnya (class + inline style)
+            document.querySelectorAll('.quiz-option').forEach(o => {
+                o.classList.remove('mc-selected');
+            });
+
+            // Pilih yang baru
+            el.classList.add('mc-selected');
+            _selectedMCAnswer = char;
+        }
+
+        function submitAnswer() {
+            if (qState.answered) { nextQuestion(); return; }
+
+            const mode = qState.mode;
+            const correct = window._qCorrectChar;
+            const q = qState.questions[qState.current];
+            let isCorrect = false;
+
+            // Mode draw: logika khusus (self-assess)
+            if (mode === 'draw_char') {
+                _submitDrawAnswer(q);
+                return; // self-assess handles qState.answered internally
+            }
+
+            if (mode.startsWith('fill_')) {
+                const input = document.getElementById('qFillInput');
+                if (!input || !input.value.trim()) return;
+                const userVal = input.value.trim().toLowerCase();
+
+                if (mode === 'fill_meaning') {
+                    const correctLower = (qState.questions[qState.current].meaning || '').toLowerCase();
+                    // Accept partial match (at least 3 chars) or full match
+                    isCorrect = correctLower.includes(userVal) || userVal.includes(correctLower.split('/')[0].toLowerCase().trim());
+                } else {
+                    // Pinyin mode - strip tones, compare
+                    const correctPinyin = (qState.questions[qState.current].pinyin || '')
+                        .toLowerCase().replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/g, c =>
+                        'aaaaeeeeiiiioooouvvvv'['āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ'.indexOf(c)]);
+                    const userPinyin = userVal.replace(/\s+/g,'').replace(/[1-5]/g,'');
+                    const normCorrect = correctPinyin.replace(/\s+/g,'').replace(/[1-5]/g,'');
+                    isCorrect = userPinyin === normCorrect || normCorrect.includes(userPinyin);
+                }
+                input.classList.add(isCorrect ? 'correct' : 'wrong');
+
+            } else if (mode === 'sentence' || mode.startsWith('mc_') || mode === 'listen') {
+                if (!_selectedMCAnswer) {
+                    // Tidak ada yang dipilih - beri petunjuk
+                    const hint = document.getElementById('qFeedback');
+                    if (hint) {
+                        hint.innerHTML = '⚠️ Pilih salah satu jawaban terlebih dahulu!';
+                        hint.className = 'quiz-feedback show wrong';
+                        setTimeout(() => { hint.className = 'quiz-feedback'; }, 1500);
+                    }
+                    return;
+                }
+                isCorrect = _selectedMCAnswer === correct;
+                document.querySelectorAll('.quiz-option').forEach(o => {
+                    o.classList.remove('mc-selected'); // hapus highlight pilihan
+                    o.classList.add('disabled');
+                    if (o.dataset.char === correct) o.classList.add(isCorrect ? 'correct' : 'revealed');
+                    if (o.dataset.char === _selectedMCAnswer && !isCorrect) o.classList.add('wrong');
+                });
+                _selectedMCAnswer = null;
+            }
+
+            qState.answered = true;
+
+            if (isCorrect) {
+                qState.score++;
+                showFeedback(true, `✅ Benar! ${q.char} = ${q.pinyin || ''} = ${q.meaning || ''}`);
+            } else {
+                qState.wrongItems.push(q);
+                const ans = mode === 'fill_meaning' ? q.meaning : mode === 'fill_pinyin' ? q.pinyin : '';
+                showFeedback(false, `❌ Salah! Jawaban: <strong>${q.char}</strong> ${q.pinyin ? '('+q.pinyin+')' : ''} = ${q.meaning || q.blank || ''}`);
+            }
+
+            document.getElementById('qSubmitBtn').textContent = 'Lanjut →';
+        }
+
+        function showFeedback(correct, msg) {
+            const el = document.getElementById('qFeedback');
+            el.innerHTML = msg;
+            el.className = `quiz-feedback show ${correct ? 'correct' : 'wrong'}`;
+        }
+
+        function nextQuestion() {
+            qState.current++;
+            _selectedMCAnswer = null;
+            _qDrawCtx = null;
+            renderQuizQuestion();
+        }
+
+        function skipQuestion() {
+            qState.wrongItems.push(qState.questions[qState.current]);
+            qState.current++;
+            _selectedMCAnswer = null;
+            _qDrawCtx = null;
+            renderQuizQuestion();
+        }
+
+        function renderQuizResults() {
+            const el = document.getElementById('quiz');
+            const total   = qState.questions.length;
+            const correct = qState.score;
+            const pct     = Math.round(correct / total * 100);
+            const elapsed = Math.round((Date.now() - qState.startTime) / 1000);
+            const mins    = Math.floor(elapsed / 60);
+            const secs    = elapsed % 60;
+
+            const stars = pct >= 90 ? '⭐⭐⭐' : pct >= 70 ? '⭐⭐' : pct >= 50 ? '⭐' : '😅';
+            const msg   = pct >= 90 ? 'Luar biasa! 🎉' : pct >= 70 ? 'Bagus sekali! 👍' :
+                          pct >= 50 ? 'Cukup baik! 💪' : 'Terus berlatih! 📚';
+
+            const wrongHTML = qState.wrongItems.length > 0 ? `
+                <div style="text-align:left; margin-top:16px;">
+                    <div style="font-weight:bold; color:#DE2910; margin-bottom:8px;">❌ Perlu dipelajari lagi:</div>
+                    <div style="max-height:180px; overflow-y:auto;">
+                        ${qState.wrongItems.map(w => `
+                            <div class="result-wrong-item">
+                                <span class="result-wrong-char">${w.char || w.blank}</span>
+                                <span>${w.pinyin || ''} — ${w.meaning || w.hint || ''}</span>
+                            </div>`).join('')}
+                    </div>
+                </div>` : '<div style="color:#FFDE00; font-weight:bold; margin-top:12px;">🎯 Semua jawaban benar!</div>';
+
+            el.innerHTML = `
+                <div class="quiz-results">
+                    <div class="result-score-circle">
+                        <div class="result-score-num">${pct}%</div>
+                        <div class="result-score-label">${correct}/${total} benar</div>
+                    </div>
+                    <div class="result-stars">${stars}</div>
+                    <div style="font-size:1.3em; font-weight:bold; color:#333; margin-bottom:16px;">${msg}</div>
+                    <div class="result-grid">
+                        <div class="result-stat">
+                            <div class="result-stat-num" style="color:#FFDE00;">${correct}</div>
+                            <div class="result-stat-label">✅ Benar</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-num" style="color:#DE2910;">${total - correct}</div>
+                            <div class="result-stat-label">❌ Salah</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-num">${pct}%</div>
+                            <div class="result-stat-label">🎯 Skor</div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-stat-num">${mins}:${String(secs).padStart(2,'0')}</div>
+                            <div class="result-stat-label">⏱️ Waktu</div>
+                        </div>
+                    </div>
+                    ${wrongHTML}
+                    <div style="display:flex; gap:10px; justify-content:center; margin-top:20px; flex-wrap:wrap;">
+                        <button onclick="restartQuiz()"
+                            style="background:linear-gradient(135deg,#DE2910,#B01E0A);color:white;
+                            border:none;padding:12px 24px;border-radius:22px;font-weight:bold;
+                            font-size:1em;cursor:pointer;">
+                            🔄 Ulangi Quiz
+                        </button>
+                        <button onclick="initQuizHub()"
+                            style="background:linear-gradient(135deg,#DE2910,#B01E0A);color:white;
+                            border:none;padding:12px 24px;border-radius:22px;font-weight:bold;
+                            font-size:1em;cursor:pointer;">
+                            🏠 Menu Quiz
+                        </button>
+                    </div>
+                </div>`;
+        }
+
         // Inisialisasi panel stroke order setelah semua fungsi terdefinisi
         renderStrokeOrderPanel('一');
+
+        // =============================================
+        // CHANGELOG MODULE
+        // =============================================
+        const APP_VERSION = '2.8.0';
+        const APP_NAME    = 'Modul Mandarin';
+
+        const changelog = [
+            {
+                version: '2.8.0',
+                name: 'Smarter Scoring & Thicker Brush',
+                date: '19 Mei 2026',
+                latest: true,
+                stats: [
+                    { num:'5', label:'Kriteria' },
+                    { num:'BFS', label:'Anti-Coret' },
+                    { num:'6/12/20', label:'Ukuran Kuas' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Kriteria ke-5: Kerapian Guratan (20 poin) — deteksi coretan sembarangan via BFS flood-fill',
+                            'Coretan liar yang memenuhi kanvas kini dikenali dan dikurangi nilainya',
+                            'Penalti ganda: semakin banyak fragmen terpisah + coverage tinggi → penalti makin besar',
+                            'Tips spesifik kerapian: membedakan "guratan rapi", "terlalu banyak coretan", dan "coretan sembarangan"',
+                        ]
+                    },
+                    {
+                        type: 'improve', title: '⬆️ Peningkatan',
+                        items: [
+                            'Ukuran kuas dipertebal: Tipis 2px→6px, Sedang 5px→12px, Tebal 10px→20px',
+                            'Ukuran default saat buka latihan: Sedang (12px) agar lebih terlihat jelas',
+                            'Preview kuas diperbarui dengan ukuran baru yang lebih representatif',
+                            'Bobot skor diseimbangkan ulang: Kerapian(20) + Coverage(25) + Posisi(20) + Kepadatan(20) + Proporsi(15)',
+                        ]
+                    },
+                    {
+                        type: 'fix', title: '🔧 Bug Fix',
+                        items: [
+                            'Coretan sembarangan yang memenuhi kanvas tidak lagi mendapat skor tinggi',
+                            'Hapus sisa kode evaluasi lama yang mengambang dan menyebabkan duplikasi',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.7.0',
+                name: 'China Flag Color Theme',
+                date: '19 Mei 2026',
+                stats: [
+                    { num:'🔴', label:'#DE2910 Merah' },
+                    { num:'⭐', label:'#FFDE00 Kuning' },
+                    { num:'0', label:'Warna Lama' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Tema warna bendera China — merah #DE2910 sebagai primary, kuning #FFDE00 sebagai secondary',
+                            'Header bergaya bendera China — bintang ★ kuning dekoratif di sisi kiri',
+                            'Garis kuning (border-bottom) di bawah header sebagai aksen bendera',
+                            'Bodi luar aplikasi menggunakan gradien merah China yang khas',
+                        ]
+                    },
+                    {
+                        type: 'improve', title: '⬆️ Peningkatan',
+                        items: [
+                            '75+ instansi warna lama (ungu/biru/pink) diganti secara sistematis',
+                            'Tab aktif, tombol, highlight, badge — semua konsisten merah-kuning China',
+                            'Progress bar penilaian: kuning (bagus) → oranye (cukup) → merah (perlu latihan)',
+                            'Tombol navigasi quiz menggunakan gradien merah bertingkat yang harmonis',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.6.0',
+                name: 'Deterministic Scoring Update',
+                date: '19 Mei 2026',
+                stats: [
+                    { num:'4', label:'Kriteria' },
+                    { num:'100%', label:'Konsisten' },
+                    { num:'0', label:'Random' },
+                ],
+                sections: [
+                    {
+                        type: 'fix', title: '🔧 Bug Fix',
+                        items: [
+                            'Penilaian tulisan tidak lagi menggunakan Math.random() — nilai kini sepenuhnya deterministik',
+                            'Tulisan yang sama selalu menghasilkan nilai yang sama persis',
+                        ]
+                    },
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Algoritma penilaian 4 kriteria dengan bobot terukur dan rumus transparan',
+                            'Detail skor per kriteria dengan progress bar berwarna dan tips perbaikan',
+                            'Kriteria 1 — Ukuran Tulisan (30 poin): tulisan harus menutupi 15%–50% kanvas',
+                            'Kriteria 2 — Posisi Tengah (25 poin): centroid tulisan diukur jaraknya dari pusat kanvas',
+                            'Kriteria 3 — Kepadatan Merata (25 poin): grid 4×4 mengukur penyebaran goresan',
+                            'Kriteria 4 — Proporsi (20 poin): bounding-box tulisan dibandingkan ukuran ideal',
+                            'Tips spesifik per kriteria — saran perbaikan yang relevan dengan hasil tulisan',
+                        ]
+                    },
+                    {
+                        type: 'improve', title: '⬆️ Peningkatan',
+                        items: [
+                            'Panel hasil lebih informatif — tampilkan breakdown skor tiap aspek',
+                            'Warna progress bar adaptif: hijau (≥80%), oranye (≥55%), merah (<55%)',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.5.0',
+                name: 'Quiz & Versioning Update',
+                date: '19 Mei 2026',
+                stats: [
+                    { num:'9', label:'Mode Quiz' },
+                    { num:'15+', label:'Template Kalimat' },
+                    { num:'v2.5', label:'Versi' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Halaman Changelog — versioning lengkap dengan riwayat setiap pembaruan',
+                            'Version badge di header, klik untuk langsung ke changelog',
+                            'Quiz mode "Tulis Karakter" — kanvas tulis tanpa panduan/bocoran',
+                            'Quiz mode "Lengkapi Kalimat" — 15 template kalimat Mandarin interaktif',
+                            'Quiz mode "Tebak dari Audio" — latih pendengaran, pilih karakter',
+                        ]
+                    },
+                    {
+                        type: 'fix', title: '🔧 Bug Fix',
+                        items: [
+                            'Error "Cannot read value" saat klik Ulangi Quiz — startQuiz() membaca elemen yang sudah tidak ada',
+                            'Bug multi-select — bisa memilih lebih dari 1 jawaban sekaligus',
+                            'Pinyin bocor di soal Karakter→Pinyin dan Karakter→Arti',
+                            'Referensi karakter (panduan transparan) dihapus dari quiz tulis karakter',
+                        ]
+                    },
+                    {
+                        type: 'improve', title: '⬆️ Peningkatan',
+                        items: [
+                            'Soal quiz diacak ulang setiap kali Ulangi — tidak monoton',
+                            'Deselect pilihan — klik jawaban yang sama untuk membatalkan',
+                            'Pesan peringatan jika belum memilih jawaban sebelum submit',
+                            'Filter karakter tunggal otomatis untuk mode Tulis Karakter',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.4.0',
+                name: 'Audio & Compatibility Update',
+                date: '19 Mei 2026',
+                stats: [
+                    { num:'5', label:'Platform' },
+                    { num:'3x', label:'Retry Audio' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Audio engine baru — cross-device compatible (iOS, Android, Samsung, Desktop)',
+                            'Toast indicator audio — muncul saat audio diputar atau gagal',
+                            'Unlock AudioContext otomatis pada gesture pertama (wajib untuk iOS)',
+                            'Retry otomatis hingga 3x jika audio gagal',
+                        ]
+                    },
+                    {
+                        type: 'fix', title: '🔧 Bug Fix',
+                        items: [
+                            'Suara tidak keluar di iOS Safari — diperbaiki dengan gesture unlock',
+                            'Suara tidak keluar di Samsung Internet — diperbaiki dengan delay setelah cancel()',
+                            'Chrome hang setelah 15 detik — diperbaiki dengan resume() timer',
+                        ]
+                    },
+                    {
+                        type: 'improve', title: '⬆️ Peningkatan',
+                        items: [
+                            'Pemilihan voice Mandarin lebih cerdas: zh-TW > zh-CN > zh-* > "chinese"',
+                            'Voice terbaik yang tersedia di device akan otomatis dipilih',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.3.0',
+                name: 'Stroke Order & HanziWriter',
+                date: '19 Mei 2026',
+                stats: [
+                    { num:'148', label:'Karakter' },
+                    { num:'100%', label:'Akurasi' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Integrasi HanziWriter — animasi guratan akurat dari database resmi',
+                            'Mode Animasi Guratan — lihat karakter terbentuk guratan per guratan',
+                            'Mode Quiz Menulis (HanziWriter) — tulis di atas panduan interaktif',
+                            'Tombol Reset — kembali ke tampilan outline',
+                            'Panel urutan guratan dengan deskripsi teks tiap langkah',
+                        ]
+                    },
+                    {
+                        type: 'fix', title: '🔧 Bug Fix',
+                        items: [
+                            'Error "Cannot access strokeOrderDB before initialization" saat buka halaman latihan',
+                            'Visualisasi guratan hanya beda opacity — sekarang akurat per guratan',
+                        ]
+                    },
+                    {
+                        type: 'remove', title: '🗑️ Dihapus',
+                        items: [
+                            'SVG path manual (tidak akurat) diganti dengan HanziWriter',
+                            'Kartu mini opacity — diganti animasi HanziWriter yang presisi',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.2.0',
+                name: 'Responsive & Mobile-Friendly',
+                date: '18 Mei 2026',
+                stats: [
+                    { num:'100%', label:'Responsive' },
+                    { num:'clamp()', label:'Fluid Font' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Tab navigasi horizontal scroll di mobile — tidak lagi wrap berantakan',
+                            'Fluid typography dengan clamp() — ukuran otomatis menyesuaikan layar',
+                            'Canvas latihan responsive — aspect-ratio 1:1, mengikuti lebar layar',
+                            'Touch-accurate canvas — koordinat sentuh dikalikan scale factor',
+                            'Media query (hover: none) — efek hover diganti active state di touch',
+                        ]
+                    },
+                    {
+                        type: 'improve', title: '⬆️ Peningkatan',
+                        items: [
+                            'Grid karakter: 1 kolom (mobile), 2-3 kolom (tablet), 4-5 kolom (desktop)',
+                            'Spacing dan padding adaptif dengan clamp() di seluruh halaman',
+                            'Tombol navigasi latihan lebih besar dan ramah jari',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.1.0',
+                name: 'Navigation & UX Update',
+                date: '18 Mei 2026',
+                stats: [
+                    { num:'3', label:'Tombol Nav' },
+                    { num:'0', label:'Salah Klik' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Tombol ← Kembali — kembali ke tab dan posisi karakter sebelumnya',
+                            'Tombol ◄ Sebelumnya / Berikutnya ► — navigasi antar karakter dalam kategori',
+                            'Dua tombol terpisah per kartu: 🔊 Audio dan ✍️ Latihan',
+                            'State management — ingat tab asal, posisi, dan daftar karakter',
+                        ]
+                    },
+                    {
+                        type: 'fix', title: '🔧 Bug Fix',
+                        items: [
+                            'Klik area kartu langsung pindah ke halaman latihan — dihapus',
+                            'Tidak ada tombol kembali dari halaman latihan — ditambahkan',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '2.0.0',
+                name: 'Audit & Accuracy Update',
+                date: '18 Mei 2026',
+                stats: [
+                    { num:'0', label:'Missing Comp.' },
+                    { num:'0', label:'Duplikat' },
+                    { num:'99%+', label:'Akurasi' },
+                ],
+                sections: [
+                    {
+                        type: 'fix', title: '🔧 Bug Fix',
+                        items: [
+                            '走 (berjalan) breakdown salah: 夭 (mati muda) → 止 (berhenti/kaki)',
+                            '写 (menulis) breakdown salah: 宀 (atap) → 冖 (tutup horizontal)',
+                            'Hapus self-reference karakter: 开, 车, 虫, 长 merujuk diri sendiri',
+                            'Hapus duplikat breakdown: 时, 站, 雨 muncul 2x dengan entry berbeda',
+                            'Tambah 9 komponen yang missing: ⺍, 佥, 电, 豆, 令, 卩, 文, 廾, 由',
+                        ]
+                    },
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Tab "🔠 Radikal & Dasar" — 150+ radikal dengan breakdown komponen',
+                            'Karakter tempat baru: 校, 医, 院, 园, 场, 车, 站 ditambah ke database',
+                            'Audit sistematis menggunakan Python parser untuk verifikasi semua karakter',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '1.5.0',
+                name: 'Breakdown & Components',
+                date: '17 Mei 2026',
+                stats: [
+                    { num:'150+', label:'Breakdown' },
+                    { num:'3', label:'Level Nav' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Baru',
+                        items: [
+                            'Breakdown komponen radikal — setiap karakter ditampilkan komponennya',
+                            'Navigasi 3 level: Kata → Karakter → Radikal, semua bisa diklik',
+                            'jumpToCharacter() — klik komponen langsung jump ke karakter dasarnya',
+                            'Highlight emas saat jump — animasi border gold pada karakter tujuan',
+                            'Mnemonic system — cara ingat kreatif untuk setiap karakter',
+                        ]
+                    },
+                    {
+                        type: 'improve', title: '⬆️ Peningkatan',
+                        items: [
+                            '100+ karakter baru di tab Radikal & Dasar',
+                            'wordComponents: 60+ kata majemuk dengan breakdown karakter',
+                            'characterRadicals: 150+ karakter dengan data komponen',
+                        ]
+                    },
+                ]
+            },
+            {
+                version: '1.0.0',
+                name: 'Initial Release',
+                date: '17 Mei 2026',
+                stats: [
+                    { num:'170+', label:'Karakter' },
+                    { num:'14', label:'Kategori' },
+                    { num:'60+', label:'Kata' },
+                ],
+                sections: [
+                    {
+                        type: 'new', title: '✨ Fitur Awal',
+                        items: [
+                            '170+ karakter tunggal dalam 14 kategori (Angka, Orang, Keluarga, Tubuh, Alam, Hewan, Makanan, Arah, Waktu, Warna, Sifat, Kata Kerja, Tempat, Karakter Umum)',
+                            '60+ kata majemuk dengan mnemonic dan audio',
+                            'Audio pengucapan menggunakan Web Speech API (zh-CN)',
+                            'Canvas latihan menulis 600×600px dengan grid panduan',
+                            'Sistem penilaian AI — 4 aspek: proporsi, posisi, konsistensi, keseimbangan',
+                            'Pencarian karakter lintas semua kategori',
+                            'Navigasi tab multi-kategori',
+                        ]
+                    },
+                ]
+            },
+        ];
+
+        function initChangelog() {
+            const el = document.getElementById('changelog');
+            if (!el) return;
+
+            const latestVer = changelog[0];
+            el.innerHTML = `
+                <div style="padding:4px 0;">
+                    <div style="text-align:center; margin-bottom:24px;">
+                        <div style="font-size:clamp(1.6em,5vw,2.4em); font-weight:bold; color:#333;">
+                            🎓 ${APP_NAME}
+                        </div>
+                        <div style="color:#888; font-size:.9em; margin-top:6px;">
+                            Riwayat pembaruan &amp; catatan perubahan
+                        </div>
+                        <div style="margin-top:12px;">
+                            <span style="background:linear-gradient(135deg,#DE2910,#B01E0A);
+                                color:white; padding:6px 16px; border-radius:20px;
+                                font-weight:bold; font-size:.95em;">
+                                Versi Terkini: v${latestVer.version} — ${latestVer.name}
+                            </span>
+                        </div>
+                    </div>
+
+                    ${changelog.map((v, idx) => `
+                        <div class="cl-version-card ${v.latest ? 'latest' : ''}">
+                            <div class="cl-version-header" onclick="toggleChangelog(${idx})">
+                                <div class="cl-version-badge ${v.latest ? 'latest' : ''}">v${v.version}</div>
+                                <div>
+                                    <div class="cl-version-name">${v.name}</div>
+                                    ${v.latest ? '<div style="font-size:.75em;color:#DE2910;font-weight:bold;margin-top:2px;">● TERKINI</div>' : ''}
+                                </div>
+                                <div class="cl-version-date">📅 ${v.date}</div>
+                                <div class="cl-version-arrow" id="cl-arrow-${idx}">▼</div>
+                            </div>
+                            <div class="cl-version-body ${v.latest ? 'open' : ''}" id="cl-body-${idx}">
+                                ${v.stats ? `
+                                    <div class="cl-stats-row">
+                                        ${v.stats.map(s => `
+                                            <div class="cl-stat">
+                                                <div class="cl-stat-num">${s.num}</div>
+                                                <div class="cl-stat-label">${s.label}</div>
+                                            </div>`).join('')}
+                                    </div>` : ''}
+                                ${v.sections.map(sec => `
+                                    <div class="cl-section">
+                                        <div class="cl-section-title ${sec.type}">${sec.title}</div>
+                                        ${sec.items.map(item => `
+                                            <div class="cl-item">
+                                                <div class="cl-dot dot-${sec.type}"></div>
+                                                <div>${item}</div>
+                                            </div>`).join('')}
+                                    </div>`).join('')}
+                            </div>
+                        </div>`).join('')}
+
+                    <div style="text-align:center; padding:20px 0; color:#bbb; font-size:.82em;">
+                        ${APP_NAME} v${APP_VERSION} · Dibuat dengan ❤️ untuk pembelajaran Mandarin
+                    </div>
+                </div>`;
+        }
+
+        function toggleChangelog(idx) {
+            const body  = document.getElementById(`cl-body-${idx}`);
+            const arrow = document.getElementById(`cl-arrow-${idx}`);
+            if (!body) return;
+            const isOpen = body.classList.toggle('open');
+            if (arrow) arrow.style.transform = isOpen ? 'rotate(180deg)' : '';
+        }
     </script>
 </body>
 </html>
