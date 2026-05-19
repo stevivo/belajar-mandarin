@@ -1536,135 +1536,169 @@
         }
         
         // =============================================
-        // AUDIO ENGINE - Cross-device compatible
-        // Menangani: iOS, Android, Desktop, Samsung
         // =============================================
-        const Audio = window.Audio;
-        let voicesLoaded = false;
-        let zhVoice = null;
+        // AUDIO ENGINE v3 — Hybrid TTS
+        // Strategi bertingkat:
+        //   1. SpeechSynthesis (jika ada voice zh di device)
+        //   2. Google Translate TTS via <audio> (fallback — bekerja di Samsung)
+        //   3. Tampilkan pinyin (fallback terakhir jika offline)
+        // =============================================
+        let zhVoice       = null;
         let audioUnlocked = false;
+        let speakRetryTimer = null;
+        let _audioEl      = null;
 
-        // Unlock AudioContext pada gesture pertama (wajib untuk iOS)
+        function _getAudioEl() {
+            if (!_audioEl) {
+                _audioEl = document.createElement('audio');
+                _audioEl.style.display = 'none';
+                document.body.appendChild(_audioEl);
+            }
+            return _audioEl;
+        }
+
+        // Unlock pada gesture pertama — wajib iOS & Samsung
         function unlockAudio() {
             if (audioUnlocked) return;
             audioUnlocked = true;
+            // Putar audio silent untuk unlock AudioContext
+            try {
+                const a = _getAudioEl();
+                a.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==';
+                a.play().catch(() => {});
+            } catch(e) {}
+            // SpeechSynthesis unlock
             if (window.speechSynthesis) {
-                // iOS butuh speak+cancel pada gesture pertama untuk unlock
-                const dummy = new SpeechSynthesisUtterance('');
-                dummy.volume = 0;
-                window.speechSynthesis.speak(dummy);
-                setTimeout(() => window.speechSynthesis.cancel(), 100);
+                try {
+                    const d = new SpeechSynthesisUtterance('');
+                    d.volume = 0;
+                    window.speechSynthesis.speak(d);
+                    setTimeout(() => window.speechSynthesis.cancel(), 80);
+                } catch(e) {}
             }
         }
         document.addEventListener('touchstart', unlockAudio, { once: true });
-        document.addEventListener('click', unlockAudio, { once: true });
+        document.addEventListener('click',      unlockAudio, { once: true });
 
-        // Load & cache voice Mandarin terbaik
+        // Deteksi voice Mandarin di device
         function loadZhVoice() {
             if (!window.speechSynthesis) return;
             const voices = window.speechSynthesis.getVoices();
             if (!voices.length) return;
-
-            // Prioritas: zh-TW > zh-CN > zh > any Mandarin
             const priority = [
-                v => v.lang === 'zh-TW',
-                v => v.lang === 'zh-CN',
-                v => v.lang.startsWith('zh'),
-                v => v.name.toLowerCase().includes('chinese'),
-                v => v.name.toLowerCase().includes('mandarin'),
+                v => /zh[-_](TW|HK)/i.test(v.lang),
+                v => /zh[-_]CN/i.test(v.lang),
+                v => v.lang.toLowerCase().startsWith('zh'),
+                v => /chinese|mandarin|putonghua/i.test(v.name),
             ];
-
             for (const test of priority) {
                 const found = voices.find(test);
-                if (found) { zhVoice = found; break; }
+                if (found) { zhVoice = found; return; }
             }
-            voicesLoaded = true;
         }
-
-        // Voices bisa async di beberapa browser
         if (window.speechSynthesis) {
             loadZhVoice();
             window.speechSynthesis.onvoiceschanged = loadZhVoice;
+            // Samsung Internet butuh delay untuk load voices
+            setTimeout(loadZhVoice, 500);
+            setTimeout(loadZhVoice, 2000);
         }
-
-        // Retry queue untuk iOS yang sering gagal pertama kali
-        let speakRetryTimer = null;
 
         function speakChinese(char, pinyin, evt) {
             if (evt) evt.stopPropagation();
             unlockAudio();
-            _doSpeak(char, 0);
+            _speakChar(char, pinyin || '');
         }
 
         function speakCurrentChar() {
             unlockAudio();
-            _doSpeak(currentChar, 0);
+            _speakChar(currentChar, '');
         }
 
-        function _doSpeak(char, attempt) {
-            if (!window.speechSynthesis) {
-                _showAudioToast('❌ Browser tidak mendukung audio');
-                return;
-            }
-
+        function _speakChar(char, pinyin) {
             clearTimeout(speakRetryTimer);
-            window.speechSynthesis.cancel();
+            _showAudioToast('🔊 Memuat...');
 
-            // Perlu sedikit delay setelah cancel (terutama Android/Samsung)
-            setTimeout(() => {
-                const utter = new SpeechSynthesisUtterance(char);
-                utter.lang   = 'zh-CN';
-                utter.rate   = 0.75;
-                utter.pitch  = 1;
-                utter.volume = 1;
-
-                // Pakai voice Mandarin kalau sudah loaded
-                if (zhVoice) utter.voice = zhVoice;
-
-                utter.onstart = () => _showAudioToast('🔊 ...');
-                utter.onend   = () => _clearAudioToast();
-                utter.onerror = (e) => {
-                    // Retry sekali kalau gagal (iOS issue)
-                    if (attempt < 2) {
-                        speakRetryTimer = setTimeout(() => _doSpeak(char, attempt + 1), 300);
-                    } else {
-                        _showAudioToast('⚠️ Audio gagal — coba lagi');
-                        setTimeout(_clearAudioToast, 2000);
-                    }
-                };
-
-                try {
-                    window.speechSynthesis.speak(utter);
-
-                    // Workaround: Chrome Desktop kadang hang setelah 15 detik
-                    // Kita resume setiap 10 detik selama berlangsung
-                    const resumeTimer = setInterval(() => {
-                        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-                    }, 10000);
-                    utter.onend = () => { clearInterval(resumeTimer); _clearAudioToast(); };
-
-                } catch(e) {
-                    _showAudioToast('⚠️ Audio tidak tersedia');
-                }
-            }, attempt === 0 ? 50 : 300);
+            if (window.speechSynthesis && zhVoice) {
+                // Ada voice Mandarin — coba SpeechSynthesis dulu
+                _doSpeechSynth(char, pinyin,
+                    () => { /* berhasil */ },
+                    () => { _doGoogleTTS(char, pinyin); } // gagal → Google TTS
+                );
+            } else {
+                // Tidak ada voice zh → langsung Google TTS
+                _doGoogleTTS(char, pinyin);
+            }
         }
 
-        // Toast kecil indicator audio
-        function _showAudioToast(msg) {
-            let toast = document.getElementById('audioToast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'audioToast';
-                toast.style.cssText = `
-                    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
-                    background:rgba(222,41,16,0.92); color:white; padding:8px 20px;
-                    border-radius:20px; font-size:.9em; font-weight:bold;
-                    z-index:9999; pointer-events:none; transition:opacity .3s;
-                    white-space:nowrap; backdrop-filter:blur(4px);`;
-                document.body.appendChild(toast);
+        function _doSpeechSynth(char, pinyin, onOk, onFail) {
+            window.speechSynthesis.cancel();
+            setTimeout(() => {
+                const utter   = new SpeechSynthesisUtterance(char);
+                utter.lang    = zhVoice ? zhVoice.lang : 'zh-CN';
+                utter.voice   = zhVoice;
+                utter.rate    = 0.8;
+                utter.pitch   = 1;
+                utter.volume  = 1;
+                let started   = false;
+
+                // Timeout: jika 1.5 detik tidak ada suara → fallback
+                const fallback = setTimeout(() => {
+                    if (!started) { window.speechSynthesis.cancel(); onFail(); }
+                }, 1500);
+
+                utter.onstart = () => { started = true; clearTimeout(fallback); _showAudioToast('🔊 ...'); onOk(); };
+                utter.onend   = () => _clearAudioToast();
+                utter.onerror = () => { clearTimeout(fallback); if (!started) onFail(); };
+                try { window.speechSynthesis.speak(utter); }
+                catch(e) { clearTimeout(fallback); onFail(); }
+            }, 60);
+        }
+
+        // Google Translate TTS — bekerja di Samsung Internet, UC Browser, dll
+        function _doGoogleTTS(char, pinyin) {
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=zh-CN&client=tw-ob&q='
+                + encodeURIComponent(char);
+            const a = _getAudioEl();
+
+            // Reset untuk memastikan play ulang
+            a.pause();
+            a.currentTime = 0;
+            a.src = url;
+            a.onended = () => _clearAudioToast();
+            a.onerror = () => {
+                // Semua metode gagal — tampilkan pinyin sebagai info
+                _showAudioToast(pinyin ? `📖 ${pinyin}` : '⚠️ Audio tidak tersedia');
+                setTimeout(_clearAudioToast, 3000);
+            };
+
+            const p = a.play();
+            if (p) {
+                p.then(() => _showAudioToast('🔊 ...'))
+                 .catch(() => {
+                    // Autoplay blocked → tampilkan pinyin
+                    _showAudioToast(pinyin ? `📖 ${pinyin}` : '⚠️ Ketuk sekali lagi');
+                    setTimeout(_clearAudioToast, 3000);
+                });
             }
-            toast.textContent = msg;
-            toast.style.opacity = '1';
+        }
+
+        function _showAudioToast(msg) {
+            let t = document.getElementById('audioToast');
+            if (!t) {
+                t = document.createElement('div');
+                t.id = 'audioToast';
+                t.style.cssText = [
+                    'position:fixed','bottom:72px','left:50%','transform:translateX(-50%)',
+                    'background:rgba(222,41,16,0.93)','color:white','padding:8px 20px',
+                    'border-radius:20px','font-size:.9em','font-weight:bold',
+                    'z-index:9999','pointer-events:none','transition:opacity .3s',
+                    'white-space:nowrap','box-shadow:0 4px 16px rgba(0,0,0,.25)'
+                ].join(';');
+                document.body.appendChild(t);
+            }
+            t.textContent = msg;
+            t.style.opacity = '1';
         }
         function _clearAudioToast() {
             const t = document.getElementById('audioToast');
