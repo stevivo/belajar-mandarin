@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modul Lengkap Mandarin - 100+ Karakter</title>
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -177,6 +178,23 @@
         .brush-preview-box { text-align:center; margin-top:12px; padding:10px; background:#f8f9ff; border-radius:10px; width:100%; max-width:500px; }
         #brushPreview { border:1px solid #ddd; border-radius:5px; max-width:100%; }
 
+        /* STROKE ORDER PANEL */
+        #strokeOrderPanel {
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+        #strokeOrderSteps > div:hover {
+            background: #f0f4ff;
+            border-radius: 4px;
+            padding-left: 4px;
+        }
+        .stroke-mini-card {
+            transition: transform 0.2s;
+        }
+        .stroke-mini-card:hover {
+            transform: scale(1.1);
+        }
+
         /* EVALUATION */
         .evaluation-panel { background:linear-gradient(135deg,#e0c3fc 0%,#8ec5fc 100%); padding:clamp(14px,4vw,25px); border-radius:14px; margin:16px 0; display:none; }
         .evaluation-panel.show { display:block; animation:fadeIn 0.5s; }
@@ -292,6 +310,42 @@
                         <div class="selected-char" id="bigCharDisplay">一</div>
                         <div style="font-size:clamp(1.1em,3.5vw,1.6em); color:#666;" id="charInfo">yī - satu</div>
                         <div id="practiceMnemonic" style="background:white; padding:12px; border-radius:10px; margin:12px auto; max-width:480px; text-align:left;"></div>
+                        
+                        <!-- STROKE ORDER PANEL - HanziWriter -->
+                        <div id="strokeOrderPanel" style="background:white; border-radius:12px; padding:14px; margin:12px auto; max-width:480px; text-align:left; display:none; border-left:4px solid #667eea;">
+                            <div style="font-weight:bold; color:#667eea; margin-bottom:10px; font-size:0.95em;">✍️ Urutan Guratan:</div>
+                            <div id="strokeOrderSteps" style="font-size:0.88em; color:#555; line-height:1.9; margin-bottom:12px;"></div>
+                            
+                            <!-- HanziWriter container -->
+                            <div id="hanziWriterArea" style="text-align:center;">
+                                <div style="font-size:0.78em; color:#888; margin-bottom:8px;">
+                                    Animasi guratan akurat — klik ▶ untuk mulai
+                                </div>
+                                <div id="hanziTarget" style="display:inline-block; border:2px solid #e0e0e0; border-radius:12px; background:#fafafa; padding:4px; position:relative;">
+                                    <svg id="hanziSvg" xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220" style="display:block;"></svg>
+                                </div>
+                                <div style="display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+                                    <button id="btnAnimate" onclick="hwAnimate()"
+                                        style="background:linear-gradient(135deg,#667eea,#764ba2); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
+                                        ▶ Animasi Guratan
+                                    </button>
+                                    <button id="btnQuiz" onclick="hwQuiz()"
+                                        style="background:linear-gradient(135deg,#43e97b,#38f9d7); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
+                                        ✏️ Quiz Menulis
+                                    </button>
+                                    <button id="btnReset" onclick="hwReset()"
+                                        style="background:linear-gradient(135deg,#f093fb,#f5576c); color:white; border:none; padding:8px 18px; border-radius:18px; cursor:pointer; font-size:0.85em; font-weight:bold;">
+                                        ↺ Reset
+                                    </button>
+                                </div>
+                                <div id="hwStatus" style="margin-top:8px; font-size:0.8em; color:#667eea; min-height:20px;"></div>
+                            </div>
+                            
+                            <div style="margin-top:12px; padding:8px; background:#f0f7ff; border-radius:8px; font-size:0.8em; color:#4a90e2;">
+                                📌 <strong>6 Aturan:</strong> Atas→Bawah · Kiri→Kanan · Horizontal→Vertikal · Tengah→Sisi · Luar→Dalam · Tutup Terakhir
+                            </div>
+                        </div>
+                        
                         <button class="big-audio-btn" onclick="speakCurrentChar()">🔊 Dengar</button>
                     </div>
                     
@@ -1608,6 +1662,225 @@
             if (buttonElement) buttonElement.classList.add('active');
         }
         
+        // =============================================
+        // HANZIWRITER - Urutan Guratan Akurat
+        // =============================================
+        let hw = null; // instance HanziWriter aktif
+        let hwCurrentChar = '';
+        let hwQuizMode = false;
+        
+        // Deskripsi teks per karakter (tetap dipertahankan)
+        const strokeOrderDB = {
+            '一': ['① Horizontal kiri → kanan'],
+            '二': ['① Horizontal atas →','② Horizontal bawah (lebih panjang) →'],
+            '三': ['① Horizontal atas →','② Horizontal tengah →','③ Horizontal bawah (terpanjang) →'],
+            '四': ['① Vertikal kiri ↓','② Atas + kanan →↓','③ Vertikal dalam kiri ↓','④ Vertikal dalam kanan ↓','⑤ Horizontal bawah → (menutup)'],
+            '五': ['① Horizontal atas →','② Vertikal ↓','③ Lengkung kiri ↙','④ Horizontal bawah →'],
+            '六': ['① Titik atas ·','② Horizontal pendek →','③ Piě kiri ↙','④ Nà kanan ↘'],
+            '七': ['① Horizontal →','② Lengkung-kail ↓↩'],
+            '八': ['① Piě kiri ↙','② Nà kanan ↘'],
+            '九': ['① Piě ↙','② Lengkung-kail ↓↩'],
+            '十': ['① Horizontal →','② Vertikal ↓'],
+            '百': ['① Horizontal atas →','② Vertikal kiri ↓','③ Horizontal →','④ Vertikal kanan ↓','⑤ Horizontal →','⑥ Horizontal bawah →'],
+            '千': ['① Piě ↙','② Horizontal →','③ Vertikal ↓'],
+            '万': ['① Horizontal →','② Piě ↙','③ Kail ↓↩'],
+            '人': ['① Piě kiri ↙','② Nà kanan ↘'],
+            '女': ['① Piě-heng silang ↙→','② Piě ↙','③ Horizontal menembus →'],
+            '男': ['① Horizontal → (田)','② Vertikal ↓','③ Horizontal →','④ Vertikal ↓','⑤ Horizontal →','⑥ Piě ↙ (力)','⑦ Kail ↓↩'],
+            '我': ['① Horizontal →','② Piě-kail ↙↩','③ Vertikal |','④ Titik ·','⑤ Piě ↙','⑥ Titik ·','⑦ Titik ·'],
+            '你': ['① 亻: piě+vertikal','② Piě ↙','③ Horizontal →','④ Lengkung-kail ↓↩','⑤ Horizontal →'],
+            '他': ['① 亻: piě+vertikal','② Piě ↙','③ Horizontal →','④ Vertikal ↓','⑤ Horizontal →'],
+            '她': ['① 女: silang+piě+horizontal','② Piě ↙','③ Horizontal →','④ Vertikal ↓','⑤ Horizontal →'],
+            '父': ['① Piě ↙','② Nà ↘','③ Piě pendek ↙','④ Titik ·'],
+            '母': ['① Lengkung-kail ↙↩','② Titik kiri ·','③ Horizontal →','④ Titik kanan ·','⑤ Horizontal bawah →'],
+            '子': ['① Lengkung-kail ↓↩','② Horizontal →','③ Horizontal pendek →'],
+            '家': ['① Titik atap ·','② Piě ↙','③ Nà ↘','④-⑩ Komponen 豕 dari atas ke bawah'],
+            '好': ['① 女: silang+piě+horizontal','② Lengkung-kail (子) ↓↩','③ Horizontal →','④ Horizontal pendek →'],
+            '口': ['① Vertikal kiri ↓','② Atas+kanan ↓','③ Horizontal bawah →'],
+            '目': ['① Vertikal kiri ↓','② Atas+kanan ↓','③ Horizontal tengah →','④ Horizontal →','⑤ Horizontal bawah →'],
+            '耳': ['① Horizontal →','② Vertikal ↓','③ Horizontal →','④ Horizontal →','⑤ Vertikal ↓','⑥ Horizontal bawah →'],
+            '手': ['① Horizontal atas →','② Horizontal tengah →','③ Piě ↙','④ Vertikal-kail ↓↩'],
+            '心': ['① Titik kiri ·','② Lengkung utama ↙↑','③ Titik tengah ·','④ Titik kanan ·'],
+            '头': ['① Titik ·','② Horizontal →','③ Piě ↙','④ Nà ↘','⑤ Titik ·'],
+            '日': ['① Vertikal kiri ↓','② Atas+kanan ↓','③ Horizontal tengah →','④ Horizontal bawah →'],
+            '月': ['① Piě ↙','② Kail kanan ↓↩','③ Horizontal →','④ Horizontal →'],
+            '山': ['① Vertikal tengah ↓','② Vertikal kiri ↓','③ Horizontal+vertikal kanan ↓'],
+            '水': ['① Vertikal-kail ↓↩','② Titik ·','③ Piě ↙','④ Titik ·','⑤ Nà ↘'],
+            '火': ['① Piě ↙','② Nà ↘','③ Titik kiri ·','④ Titik kanan ·'],
+            '木': ['① Horizontal →','② Vertikal ↓','③ Piě ↙','④ Nà ↘'],
+            '天': ['① Horizontal atas (pendek) →','② Horizontal bawah (panjang) →','③ Piě ↙','④ Nà ↘'],
+            '土': ['① Horizontal atas →','② Vertikal ↓','③ Horizontal bawah (panjang) →'],
+            '大': ['① Horizontal →','② Piě ↙','③ Nà ↘'],
+            '小': ['① Vertikal-kail ↓↩','② Titik kiri ·','③ Titik kanan ·'],
+            '多': ['① Piě-kail (夕 atas) ↙↩','② Titik ·','③ Piě-kail (夕 bawah) ↙↩','④ Titik ·'],
+            '少': ['① Vertikal-kail ↓↩','② Titik ·','③ Titik ·','④ Piě ↙'],
+            '长': ['① Piě ↙','② Horizontal →','③ Lengkung-kail ↓↩','④ Piě ↙'],
+            '短': ['① Piě (矢) ↙','② Horizontal →','③ Piě ↙','④ Nà ↘','⑤ Horizontal (豆) →','⑥ Kotak ↓','⑦ Horizontal bawah →'],
+            '高': ['① Titik ·','② Horizontal →','③ Vertikal ↓','④ Kotak atas (口)','⑤ Kotak luar','⑥ Horizontal dalam →'],
+            '新': ['① Piě (辛) ↙','②-⑧ Sisa 辛','⑨ Piě (斤) ↙','⑩ Horizontal →','⑪ Vertikal-kail ↓↩'],
+            '好': ['① 女: 3 guratan','② 子: lengkung-kail ↓↩','③ Horizontal →','④ Horizontal pendek →'],
+            '上': ['① Vertikal pendek ↓','② Horizontal →','③ Vertikal ↓'],
+            '下': ['① Horizontal →','② Vertikal ↓','③ Titik ·'],
+            '左': ['① Piě ↙','② Horizontal →','③ Vertikal ↓','④ Horizontal →','⑤ Horizontal bawah →'],
+            '右': ['① Piě ↙','② Horizontal →','③ Vertikal ↓','④ Horizontal →','⑤ Horizontal bawah →'],
+            '东': ['① Horizontal →','② Piě ↙','③ Vertikal-kail ↓↩','④ Piě ↙','⑤ Nà ↘'],
+            '中': ['① Vertikal ↓ (menembus)','② Vertikal kiri ↓','③ Atas+kanan ↓','④ Horizontal bawah →'],
+            '外': ['① Piě-kail ↙↩','② Titik ·','③ Piě ↙','④ Vertikal ↓','⑤ Titik ·'],
+            '内': ['① Kotak luar (冂)','② Piě ↙','③ Horizontal →'],
+            '前': ['① Piě ↙','② Kail ↓↩ (月)','③ Horizontal →','④ Horizontal →','⑤-⑦ Sisa 月'],
+            '后': ['① Piě-vertikal','② Piě ↙','③-⑥ Kotak 口'],
+            '年': ['① Piě ↙','② Horizontal →','③ Horizontal →','④ Horizontal →','⑤ Vertikal ↓','⑥ Horizontal →'],
+            '时': ['① 日: 4 guratan','② Horizontal →','③ Vertikal-kail ↓↩','④ Titik ·'],
+            '分': ['① Piě ↙ (八)','② Nà ↘','③ Piě ↙ (刀)','④ Kail ↓↩'],
+            '今': ['① Piě ↙','② Nà ↘','③ Horizontal →','④ Piě-kail ↙↩'],
+            '早': ['① 日: 4 guratan','② Horizontal → (十)','③ Vertikal ↓'],
+            '晚': ['① 日: 4 guratan','② Piě ↙','③ Horizontal →','④ Lengkung-kail ↙↩','⑤ Horizontal →','⑥ Piě ↙','⑦ Titik ·'],
+            '红': ['① 纟: 3 guratan','② Horizontal →','③ Vertikal-kail ↓↩'],
+            '白': ['① Titik ·','② Kotak (口): 4 guratan'],
+            '黑': ['① 里: 7 guratan','② ····: 4 titik bawah'],
+            '是': ['① 日: 4 guratan','② 正: horizontal+vertikal+horizontal+horizontal'],
+            '有': ['① Piě ↙','② Nà-kail ↘↩','③ 月: 4 guratan'],
+            '在': ['① Piě (才) ↙','② Horizontal →','③ Vertikal-kail ↓↩','④ 土: 3 guratan'],
+            '来': ['① Horizontal →','② Piě ↙','③ Nà ↘','④ Horizontal →','⑤ Piě ↙','⑥ Nà ↘','⑦ Vertikal ↓'],
+            '去': ['① Horizontal →','② Piě-heng ↙→','③ Horizontal →','④ Vertikal ↓','⑤ Horizontal bawah →'],
+            '吃': ['① 口: 3 guratan','② Piě (乞) ↙','③ Horizontal →','④ Kail ↓↩'],
+            '看': ['① 手: 4 guratan','② 目: 5 guratan'],
+            '听': ['① 口: 3 guratan','② Piě (斤) ↙','③ Horizontal →','④ Vertikal-kail ↓↩'],
+            '说': ['① 讠: 2 guratan','② Piě ↙','③ Nà ↘','④ Piě-heng →','⑤ Kotak 口'],
+            '读': ['① 讠: 2 guratan','② 卖: 8 guratan dari atas ke bawah'],
+            '写': ['① Tutup atas (冖) →','② Lengkung kiri ↙','③ Piě ↙','④ Horizontal →','⑤ Vertikal-kail ↓↩'],
+            '做': ['① 亻: 2 guratan','② 故: 7 guratan kanan'],
+            '走': ['① Horizontal (土) →','② Vertikal ↓','③ Horizontal bawah →','④ Piě (止) ↙','⑤ Vertikal ↓','⑥ Horizontal →','⑦ Horizontal bawah →'],
+            '跑': ['① 足: 7 guratan','② 包: 6 guratan'],
+            '坐': ['① 人 kiri: 2 guratan','② 人 kanan: 2 guratan','③ 土: 3 guratan'],
+            '站': ['① 立: 5 guratan','② 占: 5 guratan'],
+            '睡': ['① 目: 5 guratan','② 垂: 8 guratan'],
+            '要': ['① 覀: 5 guratan','② 女: 3 guratan'],
+            '国': ['① Kotak luar 囗 (3 guratan)','② 玉 dalam: 5 guratan','③ Horizontal bawah → (menutup)'],
+            '家': ['① 宀 atap: 3 guratan','② 豕 babi: 7 guratan'],
+            '走': ['① 土: 3 guratan','② 止: 4 guratan'],
+            '不': ['① Horizontal →','② Piě ↙','③ Vertikal ↓','④ Titik ·'],
+            '学': ['① ⺍ atas: 5 guratan','② 子: 3 guratan'],
+            '名': ['① 夕: 3 guratan','② 口: 3 guratan'],
+        };
+
+        // =============================================
+        // HANZIWRITER FUNCTIONS
+        // =============================================
+        function initHanziWriter(char) {
+            hwCurrentChar = char;
+            hwQuizMode = false;
+            
+            const svg = document.getElementById('hanziSvg');
+            if (!svg) return;
+            
+            // Clear SVG
+            svg.innerHTML = '';
+            
+            // Set status
+            setHwStatus('Memuat data guratan...');
+            
+            // Check if HanziWriter is available
+            if (typeof HanziWriter === 'undefined') {
+                setHwStatus('⚠️ Library belum dimuat. Pastikan koneksi internet aktif.');
+                return;
+            }
+            
+            try {
+                // Destroy previous instance
+                if (hw) { try { hw = null; } catch(e){} }
+                
+                hw = HanziWriter.create('hanziSvg', char, {
+                    width: 220,
+                    height: 220,
+                    padding: 16,
+                    showOutline: true,
+                    strokeColor: '#333333',
+                    outlineColor: '#DDDDDD',
+                    drawingColor: '#e74c3c',
+                    strokeAnimationSpeed: 1,
+                    delayBetweenStrokes: 300,
+                    strokeFadeDuration: 400,
+                    onLoadCharDataSuccess: function(charData) {
+                        setHwStatus(`✓ ${charData.strokes.length} guratan — klik Animasi untuk mulai`);
+                    },
+                    onLoadCharDataError: function(reason) {
+                        setHwStatus('⚠️ Data karakter tidak tersedia');
+                    }
+                });
+            } catch(e) {
+                setHwStatus('⚠️ Gagal memuat: ' + e.message);
+            }
+        }
+        
+        function hwAnimate() {
+            if (!hw) return;
+            hwQuizMode = false;
+            setHwStatus('▶ Memutar animasi guratan...');
+            hw.animateCharacter({
+                onComplete: function() {
+                    setHwStatus('✓ Animasi selesai — klik lagi untuk ulang');
+                }
+            });
+        }
+        
+        function hwQuiz() {
+            if (!hw) return;
+            hwQuizMode = true;
+            setHwStatus('✏️ Mode Quiz: tulis karakter di kotak!');
+            hw.quiz({
+                onMistake: function(strokeData) {
+                    setHwStatus('❌ Salah pada guratan ' + (strokeData.strokeNum + 1) + ' — coba lagi!');
+                },
+                onCorrectStroke: function(strokeData) {
+                    setHwStatus('✓ Guratan ' + (strokeData.strokeNum + 1) + ' benar!');
+                },
+                onComplete: function(summaryData) {
+                    setHwStatus('🎉 Selesai! Kesalahan total: ' + summaryData.totalMistakes);
+                }
+            });
+        }
+        
+        function hwReset() {
+            if (!hw) return;
+            hw.cancelQuiz();
+            hw.hideCharacter();
+            hw.showOutline();
+            hwQuizMode = false;
+            setHwStatus('↺ Reset — klik Animasi atau Quiz');
+        }
+        
+        function setHwStatus(msg) {
+            const el = document.getElementById('hwStatus');
+            if (el) el.textContent = msg;
+        }
+        
+        function renderStrokeOrderPanel(char) {
+            const panel   = document.getElementById('strokeOrderPanel');
+            const stepsEl = document.getElementById('strokeOrderSteps');
+            
+            if (char.length > 1) {
+                panel.style.display = 'none';
+                return;
+            }
+            
+            panel.style.display = 'block';
+            
+            // Teks deskripsi
+            const steps = strokeOrderDB[char];
+            if (steps && steps.length > 0) {
+                stepsEl.innerHTML = steps.map(s => `
+                    <div style="padding:3px 6px; border-bottom:1px dashed #eee; border-radius:4px;">
+                        ${s}
+                    </div>`).join('');
+            } else {
+                stepsEl.innerHTML = '<div style="color:#aaa; font-style:italic;">Ikuti animasi di bawah ↓</div>';
+            }
+            
+            // Inisialisasi HanziWriter
+            initHanziWriter(char);
+        }
+        
         function selectCharacter(char, pinyin, meaning, mnemonic) {
             currentChar = char;
             currentMnemonic = mnemonic;
@@ -1615,15 +1888,16 @@
             const isWord = char.length > 1;
             
             document.getElementById('bigCharDisplay').textContent = char;
-            document.getElementById('bigCharDisplay').style.fontSize = isWord ? '4em' : '6em';
+            document.getElementById('bigCharDisplay').style.fontSize = isWord ? 'clamp(2.5em,8vw,4em)' : 'clamp(4em,12vw,6em)';
             document.getElementById('charInfo').textContent = `${pinyin} - ${meaning}`;
             document.getElementById('practiceMnemonic').innerHTML = `
-                <div style="font-weight: bold; color: #ff6b6b; margin-bottom: 8px;">💡 Cara Mengingat:</div>
-                <div style="color: #666;">${mnemonic}</div>
+                <div style="font-weight:bold; color:#ff6b6b; margin-bottom:8px;">💡 Cara Mengingat:</div>
+                <div style="color:#666;">${mnemonic}</div>
             `;
             document.getElementById('referenceChar').textContent = char;
-            document.getElementById('referenceChar').style.fontSize = isWord ? '180px' : '280px';
+            document.getElementById('referenceChar').style.fontSize = isWord ? 'clamp(80px,18vw,180px)' : 'clamp(100px,28vw,280px)';
             
+            renderStrokeOrderPanel(char);
             clearCanvas();
         }
         
@@ -1846,6 +2120,9 @@
             document.getElementById('evaluationPanel').classList.remove('show');
             clearCanvas();
         }
+        
+        // Inisialisasi panel stroke order setelah semua fungsi terdefinisi
+        renderStrokeOrderPanel('一');
     </script>
 </body>
 </html>
